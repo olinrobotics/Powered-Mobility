@@ -1,0 +1,69 @@
+<launch>
+	<env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find pomo_description)/models" />
+
+	<!-- these are the arguments you can pass this launch file, for example paused:=true -->
+	<arg name="paused" default="false"/>
+	<arg name="use_sim_time" default="true"/>
+	<arg name="extra_gazebo_args" default=""/>
+	<arg name="gui" default="true"/>
+	<arg name="headless" default="false"/>
+	<arg name="debug" default="false"/>
+	<arg name="physics" default="ode"/>
+	<arg name="verbose" default="false"/>
+	<arg name="world_name" default="$(find pomo_description)/config/simple_2.world"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+
+	<!-- set use_sim_time flag -->
+	<group if="$(arg use_sim_time)">
+		<param name="/use_sim_time" value="true" />
+	</group>
+
+	<!-- set command arguments -->
+	<arg unless="$(arg paused)" name="command_arg1" value=""/>
+	<arg     if="$(arg paused)" name="command_arg1" value="-u"/>
+	<arg unless="$(arg headless)" name="command_arg2" value=""/>
+	<arg     if="$(arg headless)" name="command_arg2" value="-r"/>
+	<arg unless="$(arg verbose)" name="command_arg3" value=""/>
+	<arg     if="$(arg verbose)" name="command_arg3" value="--verbose"/>
+	<arg unless="$(arg debug)" name="script_type" value="gzserver"/>
+	<arg     if="$(arg debug)" name="script_type" value="debug"/>
+
+	<!-- start gazebo server-->
+	<node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)" respawn="false" output="screen"
+		args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" >
+		<remap from="pomo/velocity_controller/odom" to="odom"/>
+		<remap from="pomo/velocity_controller/cmd_vel" to="cmd_vel"/>
+	</node>
+
+	<!-- start gazebo client -->
+	<group if="$(arg gui)">
+		<node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>
+	</group>
+
+	<include file="$(find pomo_description)/launch/pomo_control.launch"/>
+
+	<param name="robot_description"
+		command="$(find xacro)/xacro.py '$(find pomo_description)/urdf/simple.urdf.xacro'" />
+
+	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model pomo -param robot_description" >
+	</node>
+
+	<!-- For Gazebo? -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+		respawn="false" output="screen">
+		<remap from="/joint_states" to="/pomo/joint_states" />
+	</node>
+
+	<node
+		name="fake_joint_calibration"
+		pkg="rostopic"
+		type="rostopic"
+		args="pub /calibrated std_msgs/Bool true" />
+
+	<!--
+	<include file="$(find alpha_action)/launch/action.launch"/>
+	<include file="$(find alpha_sensors)/launch/lidar.launch">
+		<arg name="sim" value="true"/>
+	</include>
+	-->
+
+</launch>

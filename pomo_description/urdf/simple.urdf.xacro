@@ -1,0 +1,240 @@
+<robot name="pomo" xmlns:xacro="http://ros.org/wiki/xacro">
+	<xacro:include filename="$(find pomo_description)/urdf/wheel.urdf.xacro"/>
+	<xacro:include filename="$(find pomo_description)/urdf/caster.urdf.xacro"/>
+
+	<!-- conversion units -->
+	<xacro:property name="inch" value="0.0254"/>
+	<xacro:property name="lb" value="0.453592"/>
+	<xacro:property name="deg" value="${pi/180.0}"/>
+
+	<xacro:property name="lx" value="${41*inch}"/>
+	<xacro:property name="ly" value="${24*inch}"/>
+	<xacro:property name="lz" value="${46*inch}"/>
+	<xacro:property name="m" value="${345*lb}"/> <!-- mass -->
+
+	<xacro:property name="cs" value="0.01"/> <!-- camera size ... -->
+	<xacro:property name="cm" value="0.1"/> <!-- camera mass ... -->
+	<xacro:property name="ch" value="0.0"/> <!-- camera height, deg -->
+	<xacro:property name="ca" value="20.0"/> <!-- camera pitch, deg -->
+
+	<xacro:property name="wd" value="${24*inch}"/> <!-- wheel separation -->
+	<xacro:property name="wr" value="${0.5*14.3*inch}"/> <!-- wheel radius -->
+	<xacro:property name="wt" value="${3.1*inch}"/> <!-- wheel thickness -->
+	<xacro:property name="wm" value="${4.0*lb}"/> <!-- wheel mass -->
+
+	<xacro:property name="cwr" value="${0.5*8*inch}"/>
+	<xacro:property name="cwt" value="${2*inch}"/>
+	<xacro:property name="cwm" value="${1*lb}"/>
+
+	<xacro:macro name="box_inertia" params="x y z mass">
+		<inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
+			iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0"
+			izz="${0.0833333 * mass * (x*x + y*y)}" />
+	</xacro:macro>
+
+	<!-- at ground plane -->
+	<link name="base_footprint">
+	</link>
+
+	<link name="base_link">
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="${m}" />
+			<xacro:box_inertia x="${lx}" y="${ly-2*wt}" z="${lz}" mass="${m}"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="${lx} ${ly-2*wt} ${lz}"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="${lx} ${ly-2*wt} ${lz}"/>
+			</geometry>
+		</collision>
+	</link>
+
+	<link name="left_camera">
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="${cm}" />
+			<xacro:box_inertia x="${cs}" y="${cs}" z="${cs}" mass="${cm}"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="${cs} ${cs} ${cs}"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="${cs} ${cs} ${cs}"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint
+		name="left_camera_joint"
+		type="fixed">
+		<origin
+			xyz="${0.5*lx} ${0.5*ly} ${0.5*lz}"
+			rpy="0 ${ca*deg} 0" />
+		<parent
+			link="base_link" />
+		<child
+			link="left_camera" />
+		<axis
+			xyz="0 1 0" />
+	</joint>
+
+	  <joint name="left_camera_optical_joint" type="fixed">
+		<origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+		<parent link="left_camera"/>
+		<child link="left_camera_optical"/>
+	  </joint>
+
+	  <link name="left_camera_optical">
+	  </link>
+
+	<link name="right_camera">
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="${cm}" />
+			<xacro:box_inertia x="${cs}" y="${cs}" z="${cs}" mass="${cm}"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="${cs} ${cs} ${cs}"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="${cs} ${cs} ${cs}"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint
+		name="right_camera_joint"
+		type="fixed">
+		<origin
+			xyz="${0.5*lx} ${-0.5*ly} ${0.5*lz}"
+			rpy="0 ${ca*deg} 0" />
+		<parent
+			link="base_link" />
+		<child
+			link="right_camera" />
+		<axis
+			xyz="0 1 0" />
+	</joint>
+	<link name="right_camera_optical">
+	</link>
+	<joint name="right_camera_optical_joint" type="fixed">
+		<origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+		<parent link="right_camera"/>
+		<child link="right_camera_optical"/>
+	</joint>
+
+
+
+
+	<xacro:wheel wheel_prefix="left" wheel_mass="${wm}" wheel_radius="${wr}" wheel_thickness="${wt}" parent="base_link">
+		<origin xyz="0 ${0.5*wd} ${-0.5*lz}" rpy="0 0 0"/>
+	</xacro:wheel>
+	<xacro:wheel wheel_prefix="right" wheel_mass="${wm}" wheel_radius="${wr}" wheel_thickness="${wt}" parent="base_link">
+		<origin xyz="0 ${-0.5*wd} ${-0.5*lz}" rpy="0 0 0"/>
+	</xacro:wheel>
+
+	<xacro:caster wheel_prefix="fl" wheel_mass="${cwm}" wheel_radius="${cwr}" parent="base_link">
+		<origin xyz="${0.5*lx} ${0.5*wd} ${-0.5*lz-wr+cwr}" rpy="0 0 0"/>
+	</xacro:caster>
+	<xacro:caster wheel_prefix="fr" wheel_mass="${cwm}" wheel_radius="${cwr}" parent="base_link">
+		<origin xyz="${0.5*lx} ${-0.5*wd} ${-0.5*lz-wr+cwr}" rpy="0 0 0"/>
+	</xacro:caster>
+	<xacro:caster wheel_prefix="bl" wheel_mass="${cwm}" wheel_radius="${cwr}" parent="base_link">
+		<origin xyz="${-0.5*lx} ${0.5*wd} ${-0.5*lz-wr+cwr}" rpy="0 0 0"/>
+	</xacro:caster>
+	<xacro:caster wheel_prefix="br" wheel_mass="${cwm}" wheel_radius="${cwr}" parent="base_link">
+		<origin xyz="${-0.5*lx} ${-0.5*wd} ${-0.5*lz-wr+cwr}" rpy="0 0 0"/>
+	</xacro:caster>
+
+
+	<joint name="base_footprint_joint" type="fixed">
+		<origin xyz="0 0 ${0.5*lz+wr}" rpy="0 0 0"/>
+		<parent link="base_footprint"/>
+		<child link="base_link"/>
+	</joint>
+
+	<gazebo>
+		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+			<robotNamespace>/pomo</robotNamespace>
+			<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+		</plugin>
+	</gazebo>
+
+	<gazebo reference="left_camera">
+		<sensor type="camera" name="stereo/left">
+			<update_rate>30.0</update_rate>
+			<camera>
+				<horizontal_fov>1.04</horizontal_fov>
+				<image>
+					<width>640</width>
+					<height>480</height>
+					<format>R8G8B8</format>
+				</image>
+				<clip>
+					<near>0.02</near>
+					<far>300</far>
+				</clip>
+				<noise>
+					<type>gaussian</type>
+					<mean>0.0</mean>
+					<stddev>0.007</stddev>
+				</noise>
+			</camera>
+			<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+				<alwaysOn>true</alwaysOn>
+				<updateRate>30.0</updateRate>
+				<cameraName>stereo/left</cameraName>
+				<imageTopicName>image_raw</imageTopicName>
+				<cameraInfoTopicName>camera_info</cameraInfoTopicName>
+				<frameName>left_camera_optical</frameName>
+			</plugin>
+		</sensor>
+	</gazebo>
+
+	<gazebo reference="right_camera">
+		<sensor type="camera" name="stereo/right">
+			<update_rate>30.0</update_rate>
+			<camera>
+				<horizontal_fov>1.04</horizontal_fov>
+				<image>
+					<width>640</width>
+					<height>480</height>
+					<format>R8G8B8</format>
+				</image>
+				<clip>
+					<near>0.02</near>
+					<far>300</far>
+				</clip>
+				<noise>
+					<type>gaussian</type>
+					<mean>0.0</mean>
+					<stddev>0.007</stddev>
+				</noise>
+			</camera>
+			<plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+				<alwaysOn>true</alwaysOn>
+				<updateRate>30.0</updateRate>
+				<cameraName>stereo/right</cameraName>
+				<imageTopicName>image_raw</imageTopicName>
+				<cameraInfoTopicName>camera_info</cameraInfoTopicName>
+				<frameName>right_camera_optical</frameName>
+			</plugin>
+		</sensor>
+	</gazebo>
+
+</robot>
