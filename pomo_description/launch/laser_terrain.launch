@@ -1,0 +1,31 @@
+<launch>
+	<!-- recommended to launch gazebo sim separately -->
+	<!--<include file="$(find pomo_description)/launch/gazebo.launch"/>-->
+
+	<include file="$(find pomo_description)/launch/pcl.launch"/>
+	<include file="$(find pomo_description)/launch/laser_filter.launch"/>
+
+	<node pkg="pomo_description" type="scan_to_cloud" name="scan_to_cloud">
+		<remap from="scan" to="scan_filtered"/>
+	</node>
+
+	<node pkg="pomo_description" type="rotate_lidar.py" name="rotate_lidar">
+		<param name="rate_rotate" value="0.5"/>
+	</node>
+
+	<node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+		<param name="frame_id" value="odom"/>
+		<param name="resolution" value="0.05"/>
+		<param name="sensor_model/hit" value="0.9"/>
+		<param name="sensor_model/miss" value="0.1"/>
+		<param name="sensor_model/min" value="0.1"/>
+		<param name="sensor_model/max_range" value="10.0"/>
+		<param name="occupancy_min_z" value="-0.1"/>
+		<param name="occupancy_max_z" value="0.1"/>
+
+		<remap from="cloud_in" to="/cloud_ground"/>
+	</node>
+
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find pomo_description)/config/terrain.rviz"/>
+
+</launch>

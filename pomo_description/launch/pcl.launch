@@ -1,0 +1,13 @@
+<launch>
+	<node pkg="nodelet" type="nodelet" name="pcl_manager"  args="manager" output="screen">
+		<remap from="pcl_passthrough/input" to="/cloud"/>
+		<remap from="pcl_passthrough/output" to="/cloud_ground"/>
+	</node>
+
+	<node pkg="nodelet" type="nodelet" name="pcl_passthrough" args="load pcl/PassThrough pcl_manager" output="screen">
+		<param name="filter_limit_min" value="-0.1"/>
+		<param name="filter_limit_max" value="1.0"/>
+		<param name="input_frame" value="odom"/>
+		<param name="output_frame" value="base_link"/>
+	</node>
+</launch>
