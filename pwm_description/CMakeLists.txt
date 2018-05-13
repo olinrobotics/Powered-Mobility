@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(pomo_description)
+project(pwm_description)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -109,7 +109,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES pomo_description
+#  LIBRARIES pwm_description
 #  CATKIN_DEPENDS gazebo_ros roscpp rospy rviz
 #  DEPENDS system_lib
 )
@@ -127,7 +127,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/pomo_description.cpp
+#   src/${PROJECT_NAME}/pwm_description.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -144,7 +144,7 @@ add_executable(scan_to_cloud
 target_link_libraries(scan_to_cloud
 	${catkin_LIBRARIES}
 	)
-# add_executable(${PROJECT_NAME}_node src/pomo_description_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/pwm_description_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -201,7 +201,7 @@ target_link_libraries(scan_to_cloud
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_pomo_description.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_pwm_description.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

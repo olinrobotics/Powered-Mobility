@@ -1,9 +1,9 @@
 <launch>
 	<param name="robot_description"
-		command="$(find xacro)/xacro.py '$(find pomo_description)/urdf/simple.urdf.xacro'" />
+		command="$(find xacro)/xacro.py '$(find pwm_description)/urdf/simple.urdf.xacro'" />
 
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
-		<remap from="/joint_states" to="/pomo/joint_states" />
+		<remap from="/joint_states" to="/pwm/joint_states" />
 	</node>
 
 </launch>

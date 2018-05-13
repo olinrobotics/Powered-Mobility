@@ -1,7 +1,7 @@
-<robot name="pomo" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="pwm" xmlns:xacro="http://ros.org/wiki/xacro">
 
-	<xacro:include filename="$(find pomo_description)/urdf/wheel.urdf.xacro"/>
-	<xacro:include filename="$(find pomo_description)/urdf/caster.urdf.xacro"/>
+	<xacro:include filename="$(find pwm_description)/urdf/wheel.urdf.xacro"/>
+	<xacro:include filename="$(find pwm_description)/urdf/caster.urdf.xacro"/>
 
 	<!-- conversion units -->
 	<xacro:property name="inch" value="0.0254"/>
@@ -246,7 +246,7 @@
 
 	<gazebo>
 		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-			<robotNamespace>/pomo</robotNamespace>
+			<robotNamespace>/pwm</robotNamespace>
 			<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
 		</plugin>
 	</gazebo>

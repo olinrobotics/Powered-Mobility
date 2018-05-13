@@ -14,7 +14,7 @@ def main():
     angle_min = np.deg2rad(angle_min)
     angle_max = np.deg2rad(angle_max)
 
-    pub = rospy.Publisher('/pomo/lidar_controller/command', Float64, queue_size=10)
+    pub = rospy.Publisher('/pwm/lidar_controller/command', Float64, queue_size=10)
 
     rate = rospy.Rate(rate)
     msg = Float64()

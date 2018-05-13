@@ -1,5 +1,5 @@
 <launch>
-	<env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find pomo_description)/models" />
+	<env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find pwm_description)/models" />
 
 	<!-- these are the arguments you can pass this launch file, for example paused:=true -->
 	<arg name="paused" default="false"/>
@@ -10,7 +10,7 @@
 	<arg name="debug" default="false"/>
 	<arg name="physics" default="ode"/>
 	<arg name="verbose" default="false"/>
-	<arg name="world_name" default="$(find pomo_description)/config/simple_2.world"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+	<arg name="world_name" default="$(find pwm_description)/config/simple_2.world"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
 
 	<!-- set use_sim_time flag -->
 	<group if="$(arg use_sim_time)">
@@ -30,8 +30,8 @@
 	<!-- start gazebo server-->
 	<node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)" respawn="false" output="screen"
 		args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" >
-		<remap from="pomo/velocity_controller/odom" to="odom"/>
-		<remap from="pomo/velocity_controller/cmd_vel" to="cmd_vel"/>
+		<remap from="pwm/velocity_controller/odom" to="odom"/>
+		<remap from="pwm/velocity_controller/cmd_vel" to="cmd_vel"/>
 	</node>
 
 	<!-- start gazebo client -->
@@ -39,18 +39,18 @@
 		<node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>
 	</group>
 
-	<include file="$(find pomo_description)/launch/pomo_control.launch"/>
+	<include file="$(find pwm_description)/launch/pwm_control.launch"/>
 
 	<param name="robot_description"
-		command="$(find xacro)/xacro.py '$(find pomo_description)/urdf/simple.urdf.xacro'" />
+		command="$(find xacro)/xacro.py '$(find pwm_description)/urdf/simple.urdf.xacro'" />
 
-	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model pomo -param robot_description" >
+	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model pwm -param robot_description" >
 	</node>
 
 	<!-- For Gazebo? -->
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
 		respawn="false" output="screen">
-		<remap from="/joint_states" to="/pomo/joint_states" />
+		<remap from="/joint_states" to="/pwm/joint_states" />
 	</node>
 
 	<node
