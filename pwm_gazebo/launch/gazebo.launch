@@ -10,7 +10,10 @@
 	<arg name="debug" default="false"/>
 	<arg name="physics" default="ode"/>
 	<arg name="verbose" default="false"/>
-	<arg name="world_name" default="$(find pwm_description)/config/simple_2.world"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+    <!--
+	<arg name="world_name" default="$(find pwm_description)/config/simple_2.world"/>
+    -->
+	<arg name="world_name" default="$(find pwm_gazebo)/worlds/elevation.world"/>
 
 	<!-- set use_sim_time flag -->
 	<group if="$(arg use_sim_time)">
