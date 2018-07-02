@@ -4,6 +4,7 @@
 
     <link name="base_footprint">
     </link>
+
 	<joint name="base_footprint_joint" type="fixed">
         <origin xyz="0 0 ${0.5*13*inch-0.114}" rpy="0 0 0"/>
 		<parent link="base_footprint"/>
@@ -85,6 +86,7 @@
             </geometry>
         </collision>
     </link>
+
     <joint
         name="seat_joint"
         type="prismatic">
@@ -99,6 +101,7 @@
             xyz="0 0 1" />
         <limit lower="0.0" upper="0.3" effort="1500" velocity="0.5" />
     </joint>
+
     <link
         name="footrest_link">
         <inertial>
@@ -141,7 +144,7 @@
     </link>
     <joint
         name="footrest_joint"
-        type="revolute">
+        type="fixed">
         <origin
             xyz="0.2667 0 0.0317500000000001"
             rpy="1.5707963267949 0 0" />
@@ -151,8 +154,9 @@
             link="footrest_link" />
         <axis
             xyz="0 0 -1" />
-
+        <!--
         <limit lower="-3.14" upper="3.14" effort="1500" velocity="0.5" />
+        -->
     </joint>
     <link
         name="lidar_link">
@@ -205,7 +209,7 @@
         <child
             link="lidar_link" />
         <axis
-            xyz="0 0 0" />
+            xyz="0 0 1" />
     </joint>
     <link
         name="realsense_link">
@@ -252,8 +256,17 @@
         <child
             link="realsense_link" />
         <axis
-            xyz="0 0 0" />
+            xyz="0 0 1" />
     </joint>
+
+    <!-- optical frame -->
+    <link name="realsense_optical"/>
+	<joint name="realsense_optical_joint" type="fixed">
+		<origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+		<parent link="realsense_link"/>
+		<child link="realsense_optical"/>
+	</joint>
+
     <link
         name="back_link">
         <inertial>
@@ -296,7 +309,7 @@
     </link>
     <joint
         name="back_joint"
-        type="revolute">
+        type="fixed">
         <origin
             xyz="-0.23495 0 0.127"
             rpy="1.5707963267949 0 0" />
@@ -306,7 +319,9 @@
             link="back_link" />
         <axis
             xyz="0 0 -1" />
+        <!--
         <limit lower="-3.14" upper="3.14" effort="1500" velocity="0.5" />
+        -->
     </joint>
     <link
         name="gps_link">
@@ -353,7 +368,7 @@
         <child
             link="gps_link" />
         <axis
-            xyz="0 0 0" />
+            xyz="0 0 1" />
     </joint>
     <link
         name="right_wheel_link">
@@ -363,7 +378,7 @@
                 rpy="0 0 0" />
             <mass
                 value="${4.0*lb}" />
-            <xacro:cylinder_inertia m="${4.0*lb}" r="${0.5*13*inch}" h="${2.5*inch}"/>
+            <xacro:cylinder_inertia m="${4.0*lb}" r="${0.5*14*inch}" h="${2.5*inch}"/>
         </inertial>
         <visual>
             <origin
@@ -410,7 +425,7 @@
                 rpy="0 0 0" />
             <mass
                 value="${4.0*lb}" />
-            <xacro:cylinder_inertia m="${4.0*lb}" r="${0.5*13*inch}" h="${2.5*inch}"/>
+            <xacro:cylinder_inertia m="${4.0*lb}" r="${0.5*14*inch}" h="${2.5*inch}"/>
         </inertial>
         <visual>
             <origin
@@ -485,7 +500,7 @@
     </link>
     <joint
         name="caster_fl_joint"
-        type="continuous">
+        type="fixed">
         <origin
             xyz="0.33655 0.2667 0.0381"
             rpy="1.5708 0 3.1416" />
@@ -532,7 +547,7 @@
     </link>
     <joint
         name="caster_bl_joint"
-        type="continuous">
+        type="fixed">
         <origin
             xyz="-0.33655 0.2667 0.0381"
             rpy="1.5708 0 3.1416" />
@@ -579,7 +594,7 @@
     </link>
     <joint
         name="caster_fr_joint"
-        type="continuous">
+        type="fixed">
         <origin
             xyz="0.33655 -0.2667 0.0381"
             rpy="1.5708 0 3.1416" />
@@ -626,7 +641,7 @@
     </link>
     <joint
         name="caster_br_joint"
-        type="continuous">
+        type="fixed">
         <origin
             xyz="-0.33655 -0.2667 0.0381"
             rpy="1.5708 0 3.1416" />
@@ -639,10 +654,21 @@
     </joint>
 
     <!-- transmission -->
+    <transmission name="seat_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="seat_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="seat_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
     <gazebo reference="right_wheel_link">
-        <mu1 value="1.0"/>
-        <mu2 value="1.0"/>
-        <kp value="1000000.0" />
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0" />
         <kd value="1.0" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
@@ -659,9 +685,9 @@
     </transmission>
 
     <gazebo reference="left_wheel_link">
-        <mu1 value="1.0"/>
-        <mu2 value="1.0"/>
-        <kp value="1000000.0" />
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0" />
         <kd value="1.0" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
@@ -678,30 +704,30 @@
     </transmission>
 
     <gazebo reference="caster_fl_link">
-        <mu1 value="0.0"/>
-        <mu2 value="0.0"/>
-        <kp value="1000000.0" />
+        <mu1 value="0."/>
+        <mu2 value="0."/>
+        <kp value="100000.0" />
         <kd value="1.0" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
     <gazebo reference="caster_fr_link">
-        <mu1 value="0.0"/>
-        <mu2 value="0.0"/>
-        <kp value="1000000.0" />
+        <mu1 value="0."/>
+        <mu2 value="0."/>
+        <kp value="100000.0" />
         <kd value="1.0" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
     <gazebo reference="caster_bl_link">
-        <mu1 value="0.0"/>
-        <mu2 value="0.0"/>
-        <kp value="1000000.0" />
+        <mu1 value="0."/>
+        <mu2 value="0."/>
+        <kp value="100000.0" />
         <kd value="1.0" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
     <gazebo reference="caster_br_link">
-        <mu1 value="0.0"/>
-        <mu2 value="0.0"/>
-        <kp value="1000000.0" />
+        <mu1 value="0."/>
+        <mu2 value="0."/>
+        <kp value="100000.0" />
         <kd value="1.0" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
@@ -777,7 +803,7 @@
 				<pointCloudTopicName>depth/points</pointCloudTopicName>
 				<cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
 				<depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
-				<frameName>kinect_optical</frameName>
+				<frameName>realsense_optical</frameName>
 				<baseline>0.1</baseline>
 				<distortion_k1>0.0</distortion_k1>
 				<distortion_k2>0.0</distortion_k2>
