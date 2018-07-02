@@ -1,0 +1,685 @@
+<?xml version="1.0"?>
+<robot
+  name="wheelchair">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-5.97916491205108E-05 -5.55111512312578E-17 0.153027812315766"
+        rpy="0 0 0" />
+      <mass
+        value="98.4139630936699" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="seat_link">
+    <inertial>
+      <origin
+        xyz="-0.0332097722373201 0.00406938602338047 0.0228912507671721"
+        rpy="0 0 0" />
+      <mass
+        value="39.8904807609114" />
+      <inertia
+        ixx="0.122921824576847"
+        ixy="0.0164619739758286"
+        ixz="-0.146470483923146"
+        iyy="0.316753450399423"
+        iyz="0.0119623440768997"
+        izz="0.196633649371876" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/seat_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/seat_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="seat_joint"
+    type="prismatic">
+    <origin
+      xyz="0.0889000000000003 -0.0126999999999997 0.486604140008077"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="seat_link" />
+    <axis
+      xyz="0 0 1" />
+  <limit lower="0.0" upper="0.3" effort="1500" velocity="0.5" />
+
+  </joint>
+  <link
+    name="footrest_link">
+    <inertial>
+      <origin
+        xyz="0.0529952413391824 -0.208791421878138 -2.07915156937022E-05"
+        rpy="0 0 0" />
+      <mass
+        value="2.24583004981917" />
+      <inertia
+        ixx="0.00172839866541921"
+        ixy="0.000772961959349029"
+        ixz="3.16929282986145E-06"
+        iyy="0.00047716278384899"
+        iyz="-6.88732971243823E-06"
+        izz="0.00207972567905554" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/footrest_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/footrest_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="footrest_joint"
+    type="revolute">
+    <origin
+      xyz="0.2667 0 0.0317500000000001"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="seat_link" />
+    <child
+      link="footrest_link" />
+    <axis
+      xyz="0 0 -1" />
+
+    <limit lower="-3.14" upper="3.14" effort="1500" velocity="0.5" />
+  </joint>
+  <link
+    name="lidar_link">
+    <inertial>
+      <origin
+        xyz="-0.0028645 3.9558E-06 -0.019418"
+        rpy="0 0 0" />
+      <mass
+        value="0.13624" />
+      <inertia
+        ixx="4.024E-05"
+        ixy="1.4318E-08"
+        ixz="-6.2254E-08"
+        iyy="4.1714E-05"
+        iyz="1.0354E-08"
+        izz="1.4743E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/lidar_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/lidar_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lidar_joint"
+    type="fixed">
+    <origin
+      xyz="0.12479 -0.32059 -0.0006325"
+      rpy="-1.5708 8.2132E-18 0.24657" />
+    <parent
+      link="footrest_link" />
+    <child
+      link="lidar_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="realsense_link">
+    <inertial>
+      <origin
+        xyz="-0.012211 0.001403 8.0403E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.050576" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/realsense_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.66667 0.69804 0.76863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/realsense_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="realsense_joint"
+    type="fixed">
+    <origin
+      xyz="0.085027 -0.19321 0.00127"
+      rpy="-1.5708 3.2649E-15 0.24657" />
+    <parent
+      link="footrest_link" />
+    <child
+      link="realsense_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="back_link">
+    <inertial>
+      <origin
+        xyz="0.0595257246778351 0.272632134746619 0.0154465067130335"
+        rpy="0 0 0" />
+      <mass
+        value="21.3849460447243" />
+      <inertia
+        ixx="0.638823322523092"
+        ixy="-0.0353788477032128"
+        ixz="-0.147324675628681"
+        iyy="0.612040467785112"
+        iyz="0.00497982785800062"
+        izz="0.731113551637578" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/back_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/back_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="back_joint"
+    type="revolute">
+    <origin
+      xyz="-0.23495 0 0.127"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="seat_link" />
+    <child
+      link="back_link" />
+    <axis
+      xyz="0 0 -1" />
+    <limit lower="-3.14" upper="3.14" effort="1500" velocity="0.5" />
+  </joint>
+  <link
+    name="gps_link">
+    <inertial>
+      <origin
+        xyz="-0.00076953 4.8962E-08 -0.010538"
+        rpy="0 0 0" />
+      <mass
+        value="0.026768" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/gps_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.29804 0.29804 0.29804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/gps_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="gps_joint"
+    type="fixed">
+    <origin
+      xyz="-0.050953 0.64 0.00030078"
+      rpy="-1.5708 -1.7107E-16 0.10298" />
+    <parent
+      link="back_link" />
+    <child
+      link="gps_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="right_wheel_link">
+    <inertial>
+      <origin
+        xyz="4.9960036108132E-16 -5.96744875736022E-16 0.0322019895391621"
+        rpy="0 0 0" />
+      <mass
+        value="3.25468436767915" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/right_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/right_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.0254 -0.3048 0.1143"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="right_wheel_link" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="left_wheel_link">
+    <inertial>
+      <origin
+        xyz="-7.2164E-16 1.9429E-16 -0.032202"
+        rpy="0 0 0" />
+      <mass
+        value="3.2547" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/left_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/left_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.0254 0.3048 0.1143"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="left_wheel_link" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="caster_fl_link">
+    <inertial>
+      <origin
+        xyz="-2.67147415300428E-16 1.38777878078145E-17 -0.00126415156669318"
+        rpy="0 0 0" />
+      <mass
+        value="1.0343930453519" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/caster_fl_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/caster_fl_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="caster_fl_joint"
+    type="continuous">
+    <origin
+      xyz="0.33655 0.2667 0.0381"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="caster_fl_link" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="caster_bl_link">
+    <inertial>
+      <origin
+        xyz="2.2204E-16 -2.498E-16 -0.0012642"
+        rpy="0 0 0" />
+      <mass
+        value="1.0344" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/caster_bl_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/caster_bl_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="caster_bl_joint"
+    type="continuous">
+    <origin
+      xyz="-0.33655 0.2667 0.0381"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="caster_bl_link" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="caster_fr_link">
+    <inertial>
+      <origin
+        xyz="1.2837E-16 -2.4286E-16 0.0012642"
+        rpy="0 0 0" />
+      <mass
+        value="1.0344" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/caster_fr_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/caster_fr_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="caster_fr_joint"
+    type="continuous">
+    <origin
+      xyz="0.33655 -0.2667 0.0381"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="caster_fr_link" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="caster_br_link">
+    <inertial>
+      <origin
+        xyz="-5.9792E-05 -5.5511E-17 0.15303"
+        rpy="0 0 0" />
+      <mass
+        value="98.414" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/caster_br_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://pwm_description/meshes/caster_br_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="caster_br_joint"
+    type="continuous">
+    <origin
+      xyz="-0.33655 -0.2667 0.0381"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="caster_br_link" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+</robot>
