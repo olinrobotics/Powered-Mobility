@@ -43,11 +43,13 @@
 	</group>
 
 	<include file="$(find pwm_description)/launch/pwm_control.launch"/>
-
+	<include file="$(find pwm_description)/launch/urdf.launch"/>
+    <!--
 	<param name="robot_description"
 		command="$(find xacro)/xacro.py '$(find pwm_description)/urdf/simple.urdf.xacro'" />
+    -->
 
-	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model pwm -param robot_description" >
+	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model wheelchair -param robot_description -z 0.5" >
 	</node>
 
 	<!-- For Gazebo? -->
