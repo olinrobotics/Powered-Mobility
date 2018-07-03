@@ -9,6 +9,10 @@ wheelchair:
   #  joint: "lidar_joint"
   #  # TODO : tune pid at some point to match real system, etc.
   #  pid: {p: 1.0, i: 0.01, d: 0.0}
+  seat_controller:
+    type: "velocity_controllers/JointPositionController"
+    joint: "seat_joint"
+    pid: {p: 100.0, i: 0.01, d: 1.0}
 
   velocity_controller:
     type: "diff_drive_controller/DiffDriveController"
