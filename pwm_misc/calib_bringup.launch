@@ -1,0 +1,15 @@
+<launch>
+	<node pkg="joy" type="joy_node" name="joy">
+		<param name="dev" value="/dev/js1"/>
+	</node>
+
+	<node pkg="teleop_twist_joy" type="teleop_node" name="teleop_joy" output="screen">
+		<remap from="cmd_vel" to="/manual_cmd_vel"/>
+	</node>
+
+	<node pkg="pwm_control" type="select_mode.py" name="select_mode"></node>
+
+	<include file="$(find realsense2_camera)/launch/rs_rgbd.launch"/>
+
+	<node pkg="pwm_control" type="zero_twist.py" name="estop"></node>
+</launch>
