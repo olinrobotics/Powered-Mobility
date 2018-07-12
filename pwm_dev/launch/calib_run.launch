@@ -9,7 +9,7 @@
 		<arg name="rtabmapviz" value="false"/>
 	</include>
 
-	<node pkg="pwm_control" type="auto_cmd.py" name="auto">
+	<node pkg="pwm_dev" type="auto_cmd.py" name="auto">
 		<param name="speed" value="$(arg speed)"/>
 	</node>
 
