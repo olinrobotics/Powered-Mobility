@@ -7,9 +7,9 @@
 		<remap from="cmd_vel" to="/manual_cmd_vel"/>
 	</node>
 
-	<node pkg="pwm_control" type="select_mode.py" name="select_mode"></node>
+	<node pkg="pwm_dev" type="select_mode.py" name="select_mode"></node>
 
 	<include file="$(find realsense2_camera)/launch/rs_rgbd.launch"/>
 
-	<node pkg="pwm_control" type="zero_twist.py" name="estop"></node>
+	<node pkg="pwm_dev" type="zero_twist.py" name="estop"></node>
 </launch>
