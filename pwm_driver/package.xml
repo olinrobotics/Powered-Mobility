@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>pwm_control</name>
+    <name>pwm_driver</name>
     <version>0.0.0</version>
-    <description>The pwm_control package</description>
+    <description>The pwm_driver package</description>
 
     <!-- One maintainer tag required, multiple allowed, one person per tag -->
     <!-- Example:  -->
@@ -10,17 +10,16 @@
     <maintainer email="yoonyoung.cho@students.olin.edu">Jamie Cho</maintainer>
 
 
-
     <!-- One license tag required, multiple allowed, one license per tag -->
     <!-- Commonly used license strings: -->
     <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-    <license>MIT</license>
+    <license>TODO</license>
 
 
     <!-- Url tags are optional, but multiple are allowed, one per tag -->
     <!-- Optional attribute type can be: website, bugtracker, or repository -->
     <!-- Example: -->
-    <url type="website">https://github.com/olinrobotics/Powered-Mobility</url>
+    <!-- <url type="website">http://wiki.ros.org/pwm_driver</url> -->
 
 
     <!-- Author tags are optional, multiple are allowed, one per tag -->
@@ -50,22 +49,12 @@
     <!-- Use doc_depend for packages you need only for building documentation: -->
     <!--   <doc_depend>doxygen</doc_depend> -->
     <buildtool_depend>catkin</buildtool_depend>
-    <build_depend>geometry_msgs</build_depend>
     <build_depend>roscpp</build_depend>
     <build_depend>rospy</build_depend>
-    <build_depend>std_msgs</build_depend>
-    <build_depend>tf</build_depend>
-    <build_export_depend>geometry_msgs</build_export_depend>
     <build_export_depend>roscpp</build_export_depend>
     <build_export_depend>rospy</build_export_depend>
-    <build_export_depend>std_msgs</build_export_depend>
-    <build_export_depend>tf</build_export_depend>
-    <exec_depend>geometry_msgs</exec_depend>
     <exec_depend>roscpp</exec_depend>
     <exec_depend>rospy</exec_depend>
-    <exec_depend>std_msgs</exec_depend>
-    <exec_depend>tf</exec_depend>
-    <exec_depend>velocity_controllers</exec_depend>
 
 
     <!-- The export tag contains other, unspecified, tags -->
