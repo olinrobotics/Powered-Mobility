@@ -1,15 +1,19 @@
 <launch>
-	<node pkg="joy" type="joy_node" name="joy">
-		<param name="dev" value="/dev/input/js1"/>
-	</node>
+	<arg name="joy" default="true"/>
 
-	<node pkg="teleop_twist_joy" type="teleop_node" name="teleop_joy" output="screen">
-		<remap from="cmd_vel" to="/manual_cmd_vel"/>
-	</node>
+	<group if="$(arg joy)">
+		<node pkg="joy" type="joy_node" name="joy">
+			<param name="dev" value="/dev/input/js1"/>
+		</node>
+
+		<node pkg="teleop_twist_joy" type="teleop_node" name="teleop_joy" output="screen">
+			<remap from="cmd_vel" to="/manual_cmd_vel"/>
+		</node>
+	</group>
 
 	<node pkg="topic_tools" type="mux" name="cmd_vel_mux" args="cmd_vel auto_cmd_vel manual_cmd_vel estop_cmd_vel mux:=mux_cmd_vel"/>
 
-	<node pkg="pwm_control" type="select_mode.py" name="select_mode"></node>
+	<node pkg="pwm_dev" type="select_mode.py" name="select_mode"></node>
 
 	<include file="$(find realsense2_camera)/launch/rs_rgbd.launch"/>
 
