@@ -111,7 +111,7 @@ class RNETTeleopNode(object):
         self._disable_chair_joy=rospy.get_param('~disable_chair_joy', default=False)
         self._joy_frame = rospy.get_param('~joy_frame', default=None)#'02001100')
         if not self._joy_frame is None:
-            self._joy_frame = '{0:08x}'.format(self._joy_frame)
+            self._joy_frame = '{0:08x}'.format(int(self._joy_frame, 16))
         self._speed=rospy.get_param('~speed', default=100) # speed, percentage 0-100
         self._v_scale=rospy.get_param('~v_scale', default=1.0)
         self._w_scale=rospy.get_param('~w_scale', default=1.0)
@@ -124,6 +124,7 @@ class RNETTeleopNode(object):
 
         self._cmd_vel = Twist()
         self._last_cmd = rospy.Time.now()
+        self._last_hb = rospy.Time.now()
 
     def wait_rnet_joystick_frame(self, dur=0.2):
         frame_id = ''
@@ -141,13 +142,16 @@ class RNETTeleopNode(object):
         self._last_cmd = rospy.Time.now()
 
     def step(self):
+
+        now = rospy.Time.now()
+
         if self._rnet._battery is not None:
             bs_msg = BatteryState()
             bs_msg.header.stamp = rospy.Time.now()
             bs_msg.percentage = 1.0 * self._rnet._battery
             self._bat_pub.publish(bs_msg)
 
-        if (rospy.Time.now() - self._last_cmd).to_sec() > self._cmd_timeout:
+        if (now - self._last_cmd).to_sec() > self._cmd_timeout:
             # zero-out velocity commands
             self._cmd_vel.linear.x = 0
             self._cmd_vel.angular.z = 0
@@ -175,6 +179,10 @@ class RNETTeleopNode(object):
             else:
                 # below thresh, stop
                 self._rnet.send(self._joy_frame + '#' + dec2hex(0, 2) + dec2hex(0, 2))
+            
+            if (now - self._last_hb).to_sec() > 0.1:
+                self._rnet.send('03C30F0F#87878787878787')
+                self._last_hb = now
 
     def spin(self):
         rate = rospy.Rate(50)
