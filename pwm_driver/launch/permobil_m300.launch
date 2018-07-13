@@ -11,6 +11,6 @@
         <param name="w_scale" value="1.0"/>
         <param name="min_v" value="0.0"/>
         <param name="min_w" value="0.0"/>
-        <param name="cmd_timeout" value="0.1"/>
+        <param name="cmd_timeout" value="0.2"/>
     </node>
 </launch>

@@ -123,6 +123,7 @@ class RNETTeleopNode(object):
         self._rnet = RNETInterface()
 
         self._cmd_vel = Twist()
+        self._cmd_mod = 0
         self._last_cmd = rospy.Time.now()
         self._last_hb = rospy.Time.now()
 
@@ -138,7 +139,6 @@ class RNETTeleopNode(object):
 
     def cmd_vel_cb(self, msg):
         self._cmd_vel = msg
-        self._rnet._cmd_vel=self._cmd_vel
         self._last_cmd = rospy.Time.now()
 
     def step(self):
@@ -147,15 +147,15 @@ class RNETTeleopNode(object):
 
         if self._rnet._battery is not None:
             bs_msg = BatteryState()
-            bs_msg.header.stamp = rospy.Time.now()
+            bs_msg.header.stamp = now
             bs_msg.percentage = 1.0 * self._rnet._battery
             self._bat_pub.publish(bs_msg)
 
         if (now - self._last_cmd).to_sec() > self._cmd_timeout:
             # zero-out velocity commands
+            #print((now - self._last_cmd).to_sec(), 'timeout')
             self._cmd_vel.linear.x = 0
             self._cmd_vel.angular.z = 0
-            self._rnet._cmd_vel=self._cmd_vel
 
         if self._disable_chair_joy:
             cf = self._joy_frame
@@ -166,26 +166,45 @@ class RNETTeleopNode(object):
 
         # TODO : calibrate to m/s and scale accordingly
         # currently, v / w are expressed in fractions where 1 = max fw, -1 = max bw
-        v = np.clip(self._v_scale * self._cmd_vel.linear.x,  -1.0, 1.0)
-        w = np.clip(self._w_scale * self._cmd_vel.angular.z, -1.0, 1.0)
+        v = self._v_scale * self._cmd_vel.linear.x
+        w = self._w_scale * self._cmd_vel.angular.z
+    
+        # cycle cmd mods
+        cmd_mod = self._cmd_mod
+        if self._cmd_mod == 0:
+            self._cmd_mod = -1
+        elif self._cmd_mod == -1:
+            self._cmd_mod = 1
+        elif self._cmd_mod == 1:
+            self._cmd_mod = 0
+        
+        v = int(np.clip(v * 100, -31, 31))
+        w = int(np.clip(w * 100, -31, 31))
 
         if cf == self._joy_frame:
             # for joy : y=fw, x=turn; 0-256
-            cmd_y = 0x100 + int(v * 100) & 0xFF
-            cmd_x = 0x100 + int(-w * 100) & 0xFF
+            cmd_y = 0x100 + int(v) & 0xFF
+            cmd_x = 0x100 - int(w) & 0xFF
 
-            if np.abs(v) > self._min_v or np.abs(w) > self._min_w:
+            #if np.abs(v) > self._min_v or np.abs(w) > self._min_w:
+            try:
                 self._rnet.send(self._joy_frame + '#' + dec2hex(cmd_x, 2) + dec2hex(cmd_y, 2))
-            else:
-                # below thresh, stop
-                self._rnet.send(self._joy_frame + '#' + dec2hex(0, 2) + dec2hex(0, 2))
+            except Exception as e:
+                print e
+                print self._cmd_vel
+                print cmd_x, cmd_y
+                print dec2hex(cmd_x, 2), dec2hex(cmd_y, 2)
+                raise e
+            #else:
+            #    # below thresh, stop
+            #    self._rnet.send(self._joy_frame + '#' + dec2hex(0, 2) + dec2hex(0, 2))
             
             if (now - self._last_hb).to_sec() > 0.1:
                 self._rnet.send('03C30F0F#87878787878787')
                 self._last_hb = now
 
     def spin(self):
-        rate = rospy.Rate(50)
+        rate = rospy.Rate(100)
         rospy.on_shutdown(self.save)
         while not rospy.is_shutdown():
             self.step()
