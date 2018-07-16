@@ -178,8 +178,8 @@ class RNETTeleopNode(object):
         elif self._cmd_mod == 1:
             self._cmd_mod = 0
         
-        v = int(np.clip(v * 100, -31, 31))
-        w = int(np.clip(w * 100, -31, 31))
+        v = int(np.clip(v * 100, -100, 100))
+        w = int(np.clip(w * 100, -100, 100))
 
         if cf == self._joy_frame:
             # for joy : y=fw, x=turn; 0-256
@@ -207,7 +207,10 @@ class RNETTeleopNode(object):
         rate = rospy.Rate(100)
         rospy.on_shutdown(self.save)
         while not rospy.is_shutdown():
-            self.step()
+            try:
+                self.step()
+            except Exception as e:
+                print e
             rate.sleep()
 
     def save(self):
