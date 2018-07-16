@@ -61,7 +61,10 @@ class RNETInterface(object):
 
     def set_speed(self, v):
         if 0<=v<=0x64:
-            return self.send('0a040100#'+dec2hex(v,2))
+            try:
+                return self.send('0a040100#'+dec2hex(v,2))
+            except Exception as e:
+                return False
         else:
             return False
 
@@ -118,12 +121,12 @@ class RNETTeleopNode(object):
         self._min_v=rospy.get_param('~min_v', default=0.0)
         self._min_w=rospy.get_param('~min_w', default=0.0)
         self._cmd_timeout=rospy.get_param('~cmd_timeout', default=0.1) # stops after timeout
+        self._rate=rospy.get_param('~rate', default=100)
         self._cmd_vel_sub=rospy.Subscriber('cmd_vel', Twist, self.cmd_vel_cb)
         self._bat_pub=rospy.Publisher('battery', BatteryState, queue_size=10)
         self._rnet = RNETInterface()
 
         self._cmd_vel = Twist()
-        self._cmd_mod = 0
         self._last_cmd = rospy.Time.now()
         self._last_hb = rospy.Time.now()
 
@@ -168,15 +171,6 @@ class RNETTeleopNode(object):
         # currently, v / w are expressed in fractions where 1 = max fw, -1 = max bw
         v = self._v_scale * self._cmd_vel.linear.x
         w = self._w_scale * self._cmd_vel.angular.z
-    
-        # cycle cmd mods
-        cmd_mod = self._cmd_mod
-        if self._cmd_mod == 0:
-            self._cmd_mod = -1
-        elif self._cmd_mod == -1:
-            self._cmd_mod = 1
-        elif self._cmd_mod == 1:
-            self._cmd_mod = 0
         
         v = int(np.clip(v * 100, -100, 100))
         w = int(np.clip(w * 100, -100, 100))
@@ -186,25 +180,26 @@ class RNETTeleopNode(object):
             cmd_y = 0x100 + int(v) & 0xFF
             cmd_x = 0x100 - int(w) & 0xFF
 
-            #if np.abs(v) > self._min_v or np.abs(w) > self._min_w:
             try:
-                self._rnet.send(self._joy_frame + '#' + dec2hex(cmd_x, 2) + dec2hex(cmd_y, 2))
+                if np.abs(v) > self._min_v or np.abs(w) > self._min_w:
+                    self._rnet.send(self._joy_frame + '#' + dec2hex(cmd_x, 2) + dec2hex(cmd_y, 2))
+                else:
+                    # below thresh, stop
+                    self._rnet.send(self._joy_frame + '#' + dec2hex(0, 2) + dec2hex(0, 2))
             except Exception as e:
                 print e
                 print self._cmd_vel
                 print cmd_x, cmd_y
                 print dec2hex(cmd_x, 2), dec2hex(cmd_y, 2)
                 raise e
-            #else:
-            #    # below thresh, stop
-            #    self._rnet.send(self._joy_frame + '#' + dec2hex(0, 2) + dec2hex(0, 2))
-            
+
+            # heartbeat
             if (now - self._last_hb).to_sec() > 0.1:
                 self._rnet.send('03C30F0F#87878787878787')
                 self._last_hb = now
 
     def spin(self):
-        rate = rospy.Rate(100)
+        rate = rospy.Rate(self._rate)
         rospy.on_shutdown(self.save)
         while not rospy.is_shutdown():
             try:
