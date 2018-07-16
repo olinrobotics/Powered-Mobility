@@ -16,7 +16,7 @@ def main():
     estop_msg.angular.y = 0
     estop_msg.angular.z = 0
 
-    rate = rospy.Rate(100)
+    rate = rospy.Rate(50)
     while not rospy.is_shutdown():
         estop_pub.publish(estop_msg)
         rate.sleep()

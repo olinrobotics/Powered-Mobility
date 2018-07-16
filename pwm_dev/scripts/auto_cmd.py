@@ -17,7 +17,7 @@ def main():
     auto_msg.angular.y = 0
     auto_msg.angular.z = 0
 
-    rate = rospy.Rate(100)
+    rate = rospy.Rate(50)
     while not rospy.is_shutdown():
         auto_pub.publish(auto_msg)
         rate.sleep()
