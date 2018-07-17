@@ -1,6 +1,6 @@
 <launch>
     <arg name="disable_chair_joy" default="false"/>
-    <arg name="joy_frame" default="0x02000200"/>
+    <arg name="joy_frame" default="0x02001100"/>
     <arg name="speed" default="0"/>
 
     <node pkg="pwm_driver" type="rnet_teleop_node.py" name="rnet_teleop_node" output="screen">

@@ -178,30 +178,40 @@ class RNETTeleopNode(object):
         v = self._v_scale * self._cmd_vel.linear.x
         w = self._w_scale * self._cmd_vel.angular.z
         
-        v = int(np.clip(v * 100, -100, 100))
-        w = int(np.clip(w * 100, -100, 100))
+        v1 = int(np.clip(v * 100, -100, 100))
+        w1 = int(np.clip(w * 100, -100, 100))
+
+        v2 = int(np.clip(v * 25, -25, 25))
+        w2 = int(np.clip(w * 25, -25, 25))
 
         if cf == self._joy_frame:
             # for joy : y=fw, x=turn; 0-256
-            cmd_y = 0x100 + int(v) & 0xFF
-            cmd_x = 0x100 - int(w) & 0xFF
+            cmd_y1 = 0x100 + int(v1) & 0xFF
+            cmd_x1 = 0x100 - int(w1) & 0xFF
+
+            cmd_y2 = 0x100 + int(v2) & 0xFF
+            cmd_x2 = 0x100 - int(w2) & 0xFF
 
             try:
                 if np.abs(v) > self._min_v or np.abs(w) > self._min_w:
-                    self._rnet.send(self._joy_frame + '#' + dec2hex(cmd_x, 2) + dec2hex(cmd_y, 2))
+                    #self._rnet.send(self._joy_frame + '#' + dec2hex(cmd_x, 2) + dec2hex(cmd_y, 2))
+                    self._rnet.send('02001100' + '#' + dec2hex(cmd_x1, 2) + dec2hex(cmd_y1, 2))
+                    self._rnet.send('02000200' + '#' + dec2hex(cmd_x2, 2) + dec2hex(cmd_y2, 2))
                 else:
                     # below thresh, stop
-                    self._rnet.send(self._joy_frame + '#' + dec2hex(0, 2) + dec2hex(0, 2))
+                    #self._rnet.send(self._joy_frame + '#' + dec2hex(0, 2) + dec2hex(0, 2))
+                    self._rnet.send('02001100' + '#' + dec2hex(0, 2) + dec2hex(0, 2))
+                    self._rnet.send('02000200' + '#' + dec2hex(0, 2) + dec2hex(0, 2))
             except Exception as e:
-                print e
-                print self._cmd_vel
-                print cmd_x, cmd_y
-                print dec2hex(cmd_x, 2), dec2hex(cmd_y, 2)
+                #print e
+                #print self._cmd_vel
+                #print cmd_x, cmd_y
+                #print dec2hex(cmd_x, 2), dec2hex(cmd_y, 2)
                 raise e
 
             # heartbeat
             if (now - self._last_hb).to_sec() > 0.1:
-                #self._rnet.send('03C30F0F#87878787878787')
+                self._rnet.send('03C30F0F#87878787878787')
                 self._last_hb = now
 
     def spin(self):
@@ -223,7 +233,8 @@ class RNETTeleopNode(object):
         suc, joy_frame = self.wait_rnet_joystick_frame(0.2)
         if suc:
             rospy.loginfo('Found R-NET Joystick frame: {}'.format(joy_frame))
-            self._joy_frame = joy_frame
+            if not self._joy_frame:
+                self._joy_frame = joy_frame
         else:
             if self._joy_frame is not None:
                 rospy.logwarn('No R-NET Joystick frame seen within minimum time')
@@ -231,6 +242,7 @@ class RNETTeleopNode(object):
             else:
                 rospy.logerr('No R-NET Joystick frame seen within minimum time')
                 return
+        rospy.loginfo('Using R-NET Joystick frame: {}'.format(self._joy_frame))
         # set chair's speed to the lowest setting.
         suc = self._rnet.set_speed(self._speed)
         if not suc:
