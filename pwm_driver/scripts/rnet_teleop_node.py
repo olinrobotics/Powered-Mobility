@@ -146,14 +146,14 @@ class RNETTeleopNode(object):
 
     def step(self):
 
-        now = rospy.Time.now()
 
         if self._rnet._battery is not None:
             bs_msg = BatteryState()
-            bs_msg.header.stamp = now
+            bs_msg.header.stamp = rospy.Time.now()
             bs_msg.percentage = 1.0 * self._rnet._battery
             self._bat_pub.publish(bs_msg)
 
+        now = rospy.Time.now()
         if (now - self._last_cmd).to_sec() > self._cmd_timeout:
             # zero-out velocity commands
             #print((now - self._last_cmd).to_sec(), 'timeout')
@@ -195,7 +195,7 @@ class RNETTeleopNode(object):
 
             # heartbeat
             if (now - self._last_hb).to_sec() > 0.1:
-                self._rnet.send('03C30F0F#87878787878787')
+                #self._rnet.send('03C30F0F#87878787878787')
                 self._last_hb = now
 
     def spin(self):
