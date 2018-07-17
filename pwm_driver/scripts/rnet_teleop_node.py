@@ -16,6 +16,7 @@ import can
 import time
 import numpy as np
 
+from std_msgs.msg import Int32
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import BatteryState
 import threading
@@ -61,10 +62,10 @@ class RNETInterface(object):
 
     def set_speed(self, v):
         if 0<=v<=0x64:
-            try:
-                return self.send('0a040100#'+dec2hex(v,2))
-            except Exception as e:
-                return False
+			try:
+				return self.send('0a040100#'+dec2hex(v,2))
+			except Exception as e:
+				return False
         else:
             return False
 
@@ -123,6 +124,7 @@ class RNETTeleopNode(object):
         self._cmd_timeout=rospy.get_param('~cmd_timeout', default=0.1) # stops after timeout
         self._rate=rospy.get_param('~rate', default=100)
         self._cmd_vel_sub=rospy.Subscriber('cmd_vel', Twist, self.cmd_vel_cb)
+		self._speed_sub=rospy.Subscriber('manual_speed', Int32, self.speed_cb)
         self._bat_pub=rospy.Publisher('battery', BatteryState, queue_size=10)
         self._rnet = RNETInterface()
 
@@ -139,6 +141,10 @@ class RNETTeleopNode(object):
                 rospy.loginfo('... Joy frame wait timed out')
                 return False, None
         return True, frame_id
+
+	def speed_cb(self, msg):
+		self._speed = msg.data
+		self._rnet.set_speed(msg.data)
 
     def cmd_vel_cb(self, msg):
         self._cmd_vel = msg
