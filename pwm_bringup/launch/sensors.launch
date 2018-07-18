@@ -3,11 +3,21 @@
 	<include file="$(find realsense2_camera)/launch/rs_rgbd.launch"/>
 
     <!-- URG -->
-    <node pkg="urg_node" type="urg_node">
+    <node pkg="urg_node" type="urg_node" name="lidar">
         <param name="ip_address" value="192.168.0.10"/>
     </node>
 
     <!-- GPS -->
+	<node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="gps">
+		<param name="port" value="/dev/gps"/>
+	</node>
 
+	<!-- Arduino (IMU / Sonar) -->
+	<!-- TODO : update udev when Arduino Due is connected -->
+	<!--
+	<node pkg="rosserial_python" type="serial_node" name="arduino">
+		<param name="port" value="/dev/arduino"/>
+	</node>
+	-->
 
 </launch>

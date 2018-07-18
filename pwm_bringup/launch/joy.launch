@@ -1,0 +1,12 @@
+<launch>
+	<node pkg="joy" type="joy_node" name="joy">
+		<param name="dev" value="/dev/xbox"/>
+		<param name="autorepeat_rate" value="10.0"/>
+	</node>
+
+	<node pkg="teleop_twist_joy" type="teleop_node" name="teleop_joy" output="screen">
+		<remap from="cmd_vel" to="/manual_cmd_vel"/>
+		<param name="scale_linear" value="1.0"/>
+		<param name="scale_angular" value="1.0"/>
+	</node>
+</launch>
