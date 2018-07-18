@@ -1,0 +1,15 @@
+<launch>
+    <node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector" output="screen">
+        <remap from="image_rect" to="/camera/color/image_rect_color"/>
+        <remap from="camera_info" to="/camera/color/camera_info"/>
+
+    <param name="image_transport" type="str" value="raw"/>
+    <param name="tag_family" type="str" value="36h11"/>
+    <param name="projected_optics" type="bool" value="true"/>
+
+    <rosparam param="tag_descriptions">[
+        {id: 0, size: 0.165}
+        ]
+    </rosparam>
+    </node>
+</launch>
