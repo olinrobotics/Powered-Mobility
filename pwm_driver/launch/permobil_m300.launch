@@ -1,14 +1,14 @@
 <launch>
     <arg name="disable_chair_joy" default="false"/>
     <arg name="joy_frame" default="0x02001100"/>
-    <arg name="speed" default="0"/>
+    <arg name="speed" default="100"/>
 
     <node pkg="pwm_driver" type="rnet_teleop_node.py" name="rnet_teleop_node" output="screen">
         <param name="joy_frame" value="$(arg joy_frame)"/>
         <param name="disable_chair_joy" value="$(arg disable_chair_joy)"/>
         <param name="speed" value="$(arg speed)"/>
-        <param name="v_scale" value="1.0"/>
-        <param name="w_scale" value="1.0"/>
+        <param name="v_scale" value="1.4"/>
+        <param name="w_scale" value="1.33"/>
         <param name="min_v" value="0.0"/>
         <param name="min_w" value="0.0"/>
         <param name="cmd_timeout" value="0.2"/>
