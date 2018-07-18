@@ -1,0 +1,13 @@
+<launch>
+    <!-- Realsense -->
+	<include file="$(find realsense2_camera)/launch/rs_rgbd.launch"/>
+
+    <!-- URG -->
+    <node pkg="urg_node" type="urg_node">
+        <param name="ip_address" value="192.168.0.10"/>
+    </node>
+
+    <!-- GPS -->
+
+
+</launch>
