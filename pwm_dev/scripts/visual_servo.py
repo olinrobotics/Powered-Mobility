@@ -29,8 +29,8 @@ class VisualServo(object):
 		move_msg = Twist()
 
 		if np.abs(tag_angle_offset) >= tag_angle_threshold or self.tag_z >= z_dist:
-			move_msg.angular.z = 0.1 * tag_angle_offset
-			move_msg.linear.x = 0.1 * z_dist
+			move_msg.angular.z = - 0.1 * tag_angle_offset
+			move_msg.linear.x = 0.1 * self.tag_x
 
 		self.move_pub.publish(move_msg)
 
