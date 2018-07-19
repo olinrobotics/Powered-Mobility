@@ -7,6 +7,8 @@
 		<arg name="rgb_topic" value="/camera/color/image_raw"/>
 		<arg name="camera_info_topic" value="/camera/color/camera_info"/>
 		<arg name="rtabmapviz" value="false"/>
+
+        <arg name="frame_id" default="base_footprint"/>
 	</include>
 
 	<node pkg="pwm_dev" type="auto_cmd.py" name="auto">

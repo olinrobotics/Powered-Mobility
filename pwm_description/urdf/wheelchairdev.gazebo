@@ -120,7 +120,9 @@
         </sensor>
     </gazebo>
 
-    <gazebo reference="realsense_link">  
+    <!-- TODO : update sensor with realsense plugins -->
+    <!-- TODO : configure frame_ids -->
+    <gazebo reference="camera_link">  
         <sensor type="depth" name="kinect">
             <always_on>true</always_on>
             <update_rate>20.0</update_rate>
@@ -143,15 +145,15 @@
                 </noise>
             </camera>
             <plugin name="kinect_camera_controller" filename="libgazebo_ros_openni_kinect.so">
-                <cameraName>kinect</cameraName>
+                <cameraName>camera</cameraName>
                 <alwaysOn>true</alwaysOn>
-                <updateRate>10</updateRate>
-                <imageTopicName>rgb/image_raw</imageTopicName>
-                <depthImageTopicName>depth/image_raw</depthImageTopicName>
+                <updateRate>30</updateRate>
+                <imageTopicName>color/image_raw</imageTopicName>
+                <depthImageTopicName>aligned_depth_to_color/image_raw</depthImageTopicName>
                 <pointCloudTopicName>depth/points</pointCloudTopicName>
-                <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+                <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
                 <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
-                <frameName>realsense_optical</frameName>
+                <frameName>camera_optical</frameName>
                 <baseline>0.1</baseline>
                 <distortion_k1>0.0</distortion_k1>
                 <distortion_k2>0.0</distortion_k2>

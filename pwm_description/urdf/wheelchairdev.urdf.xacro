@@ -211,7 +211,7 @@
             xyz="0 0 1" />
     </joint>
     <link
-        name="realsense_link">
+        name="camera_link">
         <inertial>
             <origin
                 xyz="-0.012211 0.001403 8.0403E-05"
@@ -242,7 +242,7 @@
         </collision>
     </link>
     <joint
-        name="realsense_joint"
+        name="camera_joint"
         type="fixed">
         <origin
             xyz="0.085134 -0.18956 -0.00127"
@@ -250,18 +250,46 @@
         <parent
             link="footrest_link" />
         <child
-            link="realsense_link" />
+            link="camera_link" />
         <axis
             xyz="0 0 1" />
     </joint>
 
     <!-- optical frame -->
-    <link name="realsense_optical"/>
-    <joint name="realsense_optical_joint" type="fixed">
+    <link name="camera_optical"/>
+    <joint name="camera_optical_joint" type="fixed">
         <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
-        <parent link="realsense_link"/>
-        <child link="realsense_optical"/>
+        <parent link="camera_link"/>
+        <child link="camera_optical"/>
     </joint>
+
+    <!-- alignment frames -->
+    <!-- setup aliases for compatibility with realsense -->
+    <link name="camera_aligned_depth_to_color_frame"/>
+    <joint name="align_d2c" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="camera_optical"/>
+        <child link="camera_aligned_depth_to_color_frame"/>
+    </joint>
+    <link name="camera_aligned_depth_to_infra1_frame"/>
+    <joint name="align_d2i1" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="camera_optical"/>
+        <child link="camera_aligned_depth_to_infra1_frame"/>
+    </joint>
+    <link name="camera_aligned_depth_to_infra2_frame"/>
+    <joint name="align_d2i2" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="camera_optical"/>
+        <child link="camera_aligned_depth_to_infra2_frame"/>
+    </joint>
+    <link name="camera_aligned_depth_to_fisheye_frame" />
+    <joint name="align_d2f" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="camera_optical"/>
+        <child link="camera_aligned_depth_to_fisheye_frame"/>
+    </joint>
+
 
     <link
         name="back_link">
