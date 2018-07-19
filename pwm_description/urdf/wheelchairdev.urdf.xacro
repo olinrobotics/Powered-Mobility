@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <robot name="wheelchair" xmlns:xacro="http://ros.org/wiki/xacro">
-	<xacro:include filename="$(find pwm_description)/urdf/defs.urdf.xacro"/>
+    <xacro:include filename="$(find pwm_description)/urdf/defs.urdf.xacro"/>
     <xacro:include filename="$(find pwm_description)/urdf/wheelchairdev.gazebo"/>
 
     <link name="base_footprint">
     </link>
 
-	<joint name="base_footprint_joint" type="fixed">
-        <origin xyz="0 0 ${0.5*13*inch-0.114}" rpy="0 0 0"/>
-		<parent link="base_footprint"/>
-		<child link="base_link"/>
-	</joint>
+    <joint name="base_footprint_joint" type="fixed">
+        <origin xyz="0 0 ${0.5*14*inch-0.1143}" rpy="0 0 0"/>
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+    </joint>
 
     <link
         name="base_link">
@@ -37,12 +37,9 @@
             </material>
         </visual>
         <collision>
-            <origin
-                xyz="0 0 0"
-                rpy="0 0 0" />
+            <origin xyz="0.0 0.0 0.152400001884" rpy="0 0 0"/>
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/base_link.STL" />
+                <box size="0.711199998856 0.457199990749 0.304800003767"/>
             </geometry>
         </collision>
     </link>
@@ -78,12 +75,9 @@
             </material>
         </visual>
         <collision>
-            <origin
-                xyz="0 0 0"
-                rpy="0 0 0" />
+            <origin xyz="-0.0635000020266 7.45058059692e-09 0.0127000026405" rpy="0 0 0"/>
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/seat_link.STL" />
+                <box size="0.660400032997 0.482599973679 0.228599995375"/>
             </geometry>
         </collision>
     </link>
@@ -134,12 +128,9 @@
             </material>
         </visual>
         <collision>
-            <origin
-                xyz="0 0 0"
-                rpy="0 0 0" />
+            <origin xyz="0.128881782293 -0.200304538012 0.0" rpy="0 0 0"/>
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/footrest_link.STL" />
+                <box size="0.30856359005 0.400308251381 0.43180000782"/>
             </geometry>
         </collision>
     </link>
@@ -190,12 +181,9 @@
             </material>
         </visual>
         <collision>
-            <origin
-                xyz="0 0 0"
-                rpy="0 0 0" />
+            <origin xyz="-0.00884072016925 0.0 -0.0141306817532" rpy="0 0 0"/>
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/lidar_link.STL" />
+                <box size="0.0632499977946 0.0500000007451 0.070000000298"/>
             </geometry>
         </collision>
     </link>
@@ -237,12 +225,9 @@
             </material>
         </visual>
         <collision>
-            <origin
-                xyz="0 0 0"
-                rpy="0 0 0" />
+            <origin xyz="-0.0125249996781 0.0 0.0" rpy="0 0 0"/>
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/realsense_link.STL" />
+                <box size="0.0250499993563 0.0900000035763 0.0250000003725"/>
             </geometry>
         </collision>
     </link>
@@ -262,11 +247,11 @@
 
     <!-- optical frame -->
     <link name="realsense_optical"/>
-	<joint name="realsense_optical_joint" type="fixed">
-		<origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
-		<parent link="realsense_link"/>
-		<child link="realsense_optical"/>
-	</joint>
+    <joint name="realsense_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+        <parent link="realsense_link"/>
+        <child link="realsense_optical"/>
+    </joint>
 
     <link
         name="back_link">
@@ -299,12 +284,9 @@
             </material>
         </visual>
         <collision>
-            <origin
-                xyz="0 0 0"
-                rpy="0 0 0" />
+            <origin xyz="0.256545692682 0.355273872614 -0.0322397202253" rpy="0 0 0"/>
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/back_link.STL" />
+                <box size="0.75830322504 0.710547745228 0.710565447807"/>
             </geometry>
         </collision>
     </link>
@@ -349,12 +331,9 @@
             </material>
         </visual>
         <collision>
-            <origin
-                xyz="0 0 0"
-                rpy="0 0 0" />
+            <origin xyz="-0.00362478382885 0.0 0.00983087625355" rpy="0 0 0"/>
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/gps_link.STL" />
+                <box size="0.0597429461777 0.0525326915085 0.0197107437998"/>
             </geometry>
         </collision>
     </link>
