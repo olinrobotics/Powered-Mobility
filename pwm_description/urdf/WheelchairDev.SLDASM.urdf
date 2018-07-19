@@ -1,26 +1,20 @@
-<?xml version="1.0"?>
-<robot name="wheelchair" xmlns:xacro="http://ros.org/wiki/xacro">
-	<xacro:include filename="$(find pwm_description)/urdf/defs.urdf.xacro"/>
-    <xacro:include filename="$(find pwm_description)/urdf/wheelchairdev.gazebo"/>
-
-    <link name="base_footprint">
-    </link>
-
-	<joint name="base_footprint_joint" type="fixed">
-        <origin xyz="0 0 ${0.5*13*inch-0.114}" rpy="0 0 0"/>
-		<parent link="base_footprint"/>
-		<child link="base_link"/>
-	</joint>
-
+<robot
+    name="WheelchairDev.SLDASM">
     <link
         name="base_link">
         <inertial>
             <origin
-                xyz="-5.97916491205108E-05 -5.55111512312578E-17 0.153027812315766"
+                xyz="-5.9792E-05 -5.5511E-17 0.15303"
                 rpy="0 0 0" />
             <mass
-                value="98.4139630936699" />
-            <xacro:box_inertia x="1e-3" y="1e-3" z="1e-3" mass="1e-3"/>
+                value="98.414" />
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
         </inertial>
         <visual>
             <origin
@@ -28,12 +22,12 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/base_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/base_link.STL" />
             </geometry>
             <material
                 name="">
                 <color
-                    rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                    rgba="0.79216 0.81961 0.93333 1" />
             </material>
         </visual>
         <collision>
@@ -42,26 +36,25 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/base_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/base_link.STL" />
             </geometry>
         </collision>
     </link>
-
     <link
         name="seat_link">
         <inertial>
             <origin
-                xyz="-0.0332097722373201 0.00406938602338047 0.0228912507671721"
+                xyz="-0.03321 0.0040694 0.022891"
                 rpy="0 0 0" />
             <mass
-                value="39.8904807609114" />
+                value="39.89" />
             <inertia
-                ixx="0.122921824576847"
-                ixy="0.0164619739758286"
-                ixz="-0.146470483923146"
-                iyy="0.316753450399423"
-                iyz="0.0119623440768997"
-                izz="0.196633649371876" />
+                ixx="0.12292"
+                ixy="0.016462"
+                ixz="-0.14647"
+                iyy="0.31675"
+                iyz="0.011962"
+                izz="0.19663" />
         </inertial>
         <visual>
             <origin
@@ -69,12 +62,12 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/seat_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/seat_link.STL" />
             </geometry>
             <material
                 name="">
                 <color
-                    rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                    rgba="0.79216 0.81961 0.93333 1" />
             </material>
         </visual>
         <collision>
@@ -83,16 +76,15 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/seat_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/seat_link.STL" />
             </geometry>
         </collision>
     </link>
-
     <joint
         name="seat_joint"
         type="prismatic">
         <origin
-            xyz="0.0889000000000003 -0.0126999999999997 0.50361"
+            xyz="0.0889 -0.0127 0.50361"
             rpy="0 0 0" />
         <parent
             link="base_link" />
@@ -100,9 +92,10 @@
             link="seat_link" />
         <axis
             xyz="0 0 1" />
-        <limit lower="0.0" upper="0.3" effort="1500" velocity="0.5" />
+        <limit
+            effort="0"
+            velocity="0" />
     </joint>
-
     <link
         name="footrest_link">
         <inertial>
@@ -110,14 +103,14 @@
                 xyz="0.055498 -0.21402 -5.5629E-05"
                 rpy="0 0 0" />
             <mass
-                value="2.24583004981917" />
+                value="2.3451" />
             <inertia
-                ixx="0.00172839866541921"
-                ixy="0.000772961959349029"
-                ixz="3.16929282986145E-06"
-                iyy="0.00047716278384899"
-                iyz="-6.88732971243823E-06"
-                izz="0.00207972567905554" />
+                ixx="0.003853"
+                ixy="0.0017154"
+                ixz="6.8937E-06"
+                iyy="0.00085545"
+                iyz="-1.3979E-05"
+                izz="0.0046214" />
         </inertial>
         <visual>
             <origin
@@ -125,12 +118,12 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/footrest_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/footrest_link.STL" />
             </geometry>
             <material
                 name="">
                 <color
-                    rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                    rgba="0.79216 0.81961 0.93333 1" />
             </material>
         </visual>
         <collision>
@@ -139,25 +132,25 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/footrest_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/footrest_link.STL" />
             </geometry>
         </collision>
     </link>
     <joint
         name="footrest_joint"
-        type="fixed">
+        type="revolute">
         <origin
-            xyz="0.2667 0 0.0317500000000001"
-            rpy="1.5707963267949 0 0" />
+            xyz="0.2667 0 0.03175"
+            rpy="1.5708 0 0" />
         <parent
             link="seat_link" />
         <child
             link="footrest_link" />
         <axis
             xyz="0 0 -1" />
-        <!--
-        <limit lower="-3.14" upper="3.14" effort="1500" velocity="0.5" />
-        -->
+        <limit
+            effort="0"
+            velocity="0" />
     </joint>
     <link
         name="lidar_link">
@@ -181,7 +174,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/lidar_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/lidar_link.STL" />
             </geometry>
             <material
                 name="">
@@ -195,7 +188,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/lidar_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/lidar_link.STL" />
             </geometry>
         </collision>
     </link>
@@ -204,13 +197,13 @@
         type="fixed">
         <origin
             xyz="0.13695 -0.32488 -0.00060405"
-            rpy="-1.5708 8.2132E-18 0.026657" />
+            rpy="-1.5708 -4.1826E-18 0.026657" />
         <parent
             link="footrest_link" />
         <child
             link="lidar_link" />
         <axis
-            xyz="0 0 1" />
+            xyz="0 0 0" />
     </joint>
     <link
         name="realsense_link">
@@ -220,7 +213,13 @@
                 rpy="0 0 0" />
             <mass
                 value="0.050576" />
-            <xacro:box_inertia x="1e-2" y="1e-2" z="1e-2" mass="1e-2"/>
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
         </inertial>
         <visual>
             <origin
@@ -228,7 +227,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/realsense_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/realsense_link.STL" />
             </geometry>
             <material
                 name="">
@@ -242,7 +241,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/realsense_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/realsense_link.STL" />
             </geometry>
         </collision>
     </link>
@@ -257,17 +256,8 @@
         <child
             link="realsense_link" />
         <axis
-            xyz="0 0 1" />
+            xyz="0 0 0" />
     </joint>
-
-    <!-- optical frame -->
-    <link name="realsense_optical"/>
-	<joint name="realsense_optical_joint" type="fixed">
-		<origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
-		<parent link="realsense_link"/>
-		<child link="realsense_optical"/>
-	</joint>
-
     <link
         name="back_link">
         <inertial>
@@ -275,14 +265,14 @@
                 xyz="0.06802 0.27418 0.010362"
                 rpy="0 0 0" />
             <mass
-                value="21.3849460447243" />
+                value="22.009" />
             <inertia
-                ixx="0.638823322523092"
-                ixy="-0.0353788477032128"
-                ixz="-0.147324675628681"
-                iyy="0.612040467785112"
-                iyz="0.00497982785800062"
-                izz="0.731113551637578" />
+                ixx="0.69033"
+                ixy="-0.047591"
+                ixz="-0.10483"
+                iyy="0.72679"
+                iyz="0.014543"
+                izz="0.80315" />
         </inertial>
         <visual>
             <origin
@@ -290,12 +280,12 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/back_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/back_link.STL" />
             </geometry>
             <material
                 name="">
                 <color
-                    rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                    rgba="0.79216 0.81961 0.93333 1" />
             </material>
         </visual>
         <collision>
@@ -304,25 +294,25 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/back_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/back_link.STL" />
             </geometry>
         </collision>
     </link>
     <joint
         name="back_joint"
-        type="fixed">
+        type="revolute">
         <origin
             xyz="-0.23495 0 0.127"
-            rpy="1.5707963267949 0 0" />
+            rpy="1.5708 0 0" />
         <parent
             link="seat_link" />
         <child
             link="back_link" />
         <axis
             xyz="0 0 -1" />
-        <!--
-        <limit lower="-3.14" upper="3.14" effort="1500" velocity="0.5" />
-        -->
+        <limit
+            effort="0"
+            velocity="0" />
     </joint>
     <link
         name="gps_link">
@@ -331,8 +321,14 @@
                 xyz="-0.00052822 0.00021277 0.0091581"
                 rpy="0 0 0" />
             <mass
-                value="0.026768" />
-            <xacro:box_inertia x="1e-2" y="1e-2" z="1e-2" mass="1e-2"/>
+                value="0.032213" />
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
         </inertial>
         <visual>
             <origin
@@ -340,12 +336,12 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/gps_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/gps_link.STL" />
             </geometry>
             <material
                 name="">
                 <color
-                    rgba="0.29804 0.29804 0.29804 1" />
+                    rgba="0.1098 0.1098 0.1098 1" />
             </material>
         </visual>
         <collision>
@@ -354,7 +350,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/gps_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/gps_link.STL" />
             </geometry>
         </collision>
     </link>
@@ -369,7 +365,7 @@
         <child
             link="gps_link" />
         <axis
-            xyz="0 0 1" />
+            xyz="0 0 0" />
     </joint>
     <link
         name="right_wheel_link">
@@ -378,8 +374,14 @@
                 xyz="5.5511E-17 0 0.032142"
                 rpy="0 0 0" />
             <mass
-                value="${4.0*lb}" />
-            <xacro:cylinder_inertia m="${4.0*lb}" r="${0.5*14*inch}" h="${2.5*inch}"/>
+                value="3.7492" />
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
         </inertial>
         <visual>
             <origin
@@ -387,12 +389,12 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/right_wheel_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/right_wheel_link.STL" />
             </geometry>
             <material
                 name="">
                 <color
-                    rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                    rgba="0.79216 0.81961 0.93333 1" />
             </material>
         </visual>
         <collision>
@@ -401,7 +403,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/right_wheel_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/right_wheel_link.STL" />
             </geometry>
         </collision>
     </link>
@@ -425,8 +427,14 @@
                 xyz="0 -2.7756E-17 -0.032142"
                 rpy="0 0 0" />
             <mass
-                value="${4.0*lb}" />
-            <xacro:cylinder_inertia m="${4.0*lb}" r="${0.5*14*inch}" h="${2.5*inch}"/>
+                value="3.7492" />
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
         </inertial>
         <visual>
             <origin
@@ -434,7 +442,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/left_wheel_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/left_wheel_link.STL" />
             </geometry>
             <material
                 name="">
@@ -448,7 +456,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/left_wheel_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/left_wheel_link.STL" />
             </geometry>
         </collision>
     </link>
@@ -472,8 +480,14 @@
                 xyz="-2.2898E-16 6.9389E-18 -0.0010598"
                 rpy="0 0 0" />
             <mass
-                value="${2.0*lb}" />
-            <xacro:cylinder_inertia m="${2.0*lb}" r="${0.5*8*inch}" h="${2.0*inch}"/>
+                value="1.2339" />
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
         </inertial>
         <visual>
             <origin
@@ -481,12 +495,12 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/caster_fl_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/caster_fl_link.STL" />
             </geometry>
             <material
                 name="">
                 <color
-                    rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                    rgba="0.79216 0.81961 0.93333 1" />
             </material>
         </visual>
         <collision>
@@ -495,13 +509,13 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/caster_fl_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/caster_fl_link.STL" />
             </geometry>
         </collision>
     </link>
     <joint
         name="caster_fl_joint"
-        type="fixed">
+        type="continuous">
         <origin
             xyz="0.33655 0.2667 0.0381"
             rpy="1.5708 0 3.1416" />
@@ -519,8 +533,14 @@
                 xyz="1.1102E-16 -2.0817E-16 -0.0010598"
                 rpy="0 0 0" />
             <mass
-                value="${2.0*lb}" />
-            <xacro:cylinder_inertia m="${2.0*lb}" r="${0.5*8*inch}" h="${2.0*inch}"/>
+                value="1.2339" />
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
         </inertial>
         <visual>
             <origin
@@ -528,7 +548,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/caster_bl_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/caster_bl_link.STL" />
             </geometry>
             <material
                 name="">
@@ -542,13 +562,13 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/caster_bl_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/caster_bl_link.STL" />
             </geometry>
         </collision>
     </link>
     <joint
         name="caster_bl_joint"
-        type="fixed">
+        type="continuous">
         <origin
             xyz="-0.33655 0.2667 0.0381"
             rpy="1.5708 0 3.1416" />
@@ -566,8 +586,14 @@
                 xyz="1.1796E-16 -2.0123E-16 0.0010598"
                 rpy="0 0 0" />
             <mass
-                value="${2.0*lb}" />
-            <xacro:cylinder_inertia m="${2.0*lb}" r="${0.5*8*inch}" h="${2.0*inch}"/>
+                value="1.2339" />
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
         </inertial>
         <visual>
             <origin
@@ -575,7 +601,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/caster_fr_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/caster_fr_link.STL" />
             </geometry>
             <material
                 name="">
@@ -589,13 +615,13 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/caster_fr_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/caster_fr_link.STL" />
             </geometry>
         </collision>
     </link>
     <joint
         name="caster_fr_joint"
-        type="fixed">
+        type="continuous">
         <origin
             xyz="0.33655 -0.2667 0.0381"
             rpy="1.5708 0 3.1416" />
@@ -613,8 +639,14 @@
                 xyz="-5.9792E-05 -5.5511E-17 0.15303"
                 rpy="0 0 0" />
             <mass
-                value="${2.0*lb}" />
-            <xacro:cylinder_inertia m="${2.0*lb}" r="${0.5*8*inch}" h="${2.0*inch}"/>
+                value="98.414" />
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
         </inertial>
         <visual>
             <origin
@@ -622,7 +654,7 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/caster_br_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/caster_br_link.STL" />
             </geometry>
             <material
                 name="">
@@ -636,13 +668,13 @@
                 rpy="0 0 0" />
             <geometry>
                 <mesh
-                    filename="package://pwm_description/meshes/caster_br_link.STL" />
+                    filename="package://WheelchairDev.SLDASM/meshes/caster_br_link.STL" />
             </geometry>
         </collision>
     </link>
     <joint
         name="caster_br_joint"
-        type="fixed">
+        type="continuous">
         <origin
             xyz="-0.33655 -0.2667 0.0381"
             rpy="1.5708 0 3.1416" />
@@ -653,17 +685,4 @@
         <axis
             xyz="0 0 1" />
     </joint>
-
-    <!-- transmission -->
-    <transmission name="seat_transmission">
-        <type>transmission_interface/SimpleTransmission</type>
-        <actuator name="seat_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-        <joint name="seat_joint">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
-    </transmission>
-
 </robot>

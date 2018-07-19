@@ -3,8 +3,8 @@
     <gazebo reference="right_wheel_link">
         <mu1 value="200.0"/>
         <mu2 value="100.0"/>
-        <kp value="10000000.0" />
-        <kd value="1.0" />
+        <kp value="1e9" />
+        <kd value="5e6" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
     <transmission name="right_wheel_transmission">
@@ -22,8 +22,8 @@
     <gazebo reference="left_wheel_link">
         <mu1 value="200.0"/>
         <mu2 value="100.0"/>
-        <kp value="10000000.0" />
-        <kd value="1.0" />
+        <kp value="1e9" />
+        <kd value="5e6" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
     <transmission name="left_wheel_transmission">
@@ -42,28 +42,28 @@
         <mu1 value="0."/>
         <mu2 value="0."/>
         <kp value="100000.0" />
-        <kd value="1.0" />
+        <kd value="100.0" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
     <gazebo reference="caster_fr_link">
         <mu1 value="0."/>
         <mu2 value="0."/>
         <kp value="100000.0" />
-        <kd value="1.0" />
+        <kd value="100.0" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
     <gazebo reference="caster_bl_link">
         <mu1 value="0."/>
         <mu2 value="0."/>
         <kp value="100000.0" />
-        <kd value="1.0" />
+        <kd value="100.0" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
     <gazebo reference="caster_br_link">
         <mu1 value="0."/>
         <mu2 value="0."/>
         <kp value="100000.0" />
-        <kd value="1.0" />
+        <kd value="100.0" />
         <!--<fdir1 value="1 0 0"/>-->
     </gazebo>
 
@@ -149,4 +149,4 @@
             </plugin>
         </sensor>
     </gazebo>
-    <robot>
+</robot>
