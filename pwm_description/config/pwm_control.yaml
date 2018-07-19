@@ -23,10 +23,11 @@ wheelchair:
     publish_rate: 50
     cmd_vel_timeout: 0.25
     base_frame_id: "base_footprint"
-    enable_odom_tf: true
+    # odom tf will be sourced from rtabmap (no wheel encoder)
+    enable_odom_tf: false
     estimate_velocity_from_position: true 
     
-    wheel_radius : 0.18
+    wheel_radius : 0.1778
     wheel_separation : 0.61
     
     # Velocity and acceleration limits

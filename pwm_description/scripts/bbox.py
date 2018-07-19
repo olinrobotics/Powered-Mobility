@@ -54,6 +54,7 @@ def main():
     if len(sys.argv) > 1:
         ms = sys.argv[1]
         main_body = mesh.Mesh.from_file(ms)
+        #print main_body.points.shape
         print as_box(*find_mins_maxs(main_body))
 
 if __name__ == "__main__":

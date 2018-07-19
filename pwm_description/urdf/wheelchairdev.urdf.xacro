@@ -128,9 +128,19 @@
             </material>
         </visual>
         <collision>
+            <!--
+                 Disabled due to lidar
             <origin xyz="0.128881782293 -0.200304538012 0.0" rpy="0 0 0"/>
             <geometry>
                 <box size="0.30856359005 0.400308251381 0.43180000782"/>
+            </geometry>
+            -->
+            <origin
+                xyz="0 0 0"
+                rpy="0 0 0" />
+            <geometry>
+                <mesh
+                    filename="package://pwm_description/meshes/footrest_link.STL" />
             </geometry>
         </collision>
     </link>
@@ -378,9 +388,14 @@
             <origin
                 xyz="0 0 0"
                 rpy="0 0 0" />
+            <!--
             <geometry>
                 <mesh
                     filename="package://pwm_description/meshes/right_wheel_link.STL" />
+            </geometry>
+            -->
+            <geometry>
+                <cylinder length="${2.5*inch}" radius="${0.5*14*inch}"/>
             </geometry>
         </collision>
     </link>
@@ -426,8 +441,7 @@
                 xyz="0 0 0"
                 rpy="0 0 0" />
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/left_wheel_link.STL" />
+                <cylinder length="${2.5*inch}" radius="${0.5*14*inch}"/>
             </geometry>
         </collision>
     </link>
@@ -472,9 +486,14 @@
             <origin
                 xyz="0 0 0"
                 rpy="0 0 0" />
+            <!--
             <geometry>
                 <mesh
                     filename="package://pwm_description/meshes/caster_fl_link.STL" />
+            </geometry>
+            -->
+            <geometry>
+                <cylinder length="${2.0*inch}" radius="${0.5*8*inch}"/>
             </geometry>
         </collision>
     </link>
@@ -520,8 +539,7 @@
                 xyz="0 0 0"
                 rpy="0 0 0" />
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/caster_bl_link.STL" />
+                <cylinder length="${2.0*inch}" radius="${0.5*8*inch}"/>
             </geometry>
         </collision>
     </link>
@@ -567,8 +585,7 @@
                 xyz="0 0 0"
                 rpy="0 0 0" />
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/caster_fr_link.STL" />
+                <cylinder length="${2.0*inch}" radius="${0.5*8*inch}"/>
             </geometry>
         </collision>
     </link>
@@ -614,8 +631,7 @@
                 xyz="0 0 0"
                 rpy="0 0 0" />
             <geometry>
-                <mesh
-                    filename="package://pwm_description/meshes/caster_br_link.STL" />
+                <cylinder length="${2.0*inch}" radius="${0.5*8*inch}"/>
             </geometry>
         </collision>
     </link>

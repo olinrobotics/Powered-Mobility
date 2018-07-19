@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:property name="wm1" value="1e9"/>
-    <xacro:property name="wm2" value="1e9"/>
+    <xacro:property name="wm1" value="1"/>
+    <xacro:property name="wm2" value="1"/>
 
-    <xacro:property name="wkp" value="1e9"/>
-    <xacro:property name="wkd" value="5e6"/>
+    <xacro:property name="wkp" value="1e6"/>
+    <xacro:property name="wkd" value="1"/>
 
     <xacro:property name="cm1" value="0"/>
     <xacro:property name="cm2" value="0"/>
-    <xacro:property name="ckp" value="1e5"/>
-    <xacro:property name="ckd" value="1e2"/>
+    <xacro:property name="ckp" value="1e6"/>
+    <xacro:property name="ckd" value="1"/>
 
     <gazebo reference="right_wheel_link">
         <mu1 value="${wm1}"/>
@@ -87,6 +87,7 @@
     </gazebo>
 
     <!-- sensors -->
+    <!-- TODO : match UST-10LX params -->
     <gazebo reference="lidar_link">
         <sensor type="ray" name="lidar">
             <pose>0 0 0 0 0 0</pose>
