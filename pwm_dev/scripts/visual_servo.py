@@ -3,6 +3,10 @@ from apriltags_ros.msg import AprilTagDetectionArray
 from geometry_msgs.msg import Twist
 import numpy as np
 
+# PID dynamic configuration
+from dynamic_reconfigure.server import Server
+from pwm_dev.cfg import PIDConfig
+
 class PID(object):
     """ Simple PID controller """
     def __init__(self, kp=1.0, ki=0.0, kd=0.0, max_u=2.6, max_i=None):
@@ -16,11 +20,11 @@ class PID(object):
                 max_i = np.abs(max_u / ki)
         self._max_u = max_u
         self._max_i = max_i
-        self._prv_err = 0.0
+        self._prv_err = None
         self._net_err = 0.0
 
     def reset(self):
-        self._prv_err = 0.0
+        self._prv_err = None
         self._net_err = 0.0
 
     def __call__(self, err, dt=0.0):
@@ -28,6 +32,9 @@ class PID(object):
             return 0
 
         # compute control output
+        if self._prv_err is None:
+            # protection against initial large d
+            self._prv_err = err
         p = self._kp * err
         i = self._ki * self._net_err
         d = self._kd * (self._prv_err - err) / dt
@@ -53,7 +60,7 @@ class VisualServo(object):
         # default setpoint 1m from tag
         self._offset  = rospy.get_param('~offset', default=1.0)
         self._timeout = rospy.get_param('~timeout', default=0.5)
-        self._rate    = rospy.get_praam('~rate', default=100)
+        self._rate    = rospy.get_param('~rate', default=100)
 
         # initialize data
         self._tag_x = 0
@@ -66,6 +73,25 @@ class VisualServo(object):
         # keep track of timestamps
         self._last_tag  = rospy.Time(0)
         self._last_ctrl = rospy.Time(0)
+
+        self._cfg_srv = Server(PIDConfig, self.cfg_cb)
+
+    def cfg_cb(self, cfg, lvl):
+        self._pid_v._kp = cfg['kp_v']
+        self._pid_v._ki = cfg['ki_v']
+        self._pid_v._kd = cfg['kd_v']
+        self._pid_v._max_i = cfg['max_i']
+        self._pid_v._max_u = cfg['max_v']
+
+        self._pid_w._kp = cfg['kp_w']
+        self._pid_w._ki = cfg['ki_w']
+        self._pid_w._kd = cfg['kd_w']
+        self._pid_w._max_i = cfg['max_i']
+        self._pid_w._max_u = cfg['max_w']
+
+        self._pid_v.reset()
+        self._pid_w.reset()
+        return cfg
 
     def tag_cb(self, msg):
         tags = msg.detections
