@@ -3,9 +3,14 @@
 	</node>
 
 	<!-- Static TF / Viz -->
-	<include file="$(find pwm_decsription)/launch/urdf.launch"/>
+	<include file="$(find pwm_description)/launch/urdf.launch"/>
 	<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
 	</node>
+
+    <!--
+	<node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+	</node>
+    -->
 
     <include file="$(find pwm_bringup)/launch/sensors.launch"/>
 	<include file="$(find pwm_bringup)/launch/joy.launch"/>

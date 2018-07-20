@@ -1,7 +1,18 @@
 <?xml version="1.0"?>
 <robot name="wheelchair" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:arg name="sim" default="false"/>
+
     <xacro:include filename="$(find pwm_description)/urdf/defs.urdf.xacro"/>
     <xacro:include filename="$(find pwm_description)/urdf/wheelchairdev.gazebo"/>
+
+    <xacro:macro name="alias" params="src dst">
+        <link name="${dst}" />
+        <joint name="alias_${src}_${dst}" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <parent link="${src}"/>
+            <child link="${dst}"/>
+        </joint>
+    </xacro:macro>
 
     <link name="base_footprint">
     </link>
@@ -18,9 +29,8 @@
             <origin
                 xyz="-5.97916491205108E-05 -5.55111512312578E-17 0.153027812315766"
                 rpy="0 0 0" />
-            <mass
-                value="98.4139630936699" />
-            <xacro:box_inertia x="1e-3" y="1e-3" z="1e-3" mass="1e-3"/>
+            <mass value="98.4139630936699" />
+            <xacro:box_inertia x="0.711" y="0.457" z="0.305" mass="98.4"/>
         </inertial>
         <visual>
             <origin
@@ -146,7 +156,7 @@
     </link>
     <joint
         name="footrest_joint"
-        type="fixed">
+        type="fixed"> <!-- TODO : technically revolute, broken for our chair -->
         <origin
             xyz="0.2667 0 0.0317500000000001"
             rpy="1.5707963267949 0 0" />
@@ -263,33 +273,19 @@
         <child link="camera_optical"/>
     </joint>
 
-    <!-- alignment frames -->
     <!-- setup aliases for compatibility with realsense -->
-    <link name="camera_aligned_depth_to_color_frame"/>
-    <joint name="align_d2c" type="fixed">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <parent link="camera_optical"/>
-        <child link="camera_aligned_depth_to_color_frame"/>
-    </joint>
-    <link name="camera_aligned_depth_to_infra1_frame"/>
-    <joint name="align_d2i1" type="fixed">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <parent link="camera_optical"/>
-        <child link="camera_aligned_depth_to_infra1_frame"/>
-    </joint>
-    <link name="camera_aligned_depth_to_infra2_frame"/>
-    <joint name="align_d2i2" type="fixed">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <parent link="camera_optical"/>
-        <child link="camera_aligned_depth_to_infra2_frame"/>
-    </joint>
-    <link name="camera_aligned_depth_to_fisheye_frame" />
-    <joint name="align_d2f" type="fixed">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <parent link="camera_optical"/>
-        <child link="camera_aligned_depth_to_fisheye_frame"/>
-    </joint>
 
+    <xacro:if value="$(arg sim)">
+        <xacro:alias src="camera_link" dst="camera_color_frame"/>
+        <xacro:alias src="camera_link" dst="camera_depth_frame"/>
+        <xacro:alias src="camera_link" dst="camera_infra1_frame"/>
+        <xacro:alias src="camera_link" dst="camera_infra2_frame"/>
+
+        <xacro:alias src="camera_optical" dst="camera_color_optical_frame"/>
+        <xacro:alias src="camera_optical" dst="camera_depth_optical_frame"/>
+        <xacro:alias src="camera_optical" dst="camera_infra2_optical_frame"/>
+        <xacro:alias src="camera_optical" dst="camera_infra1_optical_frame"/>
+    </xacro:if>
 
     <link
         name="back_link">
@@ -330,7 +326,7 @@
     </link>
     <joint
         name="back_joint"
-        type="fixed">
+        type="revolute">
         <origin
             xyz="-0.23495 0 0.127"
             rpy="1.5707963267949 0 0" />
@@ -340,9 +336,7 @@
             link="back_link" />
         <axis
             xyz="0 0 -1" />
-        <!--
         <limit lower="-3.14" upper="3.14" effort="1500" velocity="0.5" />
-        -->
     </joint>
     <link
         name="gps_link">
@@ -494,7 +488,7 @@
                 rpy="0 0 0" />
             <mass
                 value="${2.0*lb}" />
-            <xacro:cylinder_inertia m="${2.0*lb}" r="${0.5*8*inch}" h="${2.0*inch}"/>
+            <xacro:sphere_inertia m="${2.0*lb}" r="${0.5*8*inch}"/>
         </inertial>
         <visual>
             <origin
@@ -520,8 +514,15 @@
                     filename="package://pwm_description/meshes/caster_fl_link.STL" />
             </geometry>
             -->
+
+            <!--
             <geometry>
                 <cylinder length="${2.0*inch}" radius="${0.5*8*inch}"/>
+            </geometry>
+            -->
+
+            <geometry>
+                <sphere radius="${0.5*8*inch}"/>
             </geometry>
         </collision>
     </link>
@@ -546,7 +547,7 @@
                 rpy="0 0 0" />
             <mass
                 value="${2.0*lb}" />
-            <xacro:cylinder_inertia m="${2.0*lb}" r="${0.5*8*inch}" h="${2.0*inch}"/>
+            <xacro:sphere_inertia m="${2.0*lb}" r="${0.5*8*inch}"/>
         </inertial>
         <visual>
             <origin
@@ -566,8 +567,14 @@
             <origin
                 xyz="0 0 0"
                 rpy="0 0 0" />
+
+            <!--
             <geometry>
                 <cylinder length="${2.0*inch}" radius="${0.5*8*inch}"/>
+            </geometry>
+            -->
+            <geometry>
+                <sphere radius="${0.5*8*inch}"/>
             </geometry>
         </collision>
     </link>
@@ -592,7 +599,7 @@
                 rpy="0 0 0" />
             <mass
                 value="${2.0*lb}" />
-            <xacro:cylinder_inertia m="${2.0*lb}" r="${0.5*8*inch}" h="${2.0*inch}"/>
+            <xacro:sphere_inertia m="${2.0*lb}" r="${0.5*8*inch}"/>
         </inertial>
         <visual>
             <origin
@@ -612,8 +619,13 @@
             <origin
                 xyz="0 0 0"
                 rpy="0 0 0" />
+            <!--
             <geometry>
                 <cylinder length="${2.0*inch}" radius="${0.5*8*inch}"/>
+            </geometry>
+            -->
+            <geometry>
+                <sphere radius="${0.5*8*inch}"/>
             </geometry>
         </collision>
     </link>
@@ -638,7 +650,7 @@
                 rpy="0 0 0" />
             <mass
                 value="${2.0*lb}" />
-            <xacro:cylinder_inertia m="${2.0*lb}" r="${0.5*8*inch}" h="${2.0*inch}"/>
+            <xacro:sphere_inertia m="${2.0*lb}" r="${0.5*8*inch}"/>
         </inertial>
         <visual>
             <origin
@@ -658,9 +670,15 @@
             <origin
                 xyz="0 0 0"
                 rpy="0 0 0" />
+            <!--
             <geometry>
                 <cylinder length="${2.0*inch}" radius="${0.5*8*inch}"/>
             </geometry>
+            -->
+            <geometry>
+                <sphere radius="${0.5*8*inch}"/>
+            </geometry>
+
         </collision>
     </link>
     <joint
@@ -678,6 +696,30 @@
     </joint>
 
     <!-- transmission -->
+    <transmission name="right_wheel_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <!--<type>hardware_interface</type>-->
+        <actuator name="right_wheel_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="right_wheel_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="left_wheel_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <!--<type>hardware_interface</type>-->
+        <actuator name="left_wheel_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="left_wheel_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
     <transmission name="seat_transmission">
         <type>transmission_interface/SimpleTransmission</type>
         <actuator name="seat_motor">
@@ -685,6 +727,17 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
         <joint name="seat_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="back_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="back_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="back_joint">
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
     </transmission>

@@ -1,16 +1,17 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:property name="wm1" value="1"/>
-    <xacro:property name="wm2" value="1"/>
-
+    <xacro:property name="wm1" value="1.5"/>
+    <xacro:property name="wm2" value="1.5"/>
     <xacro:property name="wkp" value="1e6"/>
-    <xacro:property name="wkd" value="1"/>
+    <xacro:property name="wkd" value="1e1"/>
 
     <xacro:property name="cm1" value="0"/>
     <xacro:property name="cm2" value="0"/>
-    <xacro:property name="ckp" value="1e6"/>
-    <xacro:property name="ckd" value="1"/>
+    <xacro:property name="ckp" value="3e6"/>
+    <xacro:property name="ckd" value="1e2"/>
+
+    <xacro:property name="min_depth" value="1e-3"/>
 
     <gazebo reference="right_wheel_link">
         <mu1 value="${wm1}"/>
@@ -18,18 +19,8 @@
         <kp value="${wkp}" />
         <kd value="${wkd}" />
         <!--<fdir1 value="1 0 0"/>-->
+        <minDepth value="${min_depth}"/>
     </gazebo>
-    <transmission name="right_wheel_transmission">
-        <type>transmission_interface/SimpleTransmission</type>
-        <!--<type>hardware_interface</type>-->
-        <actuator name="right_wheel_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-        <joint name="right_wheel_joint">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
-    </transmission>
 
     <gazebo reference="left_wheel_link">
         <mu1 value="${wm1}"/>
@@ -37,18 +28,8 @@
         <kp value="${wkp}" />
         <kd value="${wkd}" />
         <!--<fdir1 value="1 0 0"/>-->
+        <minDepth value="${min_depth}"/>
     </gazebo>
-    <transmission name="left_wheel_transmission">
-        <type>transmission_interface/SimpleTransmission</type>
-        <!--<type>hardware_interface</type>-->
-        <actuator name="left_wheel_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-        <joint name="left_wheel_joint">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
-    </transmission>
 
     <gazebo reference="caster_fl_link">
         <mu1 value="${cm1}"/>
@@ -56,6 +37,7 @@
         <kp value="${ckp}" />
         <kd value="${ckd}" />
         <!--<fdir1 value="1 0 0"/>-->
+        <minDepth value="${min_depth}"/>
     </gazebo>
     <gazebo reference="caster_fr_link">
         <mu1 value="${cm1}"/>
@@ -63,6 +45,7 @@
         <kp value="${ckp}" />
         <kd value="${ckd}" />
         <!--<fdir1 value="1 0 0"/>-->
+        <minDepth value="${min_depth}"/>
     </gazebo>
     <gazebo reference="caster_bl_link">
         <mu1 value="${cm1}"/>
@@ -70,6 +53,7 @@
         <kp value="${ckp}" />
         <kd value="${ckd}" />
         <!--<fdir1 value="1 0 0"/>-->
+        <minDepth value="${min_depth}"/>
     </gazebo>
     <gazebo reference="caster_br_link">
         <mu1 value="${cm1}"/>
@@ -77,6 +61,7 @@
         <kp value="${ckp}" />
         <kd value="${ckd}" />
         <!--<fdir1 value="1 0 0"/>-->
+        <minDepth value="${min_depth}"/>
     </gazebo>
 
     <gazebo>
