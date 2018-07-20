@@ -12,16 +12,12 @@ class PID(object):
         self._max_i = max_i
         self._prv_err = 0.0
         self._net_err = 0.0
-        self._last_ctrl = rospy.Time.now()
 
     def reset(self):
         self._prv_err = 0.0
         self._net_err = 0.0
 
-    def __call__(self, err):
-        # check dt correctness
-        now = rospy.Time.now()
-        dt = (now - self._last_ctrl).to_sec()
+    def __call__(self, err, dt=0.0):
         if dt <= 0:
             return 0
 
@@ -37,7 +33,6 @@ class PID(object):
         self._prv_err = err
         self._net_err += err * dt
         self._net_err = np.clip(self._net_err, -self._max_i, self._max_i)
-        self._last_ctrl = now
 
         return u
 
@@ -50,8 +45,9 @@ class VisualServo(object):
         self.move_pub = rospy.Publisher("/auto_cmd_vel", Twist, queue_size = 10)
 
         # default setpoint 1m from tag
-        self._offset = rospy.get_param('~offset', default=1.0)
+        self._offset  = rospy.get_param('~offset', default=1.0)
         self._timeout = rospy.get_param('~timeout', default=0.5)
+        self._rate    = rospy.get_praam('~rate', default=100)
 
         # initialize data
         self._tag_x = 0
@@ -62,11 +58,13 @@ class VisualServo(object):
         self._pid_w = PID(kp = 2.0) # TODO : configure kp/ki/kd/max_i
 
         # keep track of timestamps
-        self._last_tag = rospy.Time(0)
+        self._last_tag  = rospy.Time(0)
+        self._last_ctrl = rospy.Time(0)
 
     def tag_cb(self, msg):
         tags = msg.detections
         if len(tags) > 0:
+
             # unwrap data
             tag = tags[0]
             pose_stamped = tag.pose
@@ -82,6 +80,7 @@ class VisualServo(object):
     def step(self):
         now = rospy.Time.now()
         move_msg = Twist()
+
         if (now - self._last_tag).to_sec() > self._timeout:
             # publish == 0
             self.move_pub.publish(move_msg)
@@ -91,12 +90,15 @@ class VisualServo(object):
             a_err = (self._tag_a - 0.0)
 
             # compute control term
-            move_msg.linear.x  = self._pid_v(d_err)
-            move_msg.angular.z = self._pid_w(a_err)
+            dt = (now - self._last_ctrl).to_sec()
+            move_msg.linear.x  = self._pid_v(d_err, dt)
+            move_msg.angular.z = self._pid_w(a_err, dt)
             self.move_pub.publish(move_msg)
 
+        self._last_ctrl = now
+
     def run(self):
-        rate = rospy.Rate(100)
+        rate = rospy.Rate(self._rate)
         while not rospy.is_shutdown():
             self.step() # << where stuff happens
             rate.sleep()
