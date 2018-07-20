@@ -5,10 +5,16 @@ import numpy as np
 
 class PID(object):
     """ Simple PID controller """
-    def __init__(self, kp=1.0, ki=0.0, kd=0.0, max_i=10.0):
+    def __init__(self, kp=1.0, ki=0.0, kd=0.0, max_u=2.6, max_i=None):
         self._kp = kp
         self._ki = ki
         self._kd = kd
+        if max_i is None:
+            if np.abs(ki) < 1e-6:
+                max_i = 0.0
+            else:
+                max_i = np.abs(max_u / ki)
+        self._max_u = max_u
         self._max_i = max_i
         self._prv_err = 0.0
         self._net_err = 0.0
@@ -28,12 +34,12 @@ class PID(object):
 
         # control output
         u = (p + i + d)
+        u = np.clip(u, -self._max_u, self._max_u)
 
         # save persistent data
         self._prv_err = err
         self._net_err += err * dt
         self._net_err = np.clip(self._net_err, -self._max_i, self._max_i)
-
         return u
 
 class VisualServo(object):
