@@ -1,7 +1,12 @@
+#!/usr/bin/env python2
+
+# python imports
+import numpy as np
+
+# ros imports 
 import rospy
 from apriltags_ros.msg import AprilTagDetectionArray
 from geometry_msgs.msg import Twist
-import numpy as np
 
 # PID dynamic configuration
 from dynamic_reconfigure.server import Server
