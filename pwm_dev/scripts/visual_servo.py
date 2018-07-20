@@ -3,46 +3,107 @@ from apriltags_ros.msg import AprilTagDetectionArray
 from geometry_msgs.msg import Twist
 import numpy as np
 
+class PID(object):
+    """ Simple PID controller """
+    def __init__(self, kp=1.0, ki=0.0, kd=0.0, max_i=10.0):
+        self._kp = kp
+        self._ki = ki
+        self._kd = kd
+        self._max_i = max_i
+        self._prv_err = 0.0
+        self._net_err = 0.0
+        self._last_ctrl = rospy.Time.now()
+
+    def reset(self):
+        self._prv_err = 0.0
+        self._net_err = 0.0
+
+    def __call__(self, err):
+        # check dt correctness
+        now = rospy.Time.now()
+        dt = (now - self._last_ctrl).to_sec()
+        if dt <= 0:
+            return 0
+
+        # compute control output
+        p = self._kp * err
+        i = self._ki * self._net_err
+        d = (self._prv_err - err) / dt
+
+        # control output
+        u = (p + i + d)
+
+        # save persistent data
+        self._prv_err = err
+        self._net_err += err * dt
+        self._net_err = np.clip(self._net_err, -self._max_i, self._max_i)
+        self._last_ctrl = now
+
+        return u
+
 class VisualServo(object):
-	def __init__(self):
-		rospy.init_node('visual_servo')
-		self._sub = rospy.Subscriber('/tag_detections', AprilTagDetectionArray, self.tag_cb)
-		self.move_pub = rospy.Publisher("/auto_cmd_vel", Twist, queue_size = 10)
-		self.tag_x = 0
-		self.tag_z = 0
+    """ Visual Servoing Node """
+    def __init__(self):
+        # initialize handles
+        rospy.init_node('visual_servo')
+        self._sub = rospy.Subscriber('/tag_detections', AprilTagDetectionArray, self.tag_cb)
+        self.move_pub = rospy.Publisher("/auto_cmd_vel", Twist, queue_size = 10)
 
-	def tag_cb(self, msg):
-		tags = msg.detections
-		if len(tags) > 0:
-			tag = tags[0]
-			pose_stamped = tag.pose
-			pose = tag.pose.pose
-			self.tag_x = pose.position.x
-			self.tag_z = pose.position.z
+        # default setpoint 1m from tag
+        self._offset = rospy.get_param('~offset', default=1.0)
+        self._timeout = rospy.get_param('~timeout', default=0.5)
 
-	def step(self):
-		z_dist = 0.5
+        # initialize data
+        self._tag_x = 0
+        self._tag_z = 0
 
-		tag_angle_offset = np.arctan2(self.tag_x, self.tag_z)
-		tag_angle_threshold = np.deg2rad(5)
+        # instantiate controller
+        self._pid_v = PID(kp = 0.1) # TODO : configure kp/ki/kd/max_i
+        self._pid_w = PID(kp = 2.0) # TODO : configure kp/ki/kd/max_i
 
-		move_msg = Twist()
+        # keep track of timestamps
+        self._last_tag = rospy.Time(0)
 
-		if np.abs(tag_angle_offset) >= tag_angle_threshold or self.tag_z >= z_dist:
-			move_msg.angular.z = - 2.0 * tag_angle_offset
-			move_msg.linear.x = 0.1 * self.tag_z
+    def tag_cb(self, msg):
+        tags = msg.detections
+        if len(tags) > 0:
+            # unwrap data
+            tag = tags[0]
+            pose_stamped = tag.pose
+            pose = pose_stamped.pose
+            x = pose.position.x
+            z = pose.position.z
 
-		self.move_pub.publish(move_msg)
+            # save data (in polar form)
+            self._tag_d = np.sqrt(x**2 + z**2)
+            self._tag_a = np.arctan2(-x, z)
+            self._last_tag = rospy.Time.now()
 
-	def run(self):
-		rate = rospy.Rate(100)
-		while not rospy.is_shutdown():
-			self.step() # << where stuff happens
-			rate.sleep()
+    def step(self):
+        now = rospy.Time.now()
+        move_msg = Twist()
+        if (now - self._last_tag).to_sec() > self._timeout:
+            # publish == 0
+            self.move_pub.publish(move_msg)
+        else:
+            # compute error
+            d_err = (self._tag_d - self._offset)
+            a_err = (self._tag_a - 0.0)
+
+            # compute control term
+            move_msg.linear.x  = self._pid_v(d_err)
+            move_msg.angular.z = self._pid_w(a_err)
+            self.move_pub.publish(move_msg)
+
+    def run(self):
+        rate = rospy.Rate(100)
+        while not rospy.is_shutdown():
+            self.step() # << where stuff happens
+            rate.sleep()
 
 def main():
-	app = VisualServo()
-	app.run()
+    app = VisualServo()
+    app.run()
 
 if __name__ == "__main__":
-	main()
+    main()

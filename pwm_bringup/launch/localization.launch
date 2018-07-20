@@ -10,9 +10,11 @@
 		<arg name="rtabmapviz" value="false"/>
         <arg name="frame_id" value="base_footprint"/>
 
-        <!-- use lidar info -->
+        <!-- TODO : use lidar info -->
+        <!--
         <arg name="subscribe_scan" value="true"/>
         <arg name="scan_topic" value="/scan"/>
+        -->
         <!-- TODO : filter legs / obstacles out -->
 	</include>
 </launch>

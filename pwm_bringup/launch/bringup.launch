@@ -1,4 +1,5 @@
 <launch>
+    <!-- Arbitration -->
 	<node pkg="pwm_dev" type="select_mode.py" name="select_mode">
 	</node>
 
