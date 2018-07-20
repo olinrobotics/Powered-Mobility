@@ -30,7 +30,7 @@ class PID(object):
         # compute control output
         p = self._kp * err
         i = self._ki * self._net_err
-        d = (self._prv_err - err) / dt
+        d = self._kd * (self._prv_err - err) / dt
 
         # control output
         u = (p + i + d)
