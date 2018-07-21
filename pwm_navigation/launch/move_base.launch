@@ -10,8 +10,10 @@
 		<rosparam file="$(find pwm_navigation)/config/move_base.yaml" command="load" />
 
 		<remap from="cmd_vel" to="cmd_vel"/>
-		<remap from="odom" to="odom"/>
 		<remap from="scan" to="/scan"/>
+
+		<remap from="odom" to="/rtabmap/odom"/>
+		<remap from="map" to="/rtabmap/grid_map"/>
 
 		<param name="base_global_planner" type="string" value="navfn/NavfnROS" />
 		<param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>

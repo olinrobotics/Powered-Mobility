@@ -1,20 +1,19 @@
 <launch>
 	<include file="$(find rtabmap_ros)/launch/rtabmap.launch">
+		<arg name="rtabmapviz" value="false"/>
+		<arg name="rviz" value="false"/>
+		<arg name="use_sim_time" value="true"/> <!-- for now -->
+
+		<arg name="frame_id" value="base_footprint"/>
 		<arg name="args" value="--delete_db_on_start"/>
 
 		<arg name="rgb_topic" value="/camera/color/image_raw"/>
 		<arg name="depth_topic" value="/camera/aligned_depth_to_color/image_raw"/>
 		<arg name="camera_info_topic" value="/camera/color/camera_info"/>
-        <!-- arg name="depth_camera_info_topic" value=""/> -->
 
-		<arg name="rtabmapviz" value="false"/>
-        <arg name="frame_id" value="base_footprint"/>
+		<arg name="visual_odometry" value="true"/>
+		<arg name="icp_odometry" value="false"/>
+		<arg name="subscribe_scan" value="false"/>
 
-        <!-- TODO : use lidar info -->
-        <!--
-        <arg name="subscribe_scan" value="true"/>
-        <arg name="scan_topic" value="/scan"/>
-        -->
-        <!-- TODO : filter legs / obstacles out -->
 	</include>
 </launch>
