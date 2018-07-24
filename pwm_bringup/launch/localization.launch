@@ -1,20 +1,26 @@
 <launch>
-	<include file="$(find rtabmap_ros)/launch/rtabmap.launch">
-		<arg name="args" value="--delete_db_on_start"/>
-
-		<arg name="rgb_topic" value="/camera/color/image_raw"/>
-		<arg name="depth_topic" value="/camera/aligned_depth_to_color/image_raw"/>
-		<arg name="camera_info_topic" value="/camera/color/camera_info"/>
-        <!-- arg name="depth_camera_info_topic" value=""/> -->
-
-		<arg name="rtabmapviz" value="false"/>
-        <arg name="frame_id" value="base_footprint"/>
-
-        <!-- TODO : use lidar info -->
-        <!--
-        <arg name="subscribe_scan" value="true"/>
-        <arg name="scan_topic" value="/scan"/>
+    <!--
+    <node pkg="tf" type="static_transform_publisher" name="scanmatcher_to_base_footprint" 
+        args="0.0 0.0 0.0 0.0 0.0 0.0 /scanmatcher_frame /base_footprint 100" />
         -->
-        <!-- TODO : filter legs / obstacles out -->
-	</include>
+
+    <include file="$(find pwm_navigation)/launch/rtabmap.launch">
+
+        <arg name="rtabmapviz" value="false"/>
+        <arg name="rviz" value="false"/>
+
+        <arg name="frame_id" value="base_footprint"/>
+        <arg name="args" value="--delete_db_on_start"/>
+
+        <arg name="rgb_topic" value="/camera/color/image_raw"/>
+        <arg name="depth_topic" value="/camera/aligned_depth_to_color/image_raw"/>
+        <arg name="camera_info_topic" value="/camera/color/camera_info"/>
+
+        <arg name="visual_odometry" value="false"/>
+        <arg name="icp_odometry" value="false"/>
+        <arg name="subscribe_scan" value="true"/>
+        <!--<arg name="odom_topic" value="/scanmatch_odom"/>-->
+		<arg name="odom_topic" value="/odom"/>
+
+    </include>
 </launch>

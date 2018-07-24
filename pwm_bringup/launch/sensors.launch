@@ -12,12 +12,4 @@
 		<param name="port" value="/dev/gps"/>
 	</node>
 
-	<!-- Arduino (IMU / Sonar) -->
-	<!-- TODO : update udev when Arduino Due is connected -->
-	<!--
-	<node pkg="rosserial_python" type="serial_node" name="arduino">
-		<param name="port" value="/dev/arduino"/>
-	</node>
-	-->
-
 </launch>
