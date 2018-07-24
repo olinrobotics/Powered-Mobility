@@ -73,7 +73,7 @@
 
     <!-- sensors -->
     <!-- TODO : match UST-10LX params -->
-    <gazebo reference="lidar_link">
+    <gazebo reference="laser">
         <sensor type="ray" name="lidar">
             <pose>0 0 0 0 0 0</pose>
             <visualize>true</visualize> <!-- ?? -->
@@ -100,7 +100,7 @@
             </ray>
             <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
                 <topicName>scan</topicName>
-                <frameName>lidar_link</frameName>
+                <frameName>laser</frameName>
             </plugin>
         </sensor>
     </gazebo>
@@ -120,7 +120,7 @@
                 </image>
                 <clip>
                     <near>0.05</near>
-                    <far>8.0</far>
+                    <far>100.0</far>
                 </clip>
                 <!-- WARNING : no noise in depth -->
                 <noise>
@@ -139,7 +139,7 @@
                 <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
                 <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
                 <frameName>camera_optical</frameName>
-                <baseline>0.1</baseline>
+                <baseline>0.05</baseline>
                 <distortion_k1>0.0</distortion_k1>
                 <distortion_k2>0.0</distortion_k2>
                 <distortion_k3>0.0</distortion_k3>
