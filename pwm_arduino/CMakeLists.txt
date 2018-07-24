@@ -210,5 +210,5 @@ rosserial_configure_client(
     TOOLCHAIN_FILE ${ROSSERIAL_ARDUINO_TOOLCHAIN}
         )
 
-rosserial_add_client_target(firmware pwm_arduino_driver ALL)
-rosserial_add_client_target(firmware pwm_arduino_driver-upload)
+#rosserial_add_client_target(firmware pwm_arduino_driver ALL)
+#rosserial_add_client_target(firmware pwm_arduino_driver-upload)
