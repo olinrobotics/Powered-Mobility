@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   rosserial_arduino
+  rosserial_client
   rosserial_python
 )
 
@@ -198,3 +199,16 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+
+rosserial_generate_ros_lib(
+    PACKAGE rosserial_arduino
+    SCRIPT make_libraries.py
+    )
+rosserial_configure_client(
+    DIRECTORY firmware
+    TOOLCHAIN_FILE ${ROSSERIAL_ARDUINO_TOOLCHAIN}
+        )
+
+rosserial_add_client_target(firmware pwm_arduino_driver ALL)
+rosserial_add_client_target(firmware pwm_arduino_driver-upload)
