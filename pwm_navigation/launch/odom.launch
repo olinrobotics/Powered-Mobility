@@ -1,0 +1,57 @@
+<launch>
+     <!-- use libpointmatcher to handle PointToPlane with 2d scans-->
+    <!--
+  <node pkg="rtabmap_ros" type="icp_odometry" name="icp_odometry" output="screen" >
+     <remap from="scan"      to="/scan"/>
+	 <remap from="odom"      to="/odom"/>
+	 <remap from="odom_info"      to="/rtabmap/odom_info"/>
+	  
+     <param name="frame_id"        type="string" value="base_footprint"/>   
+     
+     <param name="Icp/PointToPlane"  type="string" value="false"/>
+     <param name="Icp/VoxelSize"     type="string" value="0.05"/>
+     <param name="Icp/Epsilon"       type="string" value="0.001"/>
+     <param name="Icp/PointToPlaneK"  type="string" value="5"/>
+     <param name="Icp/PointToPlaneRadius"  type="string" value="0.3"/>
+     <param name="Icp/MaxCorrespondenceDistance" type="string" value="0.1"/>
+     <param name="Icp/PM"             type="string" value="true"/>
+     <param name="Icp/PMOutlierRatio" type="string" value="0.95"/>
+     <param name="Odom/Strategy"        type="string" value="0"/>
+     <param name="Odom/GuessMotion"     type="string" value="true"/>
+     <param name="Odom/ResetCountdown"  type="string" value="0"/>
+     <param name="Odom/ScanKeyFrameThr"  type="string" value="0.9"/>
+  </node>
+  -->
+
+  <node pkg="rtabmap_ros" type="rgbdicp_odometry" name="icp_odometry" output="screen" >
+     <remap from="scan"      to="/scan"/>
+     <remap from="odom"      to="/rtabmap/odom"/>
+	 <remap from="odom_info"      to="/rtabmap/odom_info"/>
+
+     <remap from="/rgb/image" to="/camera/color/image_raw"/>
+     <remap from="/depth/image" to="/camera/aligned_depth_to_color/image_raw"/>
+     <remap from="/rgb/camera_info" to="/camera/color/camera_info"/>
+	  
+     <param name="frame_id"        type="string" value="base_footprint"/>   
+     
+     <param name="Icp/PointToPlane"  type="string" value="false"/>
+     <param name="Icp/VoxelSize"     type="string" value="0.05"/>
+     <param name="Icp/Epsilon"       type="string" value="0.001"/>
+     <param name="Icp/PointToPlaneK"  type="string" value="5"/>
+     <param name="Icp/PointToPlaneRadius"  type="string" value="0.3"/>
+     <param name="Icp/MaxCorrespondenceDistance" type="string" value="0.1"/>
+     <param name="Icp/PM"             type="string" value="true"/>
+     <param name="Icp/PMOutlierRatio" type="string" value="0.95"/>
+
+     <param name="Odom/Strategy"        type="string" value="0"/>
+     <param name="Odom/GuessMotion"     type="string" value="true"/>
+     <param name="Odom/ResetCountdown"  type="string" value="3"/>
+     <param name="Odom/ScanKeyFrameThr"  type="string" value="0.9"/>
+     <param name="Odom/Holonomic" value="false"/>
+
+     <param name="Reg/Force3DoF" value="true"/>
+     <param name="Reg/Strategy" value="2"/>
+
+  </node>
+
+</launch>

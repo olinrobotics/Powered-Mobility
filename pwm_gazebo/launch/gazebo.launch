@@ -10,7 +10,8 @@
 	<arg name="debug" default="false"/>
 	<arg name="physics" default="ode"/>
 	<arg name="verbose" default="false"/>
-	<arg name="world_name" default="$(find pwm_description)/config/simple_2.world"/>
+	<arg name="world_name" default="$(find pwm_gazebo)/world/simple_2.world"/>
+
     <!--
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/elevation.world"/>
     -->
