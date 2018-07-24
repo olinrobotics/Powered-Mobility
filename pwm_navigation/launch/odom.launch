@@ -25,7 +25,7 @@
 
   <node pkg="rtabmap_ros" type="rgbdicp_odometry" name="icp_odometry" output="screen" >
      <remap from="scan"      to="/scan"/>
-     <remap from="odom"      to="/rtabmap/odom"/>
+     <remap from="odom"      to="/odom"/>
 	 <remap from="odom_info"      to="/rtabmap/odom_info"/>
 
      <remap from="/rgb/image" to="/camera/color/image_raw"/>
@@ -43,15 +43,16 @@
      <param name="Icp/PM"             type="string" value="true"/>
      <param name="Icp/PMOutlierRatio" type="string" value="0.95"/>
 
-     <param name="Odom/Strategy"        type="string" value="0"/>
-     <param name="Odom/GuessMotion"     type="string" value="true"/>
+     <param name="Odom/Strategy"        type="string" value="1"/>
      <param name="Odom/ResetCountdown"  type="string" value="3"/>
      <param name="Odom/ScanKeyFrameThr"  type="string" value="0.9"/>
+	 <param name="Odom/FilteringStrategy" type="string" value="0"/> <!-- PF -->
+     <param name="Odom/GuessMotion"     type="string" value="false"/>
      <param name="Odom/Holonomic" value="false"/>
+	 <param name="Vis/CorType" value="1"/>
 
      <param name="Reg/Force3DoF" value="true"/>
      <param name="Reg/Strategy" value="2"/>
-
   </node>
 
 </launch>
