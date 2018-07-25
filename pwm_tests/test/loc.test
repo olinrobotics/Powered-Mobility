@@ -1,20 +1,19 @@
 <launch>
-    <!--
-    <include file="$(pwm_gazebo)/launch/gazebo.launch">
-        <arg name="gui" value="false"/>
-    </include>
-    -->
-    <!--<test test-name="test_nav" pkg="pwm_tests" type="test_nav" />-->
-    <test name="publishtest" test-name="publishtest"
-        pkg="rostest" type="publishtest">
-        <rosparam>
-            topics:
-              - name: a/output
-                timeout: 1.0
-                negative: False
-              - name: a/output
-                timeout: 1.0
-                negative: False
-        </rosparam>
-    </test>
+	<include file="$(find pwm_gazebo)/launch/gazebo.launch">
+		<arg name="gui" value="false"/>
+	</include>
+
+	<include file="$(find pwm_localization)/launch/localization.launch">
+	</include>
+
+	<!--
+	<include file="$(find pwm_navigation)/launch/move_base.launch">
+	</include>
+	-->
+
+	<!--<test test-name="test_nav" pkg="pwm_tests" type="test_nav" />-->
+	<test name="data_test" test-name="data_test"
+		pkg="rostest" type="publishtest">
+		<rosparam command="load" file="$(find pwm_tests)/config/data_test.yaml"/>
+	</test>
 </launch>
