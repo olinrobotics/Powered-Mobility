@@ -5,13 +5,15 @@
 #define FRAME_FRONT "/sonar_front"
 #define FRAME_BACK "/sonar_back"
 #define PIN_BACK 7
-#define PIN_FRONT 4
+#define PIN_FRONT 2
 
 ros::NodeHandle  nh;
 
-sensor_msgs::Range range_msg;
-ros::Publisher pub_front("sonar_front", &range_msg);
-ros::Publisher pub_back("sonar_back", &range_msg);
+sensor_msgs::Range range_front_msg;
+sensor_msgs::Range range_back_msg;
+
+ros::Publisher pub_front("sonar_front", &range_front_msg);
+ros::Publisher pub_back("sonar_back", &range_back_msg);
 
 unsigned long range_timer;
 
@@ -28,11 +30,17 @@ void setup()
     nh.advertise(pub_front);
     nh.advertise(pub_back);
 
-    range_msg.radiation_type = sensor_msgs::Range::ULTRASOUND;
-    range_msg.header.frame_id = "";
-    range_msg.field_of_view = 1.04;
-    range_msg.min_range = 0.15;
-    range_msg.max_range = 6.0;
+    range_front_msg.radiation_type = sensor_msgs::Range::ULTRASOUND;
+    range_front_msg.header.frame_id = "";
+    range_front_msg.field_of_view = 1.04;
+    range_front_msg.min_range = 0.15;
+    range_front_msg.max_range = 6.0;
+
+    range_back_msg.radiation_type = sensor_msgs::Range::ULTRASOUND;
+    range_back_msg.header.frame_id = "";
+    range_back_msg.field_of_view = 1.04;
+    range_back_msg.min_range = 0.15;
+    range_back_msg.max_range = 6.0;
 }
 
 void loop()
@@ -43,15 +51,16 @@ void loop()
         float d_back = getRange(PIN_BACK);
         float d_front = getRange(PIN_FRONT);
 
-        range_msg.header.stamp = nh.now();
+        range_front_msg.header.stamp = nh.now();
+        range_back_msg.header.stamp = nh.now();
 
-        range_msg.range = d_back;
-        range_msg.header.frame_id = FRAME_BACK;
-        pub_back.publish(&range_msg);
+        range_back_msg.range = d_back;
+        range_back_msg.header.frame_id = FRAME_BACK;
+        pub_back.publish(&range_back_msg);
 
-        range_msg.range = d_front;
-        range_msg.header.frame_id = FRAME_FRONT;
-        pub_front.publish(&range_msg);
+        range_front_msg.range = d_front;
+        range_front_msg.header.frame_id = FRAME_FRONT;
+        pub_front.publish(&range_front_msg);
 
         range_timer =  millis();
     }
