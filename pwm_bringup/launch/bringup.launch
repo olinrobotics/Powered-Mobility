@@ -15,4 +15,5 @@
     <include file="$(find pwm_bringup)/launch/sensors.launch"/>
     <include file="$(find pwm_bringup)/launch/joy.launch"/>
 	<include file="$(find pwm_arduino)/launch/arduino.launch"/>
+    <include file="$(find pwm_localization)/launch/localization.launch"/>
 </launch>
