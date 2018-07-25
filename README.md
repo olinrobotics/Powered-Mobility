@@ -10,6 +10,13 @@ Olin LAIR(Laboratory for Adaptation, Inclusion and Robotics)
 
 - [ROS Kinetic Kame](http://wiki.ros.org/kinetic)
 - [Python 2.7](https://www.python.org/download/releases/2.7/)
+- [Catkin Tools](http://catkin-tools.readthedocs.io/en/latest/)
+
+The following command will install most system/ros dependencies in the machine:
+
+```bash
+rosdep install --from-path ~/catkin_ws/src/Powered-Mobility --ignore-src
+```
 
 ## Setup Udev Rules
 
