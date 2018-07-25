@@ -62,6 +62,7 @@
     <exec_depend>amcl</exec_depend>
     <exec_depend>roscpp</exec_depend>
     <exec_depend>rospy</exec_depend>
+	<exec_depend>explore_lite</exec_depend>
 
 	<depend>move_base</depend>
 
