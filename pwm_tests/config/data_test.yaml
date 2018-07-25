@@ -1,0 +1,16 @@
+topics:
+    - name: /camera/color/camera_info
+      timeout: 5.0
+      negative: False
+    - name: /camera/color/image_raw
+      timeout: 5.0
+      negative: False
+    - name: /camera/depth/camera_info
+      timeout: 5.0
+      negative: False
+    - name: /camera/depth/points
+      timeout: 5.0
+      negative: False
+    - name: /scan
+      timeout: 5.0
+      negative: False
