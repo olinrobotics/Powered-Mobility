@@ -1,4 +1,5 @@
 <launch>
+    <include file="$(find pwm_localization)/launch/odom.launch"/>
     <include file="$(find pwm_localization)/launch/rtabmap.launch">
 
         <arg name="rtabmapviz" value="false"/>
@@ -11,10 +12,7 @@
         <arg name="depth_topic" value="/camera/aligned_depth_to_color/image_raw"/>
         <arg name="camera_info_topic" value="/camera/color/camera_info"/>
 
-        <arg name="visual_odometry" value="false"/>
-        <arg name="icp_odometry" value="false"/>
         <arg name="subscribe_scan" value="true"/>
-        <!--<arg name="odom_topic" value="/scanmatch_odom"/>-->
 		<arg name="odom_topic" value="/odom"/>
 
     </include>
