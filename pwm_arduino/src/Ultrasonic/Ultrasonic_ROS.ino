@@ -5,7 +5,7 @@
 #define FRAME_FRONT "/sonar_front"
 #define FRAME_BACK "/sonar_back"
 #define PIN_BACK 7
-#define PIN_FRONT 4
+#define PIN_FRONT 2
 
 ros::NodeHandle  nh;
 
