@@ -1,8 +1,9 @@
-
 #include <ros.h>
 #include <ros/time.h>
 #include <sensor_msgs/Imu.h>
 #include "IMUHandle.h"
+
+#define G_TO_M 9.81
 
 ros::NodeHandle nh;
 sensor_msgs::Imu imu_msg;
@@ -37,17 +38,17 @@ void loop()
   imu_msg.orientation_covariance[4] = 0.01;
   imu_msg.orientation_covariance[8] = 0.01;
 
-  imu_msg.angular_velocity.x = imu.myIMU.gx;
-  imu_msg.angular_velocity.y = imu.myIMU.gy;
-  imu_msg.angular_velocity.z = imu.myIMU.gz;
+  imu_msg.angular_velocity.x = imu._device.gx * DEG_TO_RAD;
+  imu_msg.angular_velocity.y = imu._device.gy * DEG_TO_RAD;
+  imu_msg.angular_velocity.z = imu._device.gz * DEG_TO_RAD;
 
   imu_msg.angular_velocity_covariance[0] = 0.01;
   imu_msg.angular_velocity_covariance[4] = 0.01;
   imu_msg.angular_velocity_covariance[8] = 0.01;
 
-  imu_msg.linear_acceleration.x = imu.myIMU.ax;
-  imu_msg.linear_acceleration.y = imu.myIMU.ay;
-  imu_msg.linear_acceleration.z = imu.myIMU.az;
+  imu_msg.linear_acceleration.x = imu._device.ax * G_TO_M;
+  imu_msg.linear_acceleration.y = imu._device.ay * G_TO_M;
+  imu_msg.linear_acceleration.z = imu._device.az * G_TO_M;
 
   imu_msg.linear_acceleration_covariance[0] = 0.01;
   imu_msg.linear_acceleration_covariance[4] = 0.01;

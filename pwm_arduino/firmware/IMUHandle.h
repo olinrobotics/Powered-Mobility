@@ -30,39 +30,39 @@ struct IMUHandle {
 
   float qx, qy, qz, qw;
 
-  MPU9250 myIMU;
+  MPU9250 _device;
 
   IMUHandle(const int intPin):
     intPin(intPin), calibrate(false), ahrs(false) {
     // todo : handle calibration requests
-
   }
+
   void setup() {
     // begin communication ...
     Wire.begin();
     pinMode(intPin, INPUT);
 
     // verification ...
-    byte c = myIMU.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
+    byte c = _device.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
     if (c == 0x71) {
       if (calibrate) {
-        myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias);
+        _device.calibrateMPU9250(_device.gyroBias, _device.accelBias);
       }
-      myIMU.initMPU9250();
+      _device.initMPU9250();
 
-      byte d = myIMU.readByte(AK8963_ADDRESS, WHO_AM_I_AK8963);
+      byte d = _device.readByte(AK8963_ADDRESS, WHO_AM_I_AK8963);
       if (d == 0x48) {
         // Get magnetometer calibration from AK8963 ROM
-        myIMU.initAK8963(myIMU.factoryMagCalibration);
+        _device.initAK8963(_device.factoryMagCalibration);
       } // else fail
 
       // Get sensor resolutions, only need to do this once
-      myIMU.getAres();
-      myIMU.getGres();
-      myIMU.getMres();
+      _device.getAres();
+      _device.getGres();
+      _device.getMres();
 
       if (calibrate) {
-        myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
+        _device.magCalMPU9250(_device.magBias, _device.magScale);
       }
     } // else fail
 
@@ -72,42 +72,42 @@ struct IMUHandle {
   void read() {
     // If intPin goes high, all data registers have new data
     // On interrupt, check if data ready interrupt
-    if (myIMU.readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01)
+    if (_device.readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01)
     {
-      myIMU.readAccelData(myIMU.accelCount);  // Read the x/y/z adc values
+      _device.readAccelData(_device.accelCount);  // Read the x/y/z adc values
 
       // TODO : handle accel Bias?
 
       // Now we'll calculate the accleration value into actual g's
       // This depends on scale being set
-      myIMU.ax = (float)myIMU.accelCount[0] * myIMU.aRes; // - myIMU.accelBias[0];
-      myIMU.ay = (float)myIMU.accelCount[1] * myIMU.aRes; // - myIMU.accelBias[1];
-      myIMU.az = (float)myIMU.accelCount[2] * myIMU.aRes; // - myIMU.accelBias[2];
+      _device.ax = (float)_device.accelCount[0] * _device.aRes; // - _device.accelBias[0];
+      _device.ay = (float)_device.accelCount[1] * _device.aRes; // - _device.accelBias[1];
+      _device.az = (float)_device.accelCount[2] * _device.aRes; // - _device.accelBias[2];
 
-      myIMU.readGyroData(myIMU.gyroCount);  // Read the x/y/z adc values
+      _device.readGyroData(_device.gyroCount);  // Read the x/y/z adc values
 
       // Calculate the gyro value into actual degrees per second
       // This depends on scale being set
-      myIMU.gx = (float)myIMU.gyroCount[0] * myIMU.gRes;
-      myIMU.gy = (float)myIMU.gyroCount[1] * myIMU.gRes;
-      myIMU.gz = (float)myIMU.gyroCount[2] * myIMU.gRes;
+      _device.gx = (float)_device.gyroCount[0] * _device.gRes;
+      _device.gy = (float)_device.gyroCount[1] * _device.gRes;
+      _device.gz = (float)_device.gyroCount[2] * _device.gRes;
 
-      myIMU.readMagData(myIMU.magCount);  // Read the x/y/z adc values
+      _device.readMagData(_device.magCount);  // Read the x/y/z adc values
 
       // Calculate the magnetometer values in milliGauss
       // Include factory calibration per data sheet and user environmental
       // corrections
       // Get actual magnetometer value, this depends on scale being set
-      myIMU.mx = (float)myIMU.magCount[0] * myIMU.mRes
-                 * myIMU.factoryMagCalibration[0] - myIMU.magBias[0];
-      myIMU.my = (float)myIMU.magCount[1] * myIMU.mRes
-                 * myIMU.factoryMagCalibration[1] - myIMU.magBias[1];
-      myIMU.mz = (float)myIMU.magCount[2] * myIMU.mRes
-                 * myIMU.factoryMagCalibration[2] - myIMU.magBias[2];
+      _device.mx = (float)_device.magCount[0] * _device.mRes
+                 * _device.factoryMagCalibration[0] - _device.magBias[0];
+      _device.my = (float)_device.magCount[1] * _device.mRes
+                 * _device.factoryMagCalibration[1] - _device.magBias[1];
+      _device.mz = (float)_device.magCount[2] * _device.mRes
+                 * _device.factoryMagCalibration[2] - _device.magBias[2];
     } // if (readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01)
 
     // Must be called before updating quaternions!
-    myIMU.updateTime();
+    _device.updateTime();
 
     // Sensors x (y)-axis of the accelerometer is aligned with the y (x)-axis of
     // the magnetometer; the magnetometer z-axis (+ down) is opposite to z-axis
@@ -117,9 +117,9 @@ struct IMUHandle {
     // along the x-axis just like in the LSM9DS0 sensor. This rotation can be
     // modified to allow any convenient orientation convention. This is ok by
     // aircraft orientation standards! Pass gyro rate as rad/s
-    MahonyQuaternionUpdate(myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx * DEG_TO_RAD,
-                           myIMU.gy * DEG_TO_RAD, myIMU.gz * DEG_TO_RAD, myIMU.my,
-                           myIMU.mx, myIMU.mz, myIMU.deltat);
+    MahonyQuaternionUpdate(_device.ax, _device.ay, _device.az, _device.gx * DEG_TO_RAD,
+                           _device.gy * DEG_TO_RAD, _device.gz * DEG_TO_RAD, _device.my,
+                           _device.mx, _device.mz, _device.deltat);
     qw = *getQ();
     qx = *(getQ() + 1);
     qy = *(getQ() + 2);
@@ -127,29 +127,29 @@ struct IMUHandle {
 
     if (!ahrs)
     {
-      myIMU.delt_t = millis() - myIMU.count;
-      if (myIMU.delt_t > 500)
+      _device.delt_t = millis() - _device.count;
+      if (_device.delt_t > 500)
       {
         // acc (ax-ay-az) in G
         // gyro (gx-gy-gz) is in deg/sec
         // mag (mx-my-mz) in mG
-        myIMU.tempCount = myIMU.readTempData();  // Read the adc values
+        _device.tempCount = _device.readTempData();  // Read the adc values
         // Temperature in degrees Centigrade
-        myIMU.temperature = ((float) myIMU.tempCount) / 333.87 + 21.0;
-        myIMU.count = millis();
-      } // if (myIMU.delt_t > 500)
+        _device.temperature = ((float) _device.tempCount) / 333.87 + 21.0;
+        _device.count = millis();
+      } // if (_device.delt_t > 500)
     } // if (!ahrs)
     else
     {
       // Serial print and/or display at 0.5 s rate independent of data rates
-      myIMU.delt_t = millis() - myIMU.count;
+      _device.delt_t = millis() - _device.count;
 
       // update LCD once per half-second independent of read rate
-      if (myIMU.delt_t > 500)
+      if (_device.delt_t > 500)
       {
-        myIMU.count = millis();
-        myIMU.sumCount = 0;
-        myIMU.sum = 0;
+        _device.count = millis();
+        _device.sumCount = 0;
+        _device.sum = 0;
       }
 
     }

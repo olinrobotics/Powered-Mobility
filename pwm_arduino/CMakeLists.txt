@@ -208,7 +208,12 @@ rosserial_generate_ros_lib(
 rosserial_configure_client(
     DIRECTORY firmware
     TOOLCHAIN_FILE ${ROSSERIAL_ARDUINO_TOOLCHAIN}
-        )
+)
 
-rosserial_add_client_target(firmware pwm_arduino_driver ALL)
-rosserial_add_client_target(firmware pwm_arduino_driver-upload)
+add_custom_target(pwm_arduino_update
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/firmware
+    COMMAND arduino --board arduino:sam:arduino_due_x_dbg --port /dev/ttyACM0 --upload firmware.ino
+)
+
+#rosserial_add_client_target(firmware pwm_arduino_driver ALL)
+#rosserial_add_client_target(firmware pwm_arduino_driver-upload)
