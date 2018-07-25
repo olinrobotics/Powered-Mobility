@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(pwm_gazebo)/launch/gazebo.launch">
+		<arg name="gui" value="false"/>
+	</include>
+	<test test-name="test_nav" pkg="pwm_tests" type="test_nav" />
+</launch>
