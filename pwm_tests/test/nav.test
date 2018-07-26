@@ -13,7 +13,7 @@
 	</include>
 
 	<test name="nav_test" test-name="nav_test"
-		pkg="rostest" type="publishtest">
+		pkg="rostest" type="publishtest" time-limit="2400.0">
 		<rosparam command="load" file="$(find pwm_tests)/config/nav_test.yaml"/>
 	</test>
 </launch>

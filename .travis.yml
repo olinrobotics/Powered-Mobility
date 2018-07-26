@@ -100,5 +100,5 @@ script:
     # Run the tests, ensuring the path is set correctly.
   - source devel/setup.bash
   - rospack profile
-  - catkin run_tests pwm_tests
+  - travis_wait 60 catkin run_tests pwm_tests
   - catkin_test_results ~/catkin_ws
