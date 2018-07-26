@@ -198,7 +198,7 @@ include_directories(
 # TODO : wait for gzserver shutdown as beginning of test
 if(CATKIN_ENABLE_TESTING)
 	find_package(rostest REQUIRED)
-	#add_rostest(test/data.test)
+	add_rostest(test/data.test)
 	#add_rostest(test/loc.test)
-	add_rostest(test/nav.test)
+	#add_rostest(test/nav.test)
 endif()
