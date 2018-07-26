@@ -194,6 +194,8 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
+# DO NOT run multiple tests, as waiting for gzserver shutdown had not been implemented
+# TODO : wait for gzserver shutdown as beginning of test
 if(CATKIN_ENABLE_TESTING)
 	find_package(rostest REQUIRED)
 	#add_rostest(test/data.test)
