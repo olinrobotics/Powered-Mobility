@@ -87,9 +87,9 @@ before_script:
   - source /opt/ros/$ROS_DISTRO/setup.bash
   - source devel/setup.bash
   - rospack profile
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 10
+  - export DISPLAY=:0.0
+    # - sh -e /etc/init.d/xvfb start
+    # - sleep 10
   - glxinfo
 
 # Compile and test (mark the build as failed if any step fails)
@@ -98,7 +98,7 @@ script:
   - cd ~/catkin_ws
   - catkin build
     # Run the tests, ensuring the path is set correctly.
-    # - source devel/setup.bash
-    # - rospack profile
-    # - catkin run_tests
-    # - catkin_test_results
+  - source devel/setup.bash
+  - rospack profile
+  - catkin run_tests
+  - catkin_test_results
