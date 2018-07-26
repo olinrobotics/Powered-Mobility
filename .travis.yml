@@ -89,6 +89,7 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 10
+  - glxinfo
 
 # Compile and test (mark the build as failed if any step fails)
 # TODO : add install targets and tests
