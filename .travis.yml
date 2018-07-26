@@ -47,6 +47,7 @@ before_install:
   - sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg -y
 
     # Other Tools
+  - sudo apt-get install mesa-utils -y
   - sudo apt-get install jq dtrx wget -y
 
   - source /opt/ros/$ROS_DISTRO/setup.bash
