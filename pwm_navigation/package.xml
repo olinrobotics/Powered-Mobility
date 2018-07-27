@@ -1,28 +1,32 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>pwm_description</name>
+    <name>pwm_navigation</name>
     <version>0.0.0</version>
-    <description>The pwm_description package</description>
+    <description>navigation-related configurations and development package for the Powered Mobility Project</description>
+
     <!-- One maintainer tag required, multiple allowed, one person per tag -->
     <!-- Example:  -->
     <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
     <maintainer email="yoonyoung.cho@students.olin.edu">Jamie Cho</maintainer>
+
 
     <!-- One license tag required, multiple allowed, one license per tag -->
     <!-- Commonly used license strings: -->
     <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
     <license>MIT</license>
 
+
     <!-- Url tags are optional, but multiple are allowed, one per tag -->
     <!-- Optional attribute type can be: website, bugtracker, or repository -->
     <!-- Example: -->
-    <!-- <url type="website">http://wiki.ros.org/pwm_description</url> -->
+    <!-- <url type="website">http://wiki.ros.org/pwm_navigation</url> -->
 
 
     <!-- Author tags are optional, multiple are allowed, one per tag -->
     <!-- Authors do not have to be maintainers, but could be -->
     <!-- Example: -->
     <!-- <author email="jane.doe@example.com">Jane Doe</author> -->
+    <author email="yoonyoung.cho@students.olin.edu">Jamie Cho</author>
 
 
     <!-- The *depend tags are used to specify dependencies -->
@@ -46,35 +50,25 @@
     <!-- Use doc_depend for packages you need only for building documentation: -->
     <!--   <doc_depend>doxygen</doc_depend> -->
     <buildtool_depend>catkin</buildtool_depend>
+
+    <build_depend>amcl</build_depend>
     <build_depend>roscpp</build_depend>
     <build_depend>rospy</build_depend>
-    <build_depend>rviz</build_depend>
-    <build_depend>tf</build_depend>
-    <build_depend>sensor_msgs</build_depend>
-    <build_depend>message_filters</build_depend>
-    <build_depend>laser_geometry</build_depend>
 
+    <build_export_depend>amcl</build_export_depend>
     <build_export_depend>roscpp</build_export_depend>
     <build_export_depend>rospy</build_export_depend>
-    <build_export_depend>rviz</build_export_depend>
-    <build_export_depend>tf</build_export_depend>
-    <build_export_depend>sensor_msgs</build_export_depend>
-    <build_export_depend>message_filters</build_export_depend>
-    <build_export_depend>laser_geometry</build_export_depend>
 
+    <exec_depend>amcl</exec_depend>
     <exec_depend>roscpp</exec_depend>
     <exec_depend>rospy</exec_depend>
-    <exec_depend>rviz</exec_depend>
-    <exec_depend>tf</exec_depend>
-    <exec_depend>sensor_msgs</exec_depend>
-    <exec_depend>message_filters</exec_depend>
-    <exec_depend>laser_geometry</exec_depend>
-	<exec_depend>robot_state_publisher</exec_depend>
+	<exec_depend>explore_lite</exec_depend>
 
-    <exec_depend>xacro</exec_depend>
+	<depend>move_base</depend>
 
     <!-- The export tag contains other, unspecified, tags -->
     <export>
         <!-- Other tools can request additional information be placed here -->
+
     </export>
 </package>

@@ -1,0 +1,9 @@
+<launch>
+	<node pkg="explore_lite" type="explore" name="explorer" output="screen">
+		<param name="robot_base_frame" value="base_footprint"/>
+		<param name="costmap_topic" value="move_base/global_costmap/costmap"/>
+		<param name="costmap_updates_topic" value="move_base/global_costmap/costmap_updates"/>
+		<param name="visualize" value="true"/>
+		<param name="progress_timeout" value="10.0"/>
+	</node>
+</launch>

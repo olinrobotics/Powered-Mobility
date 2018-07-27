@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(pwm_localization)
+project(pwm_arduino)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,14 +8,11 @@ project(pwm_localization)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  amcl
-  geometry_msgs
-  robot_localization
   roscpp
   rospy
-  sensor_msgs
-  std_msgs
-  tf
+  rosserial_arduino
+  rosserial_client
+  rosserial_python
 )
 
 ## System dependencies are found with CMake's conventions
@@ -75,7 +72,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   sensor_msgs#   std_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ################################################
@@ -109,8 +106,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES pwm_localization
-#  CATKIN_DEPENDS amcl geometry_msgs robot_localization roscpp rospy rtabmap_ros sensor_msgs std_msgs tf
+#  LIBRARIES pwm_arduino
+#  CATKIN_DEPENDS roscpp rospy rosserial_arduino rosserial_python
 #  DEPENDS system_lib
 )
 
@@ -127,7 +124,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/pwm_localization.cpp
+#   src/${PROJECT_NAME}/pwm_arduino.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -138,7 +135,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/pwm_localization_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/pwm_arduino_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -195,10 +192,28 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_pwm_localization.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_pwm_arduino.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+
+rosserial_generate_ros_lib(
+    PACKAGE rosserial_arduino
+    SCRIPT make_libraries.py
+    )
+rosserial_configure_client(
+    DIRECTORY firmware
+    TOOLCHAIN_FILE ${ROSSERIAL_ARDUINO_TOOLCHAIN}
+)
+
+add_custom_target(pwm_arduino_update
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/firmware
+    COMMAND arduino --board arduino:sam:arduino_due_x_dbg --port /dev/ttyACM0 --upload firmware.ino
+)
+
+#rosserial_add_client_target(firmware pwm_arduino_driver ALL)
+#rosserial_add_client_target(firmware pwm_arduino_driver-upload)

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(pwm_localization)
+project(pwm_tests)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -7,16 +7,7 @@ project(pwm_localization)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  amcl
-  geometry_msgs
-  robot_localization
-  roscpp
-  rospy
-  sensor_msgs
-  std_msgs
-  tf
-)
+find_package(catkin REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -75,7 +66,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   sensor_msgs#   std_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ################################################
@@ -109,8 +100,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES pwm_localization
-#  CATKIN_DEPENDS amcl geometry_msgs robot_localization roscpp rospy rtabmap_ros sensor_msgs std_msgs tf
+#  LIBRARIES pwm_tests
+#  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
 
@@ -122,12 +113,12 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
 # include
-  ${catkin_INCLUDE_DIRS}
+# ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/pwm_localization.cpp
+#   src/${PROJECT_NAME}/pwm_tests.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -138,7 +129,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/pwm_localization_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/pwm_tests_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -195,10 +186,19 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_pwm_localization.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_pwm_tests.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+# DO NOT run multiple tests, as waiting for gzserver shutdown had not been implemented
+# TODO : wait for gzserver shutdown as beginning of test
+if(CATKIN_ENABLE_TESTING)
+	find_package(rostest REQUIRED)
+	#add_rostest(test/data.test)
+	#add_rostest(test/loc.test)
+	add_rostest(test/nav.test)
+endif()

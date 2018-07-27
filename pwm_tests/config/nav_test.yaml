@@ -1,0 +1,28 @@
+topics:
+    # data
+  - name: /camera/color/camera_info
+    timeout: 60.0
+    negative: False
+  - name: /camera/color/image_raw
+    timeout: 60.0
+    negative: False
+  - name: /camera/depth/camera_info
+    timeout: 60.0
+    negative: False
+  - name: /camera/depth/points
+    timeout: 60.0
+    negative: False
+  - name: /scan
+    timeout: 60.0
+    negative: False
+    # loc
+  - name: /odom
+    timeout: 60.0
+    negative: False
+  - name: /rtabmap/grid_map
+    timeout: 60.0
+    negative: False
+    # nav
+  - name: /cmd_vel
+    timeout: 60.0
+    negative: False

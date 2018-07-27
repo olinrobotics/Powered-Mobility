@@ -1,0 +1,9 @@
+<launch>
+	<include file="$(find pwm_gazebo)/launch/gazebo.launch">
+		<arg name="gui" value="false"/>
+	</include>
+	<test name="data_test" test-name="data_test"
+		pkg="rostest" type="publishtest" time-limit="1200.0">
+		<rosparam command="load" file="$(find pwm_tests)/config/data_test.yaml"/>
+	</test>
+</launch>

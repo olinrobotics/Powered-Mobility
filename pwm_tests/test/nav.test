@@ -1,0 +1,19 @@
+<launch>
+	<include file="$(find pwm_gazebo)/launch/gazebo.launch">
+		<arg name="gui" value="false"/>
+	</include>
+
+	<include file="$(find pwm_localization)/launch/localization.launch">
+	</include>
+
+	<include file="$(find pwm_navigation)/launch/move_base.launch">
+	</include>
+
+	<include file="$(find pwm_navigation)/launch/explore.launch">
+	</include>
+
+	<test name="nav_test" test-name="nav_test"
+		pkg="rostest" type="publishtest" time-limit="2400.0">
+		<rosparam command="load" file="$(find pwm_tests)/config/nav_test.yaml"/>
+	</test>
+</launch>
