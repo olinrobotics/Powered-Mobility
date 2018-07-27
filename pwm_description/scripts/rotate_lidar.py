@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, Int32
 import numpy as np
 
 def main():
@@ -14,10 +14,12 @@ def main():
     angle_min = np.deg2rad(angle_min)
     angle_max = np.deg2rad(angle_max)
 
-    pub = rospy.Publisher('/pwm/lidar_controller/command', Float64, queue_size=10)
+    #pub = rospy.Publisher('/pwm/lidar_controller/command', Float64, queue_size=10)
+    pub = rospy.Publisher('/lidar_angle', Int32, queue_size=10)
 
     rate = rospy.Rate(rate)
-    msg = Float64()
+    #msg = Float64()
+    msg = Int32()
     while not rospy.is_shutdown():
         t = rospy.Time.now().to_sec()
         theta = (angle_max - angle_min) * np.sin(2*np.pi*rate_rotate*t) + (angle_min)
