@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /TF1/Frames1
+        - /LaserScan1
         - /Odometry1
         - /Odometry1/Shape1
         - /Odometry2
@@ -98,6 +99,8 @@ Visualization Manager:
           Value: true
         left_wheel_link:
           Value: true
+        map:
+          Value: true
         odom:
           Value: true
         right_wheel_link:
@@ -110,8 +113,47 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          {}
+        map:
+          odom:
+            base_footprint:
+              base_link:
+                caster_bl_link:
+                  {}
+                caster_br_link:
+                  {}
+                caster_fl_link:
+                  {}
+                caster_fr_link:
+                  {}
+                left_wheel_link:
+                  {}
+                right_wheel_link:
+                  {}
+                seat_link:
+                  back_link:
+                    gps_link:
+                      {}
+                  footrest_link:
+                    camera_link:
+                      camera_color_frame:
+                        {}
+                      camera_depth_frame:
+                        {}
+                      camera_infra1_frame:
+                        {}
+                      camera_infra2_frame:
+                        {}
+                      camera_optical:
+                        camera_color_optical_frame:
+                          {}
+                        camera_depth_optical_frame:
+                          {}
+                        camera_infra1_optical_frame:
+                          {}
+                        camera_infra2_optical_frame:
+                          {}
+                    laser:
+                      {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988
@@ -152,7 +194,8 @@ Visualization Manager:
       Marker Topic: /rtabmap/labels
       Name: MarkerArray
       Namespaces:
-        {}
+        ids: true
+        labels: true
       Queue Size: 100
       Value: true
     - Alpha: 0.300000012
@@ -200,13 +243,13 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 999999
       Min Color: 0; 0; 0
-      Min Intensity: 1.44251467e-36
+      Min Intensity: 0
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.00999999978
+      Size (m): 0.0500000007
       Style: Flat Squares
       Topic: /scan
       Unreliable: false
@@ -459,11 +502,19 @@ Visualization Manager:
       Topic: /odom
       Unreliable: false
       Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /explorer/frontiers
+      Name: MarkerArray
+      Namespaces:
+        frontiers: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: odom
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -484,25 +535,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 47.5831299
+      Distance: 24.3931408
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.271893233
-        Y: -0.14834702
-        Z: -0.150213897
+        X: 5.39803457
+        Y: -3.80109262
+        Z: -0.144644558
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.43479621
+      Pitch: 1.56979632
       Target Frame: base_footprint
       Value: Orbit (rviz)
-      Yaw: 3.20358419
+      Yaw: 3.16858387
     Saved: ~
 Window Geometry:
   Displays:
