@@ -186,7 +186,7 @@
             <param name="GridGlobal/MinSize"           type="string" value="20"/>
 
             <param name="Reg/Force3DoF"                type="string" value="true"/>
-            <param name="Reg/Strategy"              type="string" value="2"/>    <!-- 1=ICP -->
+            <param name="Reg/Strategy"              type="string" value="0"/>    <!-- 1=ICP -->
 
             <param name="RGBD/OptimizeMaxError"        type="string" value="0.1"/>
             <param name="RGBD/NeighborLinkRefining" type="string" value="true"/> <!-- Odometry correction -->

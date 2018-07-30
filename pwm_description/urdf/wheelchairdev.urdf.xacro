@@ -94,7 +94,7 @@
 
     <joint
         name="seat_joint"
-        type="prismatic">
+        type="fixed">
         <origin
             xyz="0.0889000000000003 -0.0126999999999997 0.50361"
             rpy="0 0 0" />
@@ -355,7 +355,7 @@
     </link>
     <joint
         name="back_joint"
-        type="revolute">
+        type="fixed">
         <origin
             xyz="-0.23495 0 0.127"
             rpy="1.5707963267949 0 0" />
@@ -749,6 +749,7 @@
         </joint>
     </transmission>
 
+	<!--
     <transmission name="seat_transmission">
         <type>transmission_interface/SimpleTransmission</type>
         <actuator name="seat_motor">
@@ -770,5 +771,6 @@
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
     </transmission>
+	-->
 
 </robot>
