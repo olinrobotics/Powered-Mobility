@@ -2,15 +2,17 @@ cmake_minimum_required(VERSION 2.8.3)
 project(pwm_driver)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-)
+    roscpp
+    rospy
+    rosserial_client
+    rosserial_embeddedlinux
+    )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -102,11 +104,11 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES pwm_driver
-#  CATKIN_DEPENDS roscpp rospy
-#  DEPENDS system_lib
-)
+    #  INCLUDE_DIRS include
+    #  LIBRARIES pwm_driver
+    #  CATKIN_DEPENDS roscpp rospy
+    #  DEPENDS system_lib
+    )
 
 ###########
 ## Build ##
@@ -115,9 +117,9 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
-)
+    include/pwm_driver
+    #${catkin_INCLUDE_DIRS}
+    )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -196,3 +198,64 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+#function(rosserial_generate_ros_lib)
+#  cmake_parse_arguments(make_libraries "" "PACKAGE;SCRIPT" "" ${ARGN})
+#  if(NOT make_libraries_PACKAGE)
+#    set(make_libraries_PACKAGE rosserial_client)
+#  endif()
+#  if(NOT make_libraries_SCRIPT)
+#    set(make_libraries_SCRIPT make_libraries)
+#  endif()
+#
+#  message(STATUS "Using ${make_libraries_PACKAGE}/${make_libraries_SCRIPT} to make rosserial client library.")
+#
+#  add_custom_command(
+#    OUTPUT ${PROJECT_BINARY_DIR}/ros_lib
+#    COMMAND ${CATKIN_ENV} rosrun ${make_libraries_PACKAGE} ${make_libraries_SCRIPT} ${PROJECT_BINARY_DIR}
+#  )
+#  add_custom_target(${PROJECT_NAME}_ros_lib DEPENDS ${PROJECT_BINARY_DIR}/ros_lib)
+#
+#  find_package(rosserial_msgs)
+#  find_package(std_msgs)
+#  add_dependencies(${PROJECT_NAME}_ros_lib
+#    rosserial_msgs_generate_messages_py
+#    std_msgs_generate_messages_py
+#  )
+#
+#  set(${PROJECT_NAME}_ROS_LIB_DIR "${PROJECT_BINARY_DIR}/ros_lib" PARENT_SCOPE)
+#endfunction()
+
+add_library(can_lib
+  src/lib.c
+)
+
+add_custom_command(
+    OUTPUT rm_ros_lib
+    COMMAND rm -rf ${PROJECT_BINARY_DIR}/ros_lib
+) # remove first, otherwise fails
+
+rosserial_generate_ros_lib(
+    PACKAGE rosserial_embeddedlinux
+    SCRIPT make_libraries.py
+    )
+
+add_dependencies( pwm_driver_ros_lib
+    rm_ros_lib
+)
+
+include_directories(
+    ${${PROJECT_NAME}_ROS_LIB_DIR}
+    )
+
+MESSAGE(${${PROJECT_NAME}_ROS_LIB_DIR})
+add_executable(rnet_node src/rnet_node.cpp src/roscan.cpp)
+
+target_link_libraries(rnet_node
+    can_lib
+    )
+
+add_dependencies(rnet_node
+    can_lib
+    pwm_driver_ros_lib
+    )
