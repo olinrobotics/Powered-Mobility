@@ -1,7 +1,7 @@
 
 /* TEST :
-(PC) rosrun	rosserial_python serial_node.py _port:=/dev/ttyUSB0 _buad:=57600
-(Pi) ./rnet
+(PC) rosrun	rosserial_python serial_node.py _port:=/dev/ttyUSB0 _baud:=57600
+(Pi) rosrun pwm_driver rnet_node.py 
 */ 
 
 #include "roscan.h"
@@ -65,13 +65,14 @@ int main(){
 		if(!rc){
 			float dt = sysdt(last_send, now);
 			if (dt > 1.0){
-				roscan.send("181C0100#0260000000000000");
+				// beep
+				//roscan.send("181C0100#0260000000000000");
 				last_send = now;
 			}else{
 				float cmd_dt = sysdt(last_cmd, now);
 				if(cmd_dt > cmd_vel_timeout ){cmd_vel.linear.x = cmd_vel.angular.z = 0.0;}
-				int cmd_x = 1.3 * +100 * cmd_vel.angular.z;
-				int cmd_y = 1.4 * +100 * cmd_vel.linear.x;
+				int cmd_x = 1.3 * + 100 * cmd_vel.angular.z;
+				int cmd_y = 1.4 * + 100 * cmd_vel.linear.x;
 				sprintf(can_cmd_buf, "02001100#%02X%02X", (uint8_t)cmd_x, (uint8_t)cmd_y);
 				roscan.send(can_cmd_buf);
 			}
