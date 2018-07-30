@@ -240,7 +240,7 @@ rosserial_generate_ros_lib(
     SCRIPT make_libraries.py
     )
 
-add_dependencies( pwm_driver_ros_lib
+add_dependencies(pwm_driver_ros_lib
     rm_ros_lib
 )
 
