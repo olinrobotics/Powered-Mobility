@@ -220,6 +220,35 @@
         <axis
             xyz="0 0 1" />
     </joint>
+
+    <link name="imu">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="1e-2"/>
+            <xacro:box_inertia x="1e-2" y="1e-2" z="1e-2" mass="1e-2"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <box size="1e-2 1e-2 1e-2"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <box size="1e-2 1e-2 1e-2"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="imu_joint" type="fixed">
+        <origin xyz="0.13695 -0.32488 -0.00060405"
+            rpy="-1.5708 0 0.22" />
+        <parent link="footrest_link"/>
+        <child link="imu"/>
+        <axis xyz="1 0 0"/>
+    </joint>
+
     <link
         name="camera_link">
         <inertial>
@@ -386,7 +415,7 @@
         name="right_wheel_link">
         <inertial>
             <origin
-                xyz="5.5511E-17 0 0.032142"
+                xyz="0 0 0"
                 rpy="0 0 0" />
             <mass
                 value="${4.0*lb}" />
@@ -438,7 +467,7 @@
         name="left_wheel_link">
         <inertial>
             <origin
-                xyz="0 -2.7756E-17 -0.032142"
+                xyz="0 0 0"
                 rpy="0 0 0" />
             <mass
                 value="${4.0*lb}" />
@@ -484,7 +513,7 @@
         name="caster_fl_link">
         <inertial>
             <origin
-                xyz="-2.2898E-16 6.9389E-18 -0.0010598"
+                xyz="0 0 0"
                 rpy="0 0 0" />
             <mass
                 value="${2.0*lb}" />
@@ -543,7 +572,7 @@
         name="caster_bl_link">
         <inertial>
             <origin
-                xyz="1.1102E-16 -2.0817E-16 -0.0010598"
+                xyz="0 0 0"
                 rpy="0 0 0" />
             <mass
                 value="${2.0*lb}" />
@@ -595,7 +624,7 @@
         name="caster_fr_link">
         <inertial>
             <origin
-                xyz="1.1796E-16 -2.0123E-16 0.0010598"
+                xyz="0 0 0"
                 rpy="0 0 0" />
             <mass
                 value="${2.0*lb}" />

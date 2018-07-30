@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="robot_localization" type="ukf_localization_node" name="ukf_localization">
+        <rosparam command="load" file="$(find pwm_localization)/config/robot_localization.yaml"/>
+        <remap from="odometry/filtered/" to="/odom"/>
+    </node>
+</launch>

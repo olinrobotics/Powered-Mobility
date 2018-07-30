@@ -1,9 +1,14 @@
 <launch>
-    <include file="$(find pwm_localization)/launch/odom.launch"/>
+    <arg name="fusion" default="false"/>
+    <include file="$(find pwm_localization)/launch/odom.launch">
+        <arg name="fusion" value="$(arg fusion)"/>
+    </include>
     <include file="$(find pwm_localization)/launch/rtabmap.launch">
-
         <arg name="rtabmapviz" value="false"/>
         <arg name="rviz" value="false"/>
+
+        <arg if="$(arg fusion)" name="subscribe_odom_info" value="false"/>
+        <arg unless="$(arg fusion)" name="subscribe_odom_info" value="true"/>
 
         <arg name="frame_id" value="base_footprint"/>
         <arg name="args" value="--delete_db_on_start"/>
@@ -14,6 +19,5 @@
 
         <arg name="subscribe_scan" value="true"/>
 		<arg name="odom_topic" value="/odom"/>
-
     </include>
 </launch>

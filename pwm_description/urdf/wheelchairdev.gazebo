@@ -8,10 +8,11 @@
 
     <xacro:property name="cm1" value="0"/>
     <xacro:property name="cm2" value="0"/>
-    <xacro:property name="ckp" value="3e6"/>
+    <xacro:property name="ckp" value="2e6"/>
     <xacro:property name="ckd" value="1e2"/>
 
-    <xacro:property name="min_depth" value="1e-3"/>
+    <xacro:property name="wmd" value="1e-2"/>
+    <xacro:property name="cmd" value="1e-3"/>
 
     <gazebo reference="right_wheel_link">
         <mu1 value="${wm1}"/>
@@ -19,7 +20,8 @@
         <kp value="${wkp}" />
         <kd value="${wkd}" />
         <!--<fdir1 value="1 0 0"/>-->
-        <minDepth value="${min_depth}"/>
+        <minDepth value="${wmd}"/>
+        <maxVel value="0"/>
     </gazebo>
 
     <gazebo reference="left_wheel_link">
@@ -28,7 +30,8 @@
         <kp value="${wkp}" />
         <kd value="${wkd}" />
         <!--<fdir1 value="1 0 0"/>-->
-        <minDepth value="${min_depth}"/>
+        <minDepth value="${wmd}"/>
+        <maxVel value="0"/>
     </gazebo>
 
     <gazebo reference="caster_fl_link">
@@ -37,7 +40,7 @@
         <kp value="${ckp}" />
         <kd value="${ckd}" />
         <!--<fdir1 value="1 0 0"/>-->
-        <minDepth value="${min_depth}"/>
+        <minDepth value="${cmd}"/>
     </gazebo>
     <gazebo reference="caster_fr_link">
         <mu1 value="${cm1}"/>
@@ -45,7 +48,7 @@
         <kp value="${ckp}" />
         <kd value="${ckd}" />
         <!--<fdir1 value="1 0 0"/>-->
-        <minDepth value="${min_depth}"/>
+        <minDepth value="${cmd}"/>
     </gazebo>
     <gazebo reference="caster_bl_link">
         <mu1 value="${cm1}"/>
@@ -53,7 +56,7 @@
         <kp value="${ckp}" />
         <kd value="${ckd}" />
         <!--<fdir1 value="1 0 0"/>-->
-        <minDepth value="${min_depth}"/>
+        <minDepth value="${cmd}"/>
     </gazebo>
     <gazebo reference="caster_br_link">
         <mu1 value="${cm1}"/>
@@ -61,7 +64,7 @@
         <kp value="${ckp}" />
         <kd value="${ckd}" />
         <!--<fdir1 value="1 0 0"/>-->
-        <minDepth value="${min_depth}"/>
+        <minDepth value="${cmd}"/>
     </gazebo>
 
     <gazebo>
@@ -147,6 +150,42 @@
                 <distortion_t2>0.0</distortion_t2>
                 <pointCloudCutoff>0.4</pointCloudCutoff>
             </plugin>
+        </sensor>
+    </gazebo>
+
+    <gazebo reference="imu">
+        <gravity>true</gravity>
+        <!--
+        <sensor name="imu_sensor" type="imu">
+            <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+            <robotNamespace>/</robotNamespace>
+            <updateRate>50.0</updateRate>
+            <bodyName>imu</bodyName>
+            <topicName>imu</topicName>
+            <accelDrift>0.005 0.005 0.005</accelDrift>
+            <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+            <rateDrift>0.005 0.005 0.005 </rateDrift>
+            <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+            <headingDrift>0.005</headingDrift>
+            <headingGaussianNoise>0.005</headingGaussianNoise>
+            </plugin>
+        </sensor>
+        -->
+        <sensor name="imu_sensor" type="imu">
+            <always_on>true</always_on>
+            <update_rate>2</update_rate>
+            <visualize>true</visualize>
+            <topic>__default_topic__</topic>
+            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+                <topicName>imu</topicName>
+                <bodyName>imu</bodyName>
+                <updateRateHZ>2.0</updateRateHZ>
+                <gaussianNoise>1e-9</gaussianNoise>
+                <xyzOffset>0 0 0</xyzOffset>
+                <rpyOffset>0 0 0.22</rpyOffset>
+                <frameName>imu</frameName>
+            </plugin>
+            <pose>0 0 0 0 0 0</pose> <!-- ?? -->
         </sensor>
     </gazebo>
 </robot>

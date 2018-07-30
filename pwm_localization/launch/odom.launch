@@ -1,9 +1,12 @@
 <launch>
+    <arg name="fusion" default="false"/>
+    <include if="$(arg fusion)" file="$(find pwm_localization)/launch/fuse_odom.launch"/>
+
     <node pkg="rtabmap_ros" type="rgbdicp_odometry" name="icp_odometry" output="screen" >
         <remap from="scan"      to="/scan"/>
-        <remap from="odom"      to="/odom"/>
+        <remap if="$(arg fusion)" from="odom"      to="/vo"/>
+        <remap unless="$(arg fusion)" from="odom"      to="/odom"/>
         <remap from="odom_info"      to="/rtabmap/odom_info"/>
-
         <remap from="/rgb/image" to="/camera/color/image_raw"/>
         <remap from="/depth/image" to="/camera/aligned_depth_to_color/image_raw"/>
         <remap from="/rgb/camera_info" to="/camera/color/camera_info"/>
