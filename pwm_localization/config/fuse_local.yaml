@@ -1,0 +1,29 @@
+odom_frame: odom
+world_frame: odom
+base_link_frame: base_footprint
+transform_timeout: 0.2
+two_d_mode: true
+use_control: true
+publish_tf: true
+
+control_config: [true,false,false,
+    false,false,true]
+
+imu0: /imu
+imu0_remove_gravitational_acceleration: true
+imu0_relative: true
+imu0_config: [false, false, false,
+    true, true, true, # yaw (mag) ???
+    false, false, false, # lin vel
+    true, true, true, # ang vel
+    false, false, false] # lin acc
+imu0_queue_size: 10
+
+odom0: /vo
+odom0_config: [true, true, true,
+    false, false, false,
+    true, true, true,
+    false, false, false,
+    false, false, false]
+odom0_relative: true
+odom0_differential: true

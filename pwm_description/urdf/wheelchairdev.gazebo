@@ -176,6 +176,7 @@
             <update_rate>30.0</update_rate>
             <visualize>true</visualize>
             <topic>__default_topic__</topic>
+            <localization>ENU</localization>
             <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
                 <topicName>imu</topicName>
                 <bodyName>imu</bodyName>
@@ -189,4 +190,28 @@
             <pose>0 0 0 0 0 0</pose> <!-- ?? -->
         </sensor>
     </gazebo>
+    <!-- compatible with nmea_serial_driver -->
+    <!-- Olin Campus -->
+    <!-- random number -->
+    <!-- random number -->
+
+    <gazebo>
+        <plugin filename="libhector_gazebo_ros_gps.so" name="gps_plugin">
+            <updateRate>1.0</updateRate>
+            <bodyName>gps_link</bodyName>
+            <frameId>gps_link</frameId>
+            <topicName>/fix</topicName>
+            <velocityTopicName>/vel</velocityTopicName>
+            <referenceLatitude>42.293943</referenceLatitude>
+            <referenceLongitude>-71.26396</referenceLongitude>
+            <referenceHeading>23.9</referenceHeading>
+            <referenceAltitude>11.2</referenceAltitude>
+
+            <drift>5.0 5.0 5.0</drift>
+            <gaussianNoise>0.1 0.1 0.1</gaussianNoise>
+            <velocityDrift>0 0 0</velocityDrift>
+            <velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise>
+        </plugin>
+    </gazebo>
+
 </robot>

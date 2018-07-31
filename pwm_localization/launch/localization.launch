@@ -1,17 +1,26 @@
 <launch>
-    <arg name="fusion" default="false"/>
+    <arg name="fusion" default="true"/>
+
     <include file="$(find pwm_localization)/launch/odom.launch">
         <arg name="fusion" value="$(arg fusion)"/>
     </include>
+
     <include file="$(find pwm_localization)/launch/rtabmap.launch">
         <arg name="rtabmapviz" value="false"/>
         <arg name="rviz" value="false"/>
 
-<!--
+        <!--
         <arg if="$(arg fusion)" name="subscribe_odom_info" value="false"/>
         <arg unless="$(arg fusion)" name="subscribe_odom_info" value="true"/>
--->
+        -->
+
         <arg name="subscribe_odom_info" value="true"/>
+
+        <!--
+        <arg name="publish_tf" if="$(arg fusion)" value="false"/>
+        <arg name="publish_tf" unless="$(arg fusion)" value="true"/>
+        -->
+        <arg name="publish_tf" value="true"/>
 
         <arg name="frame_id" value="base_footprint"/>
         <arg name="args" value="--delete_db_on_start"/>
@@ -21,6 +30,17 @@
         <arg name="camera_info_topic" value="/camera/color/camera_info"/>
 
         <arg name="subscribe_scan" value="true"/>
-		<arg name="odom_topic" value="/odom"/>
+        <arg name="odom_topic" value="/odom"/>
     </include>
+
+    <group if="$(arg fusion)">
+        <include file="$(find pwm_localization)/launch/navsat.launch"/>
+        <!--
+        <node pkg="robot_localization" type="ukf_localization_node" name="fuse_global">
+            <rosparam command="load" file="$(find pwm_localization)/config/fuse_global.yaml"/>
+            <remap from="odometry/filtered" to="/odom"/>
+        </node>
+        -->
+    </group>
+
 </launch>

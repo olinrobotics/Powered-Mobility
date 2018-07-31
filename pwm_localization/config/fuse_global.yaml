@@ -1,6 +1,8 @@
 odom_frame: odom
-world_frame: odom
-base_link_frame: base_footprint
+world_frame: map 
+base_link_frame: base_footprint # world --> base_footprint
+publish_tf: false # should be handled by rtabmap
+
 transform_timeout: 0.2
 two_d_mode: true
 use_control: true
@@ -26,3 +28,12 @@ odom0_config: [true, true, true,
     false, false, false]
 odom0_relative: true
 odom0_differential: true
+
+odom1: /odometry/gps
+odom1_config: [true,true,true,
+    false,false,false,
+    false,false,false,
+    false,false,false,
+    false,false,false]
+odom1_relative: false
+odom1_differential: false
