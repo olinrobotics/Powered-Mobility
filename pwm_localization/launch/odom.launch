@@ -32,6 +32,8 @@
 
         <param name="Reg/Force3DoF" value="true"/>
         <param name="Reg/Strategy" value="2"/>
+
+		<param name="publish_tf" value="false"/>
     </node>
 
 </launch>

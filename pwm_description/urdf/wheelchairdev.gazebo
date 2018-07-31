@@ -180,7 +180,8 @@
                 <topicName>imu</topicName>
                 <bodyName>imu</bodyName>
                 <updateRateHZ>2.0</updateRateHZ>
-                <gaussianNoise>1e-9</gaussianNoise>
+                <gaussianNoise>1e-3</gaussianNoise>
+
                 <xyzOffset>0 0 0</xyzOffset>
                 <rpyOffset>0 0 0.22</rpyOffset>
                 <frameName>imu</frameName>
