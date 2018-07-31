@@ -173,13 +173,13 @@
         -->
         <sensor name="imu_sensor" type="imu">
             <always_on>true</always_on>
-            <update_rate>2</update_rate>
+            <update_rate>30.0</update_rate>
             <visualize>true</visualize>
             <topic>__default_topic__</topic>
             <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
                 <topicName>imu</topicName>
                 <bodyName>imu</bodyName>
-                <updateRateHZ>2.0</updateRateHZ>
+                <updateRateHZ>30.0</updateRateHZ>
                 <gaussianNoise>1e-3</gaussianNoise>
 
                 <xyzOffset>0 0 0</xyzOffset>

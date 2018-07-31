@@ -191,6 +191,8 @@
             <param name="RGBD/OptimizeMaxError"        type="string" value="0.1"/>
             <param name="RGBD/NeighborLinkRefining" type="string" value="true"/> <!-- Odometry correction -->
 
+<param name="Optimizer/Strategy" type="string" value="2"/>
+
             <param name="Vis/EstimationType" type="string" value="1"/>
             <param name="Vis/CorType" type="string" value="0"/>
 

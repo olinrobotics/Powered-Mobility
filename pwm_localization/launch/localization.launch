@@ -7,8 +7,11 @@
         <arg name="rtabmapviz" value="false"/>
         <arg name="rviz" value="false"/>
 
+<!--
         <arg if="$(arg fusion)" name="subscribe_odom_info" value="false"/>
         <arg unless="$(arg fusion)" name="subscribe_odom_info" value="true"/>
+-->
+        <arg name="subscribe_odom_info" value="true"/>
 
         <arg name="frame_id" value="base_footprint"/>
         <arg name="args" value="--delete_db_on_start"/>
