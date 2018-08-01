@@ -12,7 +12,8 @@
 		<remap from="cmd_vel" to="cmd_vel"/>
 		<remap from="scan" to="/scan"/>
 		<remap from="odom" to="/odom"/>
-		<remap from="map" to="/rtabmap/grid_map"/>
+		<!--<remap from="map" to="/rtabmap/grid_map"/>-->
+		<remap from="map" to="/map"/>
 
 		<param name="base_global_planner" type="string" value="navfn/NavfnROS" />
 		<param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
