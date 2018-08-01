@@ -1,10 +1,13 @@
 <launch>
-    <arg name="arbiter"      default="true"/>
-    <arg name="transform"    default="true"/>
-	<arg name="hardware"     default="true"/>
-    <arg name="arduino"      default="true"/>
-	<arg name="localization" default="true"/>
-	<arg name="navigation"   default="false"/>
+    <!-- TODO : add sim-compatible configuration -->
+
+    <arg name="arbiter"       default="true"/>
+    <arg name="transform"     default="true"/>
+	<arg name="hardware"      default="true"/>
+    <arg name="arduino"       default="true"/>
+	<arg name="localization"  default="true"/>
+    <arg name="serial_driver" default="true"/>
+	<arg name="navigation"    default="false"/>
 
     <!-- Arbitration -->
     <group if="$(arg arbiter)">
@@ -19,16 +22,20 @@
         <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
     </group>
 
+    <!-- Hardware -->
 	<group if="$(arg hardware)">
 		<include file="$(find pwm_bringup)/launch/sensors.launch"/>
 		<include file="$(find pwm_bringup)/launch/joy.launch"/>
 		<include file="$(find pwm_arduino)/launch/arduino.launch" if="$(arg arduino)"/>
+        <include file="$(find pwm_driver)/launch/serial_server.launch" if="$(arg serial_driver)"/>
 	</group>
 
+    <!-- Localization -->
     <group if="$(arg localization)">
         <include file="$(find pwm_localization)/launch/localization.launch" if="$(arg localization)"/>
     </group>
 
+    <!-- Navigation -->
     <group if="$(arg navigation)">
         <include file="$(find pwm_navigation)/launch/move_base.launch" if="$(arg navigation)"/>
     </group>

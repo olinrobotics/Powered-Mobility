@@ -1,0 +1,4 @@
+<launch>
+    <!-- TODO : configurable port / baud / etc ... -->
+    <node pkg="pwm_driver" type="rnet_node" name="rnet_serial_client"/>
+</launch>
