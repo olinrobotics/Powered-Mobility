@@ -1,3 +1,5 @@
 SUBSYSTEM=="input", KERNEL=="js[0-9]*" ATTRS{name}=="Xbox Airflo wired controller", SYMLINK+="xbox" GROUP="dialout"
 SUBSYSTEMS=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", SYMLINK+="arduino", GROUP="dialout" 
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", SYMLINK+="gps", GROUP="dialout" 
+
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", SYMLINK+="pi", GROUP="dialout"

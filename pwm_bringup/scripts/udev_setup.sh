@@ -13,12 +13,18 @@ udev_setup(){
 
 	if [ -f /etc/udev/rules.d/10-pwm.rules ]; then
 		echo '/etc/udev/rules.d/10-pwm.rules already exists!'
-	else
-		echo 'Installing 10-pwm.rules at /etc/udev/rules.d'
-		sudo cp $(rospack find pwm_bringup)/config/10-pwm.rules /etc/udev/rules.d
-		sudo udevadm control --reload
-		sudo udevadm trigger
+		read -p 'Override current configuration? [y/N]' override
+		case $override in
+			[Yy]* ) ;;
+			[Nn]* ) exit;;
+			* ) exit;;
+		esac
 	fi
+
+	echo 'Installing 10-pwm.rules at /etc/udev/rules.d'
+	sudo cp $(rospack find pwm_bringup)/config/10-pwm.rules /etc/udev/rules.d
+	sudo udevadm control --reload
+	sudo udevadm trigger
 }
 
 udev_setup

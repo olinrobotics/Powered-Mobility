@@ -1,0 +1,7 @@
+startup_message off
+ros_setup 192.168.16.61
+screen -t roscore
+screen -t bringup
+screen -t teleop
+screen -t echo
+screen -t dev
