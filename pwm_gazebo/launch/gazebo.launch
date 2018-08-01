@@ -10,7 +10,7 @@
 	<arg name="debug" default="false"/>
 	<arg name="physics" default="ode"/>
 	<arg name="verbose" default="false"/>
-	<arg name="world_name" default="$(find pwm_gazebo)/worlds/simple_2.world"/>
+	<arg name="world_name" default="$(find pwm_gazebo)/worlds/garage.world"/>
 
     <!--
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/elevation.world"/>
@@ -53,7 +53,7 @@
 		command="$(find xacro)/xacro.py '$(find pwm_description)/urdf/simple.urdf.xacro'" />
     -->
 
-	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model wheelchair -param robot_description -z 0.5" >
+	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model wheelchair -param robot_description -z 1.0" >
 	</node>
 
 	<!-- For Gazebo? -->
