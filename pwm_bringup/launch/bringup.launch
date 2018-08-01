@@ -1,5 +1,8 @@
 <launch>
+	<arg name="hardware"     default="true"/>
 	<arg name="localization" default="true"/>
+	<arg name="navigation"   default="false"/>
+
     <!-- Arbitration -->
 	<node pkg="topic_tools" type="mux" name="cmd_vel_mux" args="cmd_vel manual_cmd_vel auto_cmd_vel estop_cmd_vel mux:=mux_cmd_vel"/>
 	<node pkg="pwm_dev" type="select_mode.py" name="select_mode">
@@ -9,15 +12,20 @@
     <include file="$(find pwm_description)/launch/urdf.launch"/>
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
     </node>
-
 	<node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
 	</node>
 
-    <include file="$(find pwm_bringup)/launch/sensors.launch"/>
-    <include file="$(find pwm_bringup)/launch/joy.launch"/>
-	<include file="$(find pwm_arduino)/launch/arduino.launch"/>
+	<group if="$(arg hardware)">
+		<include file="$(find pwm_bringup)/launch/sensors.launch"/>
+		<include file="$(find pwm_bringup)/launch/joy.launch"/>
+		<include file="$(find pwm_arduino)/launch/arduino.launch"/>
+	</group>
 
 	<group if="$(arg localization)">
 		<include file="$(find pwm_localization)/launch/localization.launch"/>
+	</group>
+
+	<group if="$(arg navigation)">
+		<include file="$(find pwm_navigation)/launch/move_base.launch"/>
 	</group>
 </launch>
