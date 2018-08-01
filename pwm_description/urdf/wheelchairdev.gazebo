@@ -204,8 +204,8 @@
             <velocityTopicName>/vel</velocityTopicName>
             <referenceLatitude>42.293943</referenceLatitude>
             <referenceLongitude>-71.26396</referenceLongitude>
-            <referenceHeading>90.0</referenceHeading>
-            <referenceAltitude>11.2</referenceAltitude>
+            <referenceHeading>27.3</referenceHeading>
+            <referenceAltitude>38.2</referenceAltitude>
 
             <drift>0.0 0.0 0.0</drift>
             <gaussianNoise>1.0 1.0 1.0</gaussianNoise>
