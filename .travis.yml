@@ -49,7 +49,7 @@ before_install:
     # Other Tools
   - sudo apt-get install mesa-utils -y
   - sudo apt-get install jq dtrx wget -y
-  - sudo apt-get intall python-pip
+  - sudo apt-get install python-pip
 
   - source /opt/ros/$ROS_DISTRO/setup.bash
     # Prepare rosdep to install dependencies.
