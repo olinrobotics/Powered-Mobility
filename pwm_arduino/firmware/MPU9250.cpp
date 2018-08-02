@@ -629,7 +629,7 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
     sample_count = 1500;
   }
 
-  for (ii = 0; ii < sample_count; ii++)
+  for (ii = 0; ii < 200; ii++)
   {
     readMagData(mag_temp);  // Read the mag data
 
