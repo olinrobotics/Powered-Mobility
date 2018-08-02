@@ -686,6 +686,9 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
   scale_dest[0] = avg_rad / ((float)mag_scale[0]);
   scale_dest[1] = avg_rad / ((float)mag_scale[1]);
   scale_dest[2] = avg_rad / ((float)mag_scale[2]);
+  
+  Serial.println("Magnitude bias:"); Serial.println(mag_dest[0]); Serial.println(mag_dest[1]); Serial.println(mag_dest[2]);
+  Serial.println("Scale bias:"); Serial.println(scale_dest[0]); Serial.println(scale_dest[1]); Serial.println(scale_dest[2]);
 
   Serial.println(F("Mag Calibration done!"));
 }
