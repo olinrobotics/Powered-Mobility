@@ -612,7 +612,7 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
   // Make sure resolution has been calculated
   getMres();
 
-  Serial.println(F("Mag Calibration: Wave device in a figure 8 until done!"));
+  Serial.println(F("Mag Calibration!"));
   Serial.println(
       F("  4 seconds to get ready followed by 15 seconds of sampling)"));
   delay(4000);
@@ -629,7 +629,7 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
     sample_count = 1500;
   }
 
-  for (ii = 0; ii < sample_count; ii++)
+  for (ii = 0; ii < 200; ii++)
   {
     readMagData(mag_temp);  // Read the mag data
 
@@ -686,6 +686,9 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
   scale_dest[0] = avg_rad / ((float)mag_scale[0]);
   scale_dest[1] = avg_rad / ((float)mag_scale[1]);
   scale_dest[2] = avg_rad / ((float)mag_scale[2]);
+  
+  Serial.println("Magnitude bias:"); Serial.println(mag_dest[0]); Serial.println(mag_dest[1]); Serial.println(mag_dest[2]);
+  Serial.println("Scale bias:"); Serial.println(scale_dest[0]); Serial.println(scale_dest[1]); Serial.println(scale_dest[2]);
 
   Serial.println(F("Mag Calibration done!"));
 }
