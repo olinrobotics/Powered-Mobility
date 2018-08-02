@@ -19,3 +19,12 @@ The following command will install most system/ros dependencies in the machine:
 ```bash
 rosdep install --from-path ~/catkin_ws/src/Powered-Mobility --ignore-src
 ```
+
+### Generate Python Pip Requirements
+
+```bash
+sudo pip install pipreqs
+roscd pwm_robot/..
+pipreqs .
+mv requirements.txt pwm_bringup/config
+```

@@ -49,6 +49,7 @@ before_install:
     # Other Tools
   - sudo apt-get install mesa-utils -y
   - sudo apt-get install jq dtrx wget -y
+  - sudo apt-get intall python-pip
 
   - source /opt/ros/$ROS_DISTRO/setup.bash
     # Prepare rosdep to install dependencies.
@@ -81,6 +82,9 @@ install:
 
     # package dependencies with rosdep
   - rosdep install --from-paths . --ignore-src --skip-keys='librealsense2' --rosdistro=$ROS_DISTRO -y
+
+    # python dependencies with pip
+  - sudo pip2 install -r "$CI_SOURCE_PATH/requirements.txt"
 
 before_script:
   - cd ~/catkin_ws

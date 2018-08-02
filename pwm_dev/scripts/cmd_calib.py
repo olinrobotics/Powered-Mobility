@@ -4,6 +4,8 @@ import message_filters
 cmd_vel to wheelchair input calibration.
 TODO : finish implementation
 """
+
+"""
 class CmdCalib(object):
 
     def __init__(self):
@@ -20,3 +22,4 @@ class CmdCalib(object):
         self._w_sample = [0.2, 0.4, 0.6, 0.8, 1.0]
 
     def odom_cb(self, cmd_odom, vis_odom):
+"""
