@@ -28,3 +28,7 @@ function finddev(){
 		)
 	done
 }
+
+function rospkg-deps(){
+	echo "$(grep -r pkg $(rospack find pwm_bringup)/.. --include='*.launch' | perl -pe 's|.*pkg="(.*?)".*|\1|')" | sort | uniq
+}
