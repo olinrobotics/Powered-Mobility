@@ -198,8 +198,8 @@
     <gazebo>
         <plugin filename="libhector_gazebo_ros_gps.so" name="gps_plugin">
             <updateRate>1.0</updateRate>
-            <bodyName>gps_link</bodyName>
-            <frameId>gps_link</frameId>
+            <bodyName>gps</bodyName>
+            <frameId>gps</frameId>
             <topicName>/fix</topicName>
             <velocityTopicName>/vel</velocityTopicName>
             <referenceLatitude>42.293943</referenceLatitude>
