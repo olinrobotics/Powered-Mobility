@@ -9,7 +9,7 @@
 		<rosparam file="$(find pwm_navigation)/config/base_local_planner_params.yaml" command="load" />
 		<rosparam file="$(find pwm_navigation)/config/move_base.yaml" command="load" />
 
-		<remap from="cmd_vel" to="cmd_vel"/>
+		<remap from="cmd_vel" to="auto_cmd_vel"/>
 		<remap from="scan" to="/scan"/>
 		<remap from="odom" to="/odom"/>
 		<!--<remap from="map" to="/rtabmap/grid_map"/>-->

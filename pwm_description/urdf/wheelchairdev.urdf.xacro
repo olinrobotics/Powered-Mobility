@@ -368,7 +368,7 @@
         <limit lower="-3.14" upper="3.14" effort="1500" velocity="0.5" />
     </joint>
     <link
-        name="gps_link">
+        name="gps">
         <inertial>
             <origin
                 xyz="-0.00052822 0.00021277 0.0091581"
@@ -407,7 +407,7 @@
         <parent
             link="back_link" />
         <child
-            link="gps_link" />
+            link="gps" />
         <axis
             xyz="0 0 1" />
     </joint>
