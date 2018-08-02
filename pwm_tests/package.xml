@@ -2,7 +2,7 @@
 <package format="2">
   <name>pwm_tests</name>
   <version>0.0.0</version>
-  <description>Testing-Deploy related package for Powered Mobility Project</description>
+  <description>Testing and Deployment related package for Powered Mobility Project</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->

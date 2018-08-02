@@ -1,4 +1,6 @@
-# Powered-Mobility
+# Powered Mobility
+
+[![Build Status](https://travis-ci.org/olinrobotics/Powered-Mobility.svg?branch=master)](https://travis-ci.org/olinrobotics/Powered-Mobility)
 
 Development of Modular "Guardian Angel" Technology for Powered Mobility
 
@@ -16,12 +18,4 @@ The following command will install most system/ros dependencies in the machine:
 
 ```bash
 rosdep install --from-path ~/catkin_ws/src/Powered-Mobility --ignore-src
-```
-
-## Setup Udev Rules
-
-```
-sudo cp $(rospack find pwm_bringup)/config/10-pwm.rules /etc/udev/rules.d
-sudo udevadm control --reload
-sudo udevadm trigger
 ```
