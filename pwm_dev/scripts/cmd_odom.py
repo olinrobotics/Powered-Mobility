@@ -48,7 +48,6 @@ class CmdOdom(object):
                 translate = (dx.x*dt, dx.y*dt, dx.z*dt)
                 )
         T1 = tx.concatenate_matrices(T0, dT)
-
         self._odom.pose.pose = pm.toMsg(pm.fromMatrix(T1))
 
     def publish(self, stamp=None):
@@ -63,6 +62,7 @@ class CmdOdom(object):
         self._last_update = rospy.Time.now()
         self._cmd_vel = Twist()
         self._odom.pose.pose = Pose()
+        self._odom.pose.pose.orientation.w = 1.0
         self._odom.twist.twist = Twist()
 
     def step(self):
