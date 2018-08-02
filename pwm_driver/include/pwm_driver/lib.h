@@ -73,7 +73,7 @@ int hexstring2candata(char *arg, struct can_frame *cf);
  *
  */
 
-int parse_canframe(char *cs, struct can_frame *cf);
+int parse_canframe(const char *cs, struct can_frame *cf);
 /*
  * Transfers a valid ASCII string decribing a CAN frame into struct can_frame.
  *

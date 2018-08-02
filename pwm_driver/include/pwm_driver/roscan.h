@@ -30,7 +30,7 @@ struct ROSCan{
 	~ROSCan();
 	bool init();
 	bool quit();
-	bool send(char* data);
+	bool send(const char* data);
 	bool send(const can_frame& frame);
 	bool read(can_frame& frame);
 	bool set_filter(canid_t id, canid_t mask);

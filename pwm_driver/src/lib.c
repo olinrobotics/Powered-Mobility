@@ -102,7 +102,7 @@ int hexstring2candata(char *arg, struct can_frame *cf) {
 	return 0;
 }
 
-int parse_canframe(char *cs, struct can_frame *cf) {
+int parse_canframe(const char *cs, struct can_frame *cf) {
 	/* documentation see lib.h */
 
 	int i, idx, dlc, len;

@@ -20,7 +20,7 @@ bool ROSCan::init(){
 	/* open socket */
 	if ((_s_h = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0) {
 		perror("socket");
-		return 1;
+		return false;
 	}
 
 	addr.can_family = AF_CAN;
@@ -28,7 +28,8 @@ bool ROSCan::init(){
 	strcpy(ifr.ifr_name, _dev);
 	if (ioctl(_s_h, SIOCGIFINDEX, &ifr) < 0) {
 		perror("SIOCGIFINDEX");
-		return 1;
+		::close(_s_h);
+		return false;
 	}
 	addr.can_ifindex = ifr.ifr_ifindex;
 
@@ -36,18 +37,19 @@ bool ROSCan::init(){
 
 	if (bind(_s_h, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
 		perror("bind");
-		return 1;
+		return false;
 	}
 
 	// needed?
 	// enable_fd();
+	return true;
 }
 
 bool ROSCan::quit(){
 	::close(_s_h);
 }
 
-bool ROSCan::send(char* data){
+bool ROSCan::send(const char* data){
 	struct can_frame frame;
 	if (parse_canframe(data, &frame)){
 		return false;

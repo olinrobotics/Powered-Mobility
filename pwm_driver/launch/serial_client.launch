@@ -1,4 +1,8 @@
 <launch>
-    <!-- TODO : configurable port / baud / etc ... -->
-    <node pkg="pwm_driver" type="rnet_node" name="rnet_serial_client" output="screen"/>
+	<!--
+	WARNING : this launch file exists as a reminder that
+	rnet_node serial driver should not be launched in a launch file.
+	This is to prevent any confusion that might arise due to roslaunch creating a ros master
+	if no running instance of roscore is recognized.
+	-->
 </launch>

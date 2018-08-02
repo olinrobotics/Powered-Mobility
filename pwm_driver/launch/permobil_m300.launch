@@ -1,10 +1,13 @@
 <launch>
+	<!-- TODO : joy_frame arg/param are currently Not used -->
+	<!-- TODO : deprecate or modify "speed" param -->
+
     <arg name="disable_chair_joy" default="false"/>
     <arg name="joy_frame" default="0x02001100"/>
     <arg name="speed" default="100"/>
 
     <node pkg="pwm_driver" type="rnet_teleop_node.py" name="rnet_teleop_node" output="screen">
-        <param name="joy_frame" value="$(arg joy_frame)"/>
+		<param name="joy_frame" value="$(arg joy_frame)"/> 
         <param name="disable_chair_joy" value="$(arg disable_chair_joy)"/>
         <param name="speed" value="$(arg speed)"/>
         <param name="v_scale" value="1.4"/>
