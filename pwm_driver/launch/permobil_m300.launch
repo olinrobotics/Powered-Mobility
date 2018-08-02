@@ -10,8 +10,8 @@
 		<param name="joy_frame" value="$(arg joy_frame)"/> 
         <param name="disable_chair_joy" value="$(arg disable_chair_joy)"/>
         <param name="speed" value="$(arg speed)"/>
-        <param name="v_scale" value="1.4"/>
-        <param name="w_scale" value="1.33"/>
+        <param name="v_scale" value="1.27"/>
+        <param name="w_scale" value="1.16"/>
         <param name="min_v" value="0.0"/>
         <param name="min_w" value="0.0"/>
         <param name="cmd_timeout" value="0.2"/>

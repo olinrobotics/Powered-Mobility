@@ -1,5 +1,5 @@
 /* TEST :
-   (PC) rosrun	rosserial_python serial_node.py _port:=/dev/ttyUSB0 _baud:=57600
+   (PC) rosrun rosserial_python serial_node.py _port:=/dev/ttyUSB0 _baud:=57600
    (Pi) rosrun pwm_driver rnet_node.py 
    */ 
 
@@ -37,7 +37,7 @@ void usage(){
 	printf("Options:\n");
 	printf("\t-c, CAN Port (default : can0)\n");
 	printf("\t-h, This Help Message\n");
-	printf("\t-p, ROS Port (default : /dev/ttyS0)\n");
+	printf("\t-p, ROS Port - Serial or TCP/IP (default : /dev/ttyS0)\n");
 	printf("\t-r, RNET Command rate in Hz (default : 50)\n");
 	printf("\t-t, cmd_vel receive timeout in seconds (default : 0.1)\n");
 }
@@ -113,6 +113,10 @@ int main(int argc, char* argv[]){
 	std::string can_port = "can0";
 	float rcv_timeout     = 0.1;
 	float cmd_vel_rate    = 50.0; // 50 hz
+	
+	// currently non-configurable parameter
+	const float v_scale = 1.27;
+	const float w_scale = 1.16;
 
 	// parse options
 	bool rflag = false;
@@ -157,7 +161,7 @@ int main(int argc, char* argv[]){
 	can_frame cf;
 
 	tv.tv_sec = 0;
-	tv.tv_usec = 10000;
+	tv.tv_usec = 1000;
 
 	std::chrono::high_resolution_clock::time_point last_send = sysnow();
 
@@ -186,10 +190,10 @@ int main(int argc, char* argv[]){
 
 			float cmd_dt = sysdt(last_cmd, now);
 			if(cmd_dt > cmd_vel_period){
-				int cmd_x1 = clip(-100, 1.3 * - 100 * cmd_vel.angular.z, 100);
-				int cmd_y1 = clip(-100, 1.4 * + 100 * cmd_vel.linear.x,  100);
-				int cmd_x2 = clip(-25, 1.3 * - 25 * cmd_vel.angular.z, 25);
-				int cmd_y2 = clip(-25, 1.4 * + 25 * cmd_vel.linear.x,  25);
+				int cmd_x1=clip(-100, w_scale * (- 100 * cmd_vel.angular.z), 100);
+				int cmd_y1=clip(-100, v_scale * (+ 100 * cmd_vel.linear.x),  100);
+				int cmd_x2=clip(-25,  w_scale * (- 25  * cmd_vel.angular.z), 25);
+				int cmd_y2=clip(-25,  v_scale * (+ 25  * cmd_vel.linear.x),  25);
 
 				sprintf(can_cmd_buf1, "02001100#%02X%02X", (uint8_t)cmd_x1, (uint8_t)cmd_y1);
 				sprintf(can_cmd_buf2, "02000200#%02X%02X", (uint8_t)cmd_x2, (uint8_t)cmd_y2);
