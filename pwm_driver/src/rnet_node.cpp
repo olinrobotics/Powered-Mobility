@@ -93,8 +93,11 @@ bool parse(int argc, char* argv[],
 				}
 				usage();
 				return false;
+				break;
 			default:
-				abort ();
+				fprintf(stderr, "? : %s\n", optarg);
+				//abort ();
+				break;
 		}
 	}
 	return true;
@@ -111,8 +114,8 @@ int main(int argc, char* argv[]){
 	// setup default parameters
 	std::string ros_port = "/dev/ttyS0";
 	std::string can_port = "can0";
-	float rcv_timeout     = 0.1;
-	float cmd_vel_rate    = 50.0; // 50 hz
+	float rcv_timeout     = 0.2;
+	float cmd_vel_rate    = 100.0; // 50 hz
 	
 	// currently non-configurable parameter
 	const float v_scale = 1.27;
@@ -125,12 +128,12 @@ int main(int argc, char* argv[]){
 
 	bool show_help = false;
 
-	if(!parse(argc, argv,
-				ros_port, can_port,
-				rcv_timeout, cmd_vel_rate
-				)){
-		return 1;
-	}
+	//if(!parse(argc, argv,
+	//			ros_port, can_port,
+	//			rcv_timeout, cmd_vel_rate
+	//			)){
+	//	return 1;
+	//}
 
 	// derived parameter
 	// compute period from rate
