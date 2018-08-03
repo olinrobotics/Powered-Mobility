@@ -174,7 +174,7 @@ int main(int argc, char* argv[]){
 	can_frame cf;
 
 	tv.tv_sec = 0;
-	tv.tv_usec = 1000;
+	tv.tv_usec = 100;
 
 	std::chrono::high_resolution_clock::time_point last_send = sysnow();
 
@@ -184,6 +184,7 @@ int main(int argc, char* argv[]){
 	}
 
 	while(1){//ros::ok()){
+		nh.spinOnce();
 		std::chrono::high_resolution_clock::time_point now = sysnow();
 
 		FD_ZERO(&rdfs);
@@ -222,7 +223,6 @@ int main(int argc, char* argv[]){
 			bat_msg.percentage = cf.data[0];
 			bat_pub.publish(&bat_msg);
 		}
-		nh.spinOnce();
 		usleep(1000);
 	}
 	roscan.shutdown();
