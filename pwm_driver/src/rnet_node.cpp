@@ -128,12 +128,22 @@ int main(int argc, char* argv[]){
 
 	bool show_help = false;
 
-	//if(!parse(argc, argv,
-	//			ros_port, can_port,
-	//			rcv_timeout, cmd_vel_rate
-	//			)){
-	//	return 1;
-	//}
+	if(!parse(argc, argv,
+				ros_port, can_port,
+				rcv_timeout, cmd_vel_rate
+				)){
+		return 1;
+	}
+    
+    printf("====================\n");
+    printf("Parameters:\n");
+    printf("\tros_port    : %s\n", ros_port.c_str());
+    printf("\tcan_port    : %s\n", can_port.c_str());
+    printf("\trcv_timeout : %f\n", rcv_timeout);
+    printf("\tcmd_rate    : %f\n", cmd_vel_rate);
+    printf("\tv_scale     : %f\n", v_scale);
+    printf("\tw_scale     : %f\n", w_scale);
+    printf("====================\n");
 
 	// derived parameter
 	// compute period from rate

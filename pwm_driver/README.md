@@ -43,7 +43,6 @@ rosrun pwm_driver rnet_node -c can0 -p 10.27.92.14 -t 0.2 -r 50
 
 ```bash
 sudo modprobe vcan
-sudo ip link add dev vcan0 type vcan bitrate 125000
 sudo ip link add dev vcan0 type vcan
 sudo ip link set up vcan0
 ```
