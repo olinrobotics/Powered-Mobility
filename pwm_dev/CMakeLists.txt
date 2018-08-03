@@ -10,8 +10,12 @@ project(pwm_dev)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  tf
+  tf2
+  pcl_ros
   dynamic_reconfigure
 )
+find_package(PCL REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -117,6 +121,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -132,8 +137,11 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/pwm_dev_node.cpp)
-
+add_executable(grass_detector src/grass_detector.cpp)
+target_link_libraries(grass_detector
+    ${catkin_LIBRARIES}
+    ${PCL_LIBRARIES}
+    )
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
