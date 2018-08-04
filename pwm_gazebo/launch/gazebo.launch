@@ -10,12 +10,13 @@
 	<arg name="debug" default="false"/>
 	<arg name="physics" default="ode"/>
 	<arg name="verbose" default="false"/>
+
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/garage.world"/>
 
     <!--
-	<arg name="world_name" default="$(find pwm_gazebo)/worlds/garage.world"/>
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/simple_2.world"/>
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/elevation.world"/>
+	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin.world"/>
     -->
 
 	<!-- set use_sim_time flag -->

@@ -57,5 +57,865 @@
 			</link>
 
 		</model>
+
+		<model name='pine_tree_0'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>3 3 3</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>3 3 3</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>3 3 3</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>-24.1339 -6.69895 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_1'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>3 3 3</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>3 3 3</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>3 3 3</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>-21.1758 -16.0935 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_2'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>3 3 3</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>3 3 3</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>3 3 3</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>-21.1126 -25.1005 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_3'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>-6.01356 -25.1401 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_4'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>-23.2655 5.39032 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_5'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>1.55764 -17.4971 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_6'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>12.5381 -9.97238 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_7'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>-4.99019 17.5154 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_8'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>2 2 2</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>2 2 2</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>2 2 2</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>4.49175 25.4361 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_9'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>2 2 2</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>2 2 2</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>2 2 2</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>21.489 24.0627 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_10'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>26.3373 18.9463 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_11'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>1 1 1</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>19.9035 6.76165 0 0 -0 0</pose>
+		</model>
+		<model name='pine_tree_12'>
+			<static>1</static>
+			<link name='link'>
+				<collision name='collision'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<scale>2 2 2</scale>
+						</mesh>
+					</geometry>
+					<max_contacts>10</max_contacts>
+					<surface>
+						<contact>
+							<ode/>
+						</contact>
+						<bounce/>
+						<friction>
+							<torsional>
+								<ode/>
+							</torsional>
+							<ode/>
+						</friction>
+					</surface>
+				</collision>
+				<visual name='branch'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Branch</name>
+							</submesh>
+							<scale>2 2 2</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Branch</name>
+						</script>
+					</material>
+				</visual>
+				<visual name='bark'>
+					<geometry>
+						<mesh>
+							<uri>model://pine_tree/meshes/pine_tree.dae</uri>
+							<submesh>
+								<name>Bark</name>
+							</submesh>
+							<scale>2 2 2</scale>
+						</mesh>
+					</geometry>
+					<material>
+						<script>
+							<uri>model://pine_tree/materials/scripts/</uri>
+							<uri>model://pine_tree/materials/textures/</uri>
+							<name>PineTree/Bark</name>
+						</script>
+					</material>
+				</visual>
+				<self_collide>0</self_collide>
+				<kinematic>0</kinematic>
+				<gravity>1</gravity>
+			</link>
+			<pose frame=''>24.7313 10.8897 0 0 -0 0</pose>
+		</model>
+
 	</world>
 </sdf>

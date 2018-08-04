@@ -7,7 +7,8 @@
     <arg name="arduino"       default="true"/>
 	<arg name="localization"  default="true"/>
     <arg name="serial_driver" default="true"/>
-	<arg name="navigation"    default="false"/>
+	<arg name="navigation"    default="true"/>
+	<arg name="indoor"        default="true"/>
 
     <!-- Arbitration -->
     <group if="$(arg arbiter)">
@@ -32,11 +33,14 @@
 
     <!-- Localization -->
     <group if="$(arg localization)">
-        <include file="$(find pwm_localization)/launch/localization.launch" if="$(arg localization)"/>
+        <include file="$(find pwm_localization)/launch/localization.launch" if="$(arg localization)">
+			<arg name="indoor" value="$(arg indoor)"/>
+		</include>
     </group>
 
     <!-- Navigation -->
     <group if="$(arg navigation)">
+		<node pkg="pwm_dev" type="grass_detector" name="grass_detector"/>
         <include file="$(find pwm_navigation)/launch/move_base.launch" if="$(arg navigation)"/>
     </group>
 

@@ -7,7 +7,7 @@ publish_tf: false # should be handled by rtabmap
 
 transform_timeout: 0.2
 two_d_mode: true
-use_control: false
+use_control: true
 
 control_config: [true,false,false,
     false,false,true]
@@ -19,7 +19,7 @@ imu0_config: [false, false, false,
     true, true, true, # yaw (mag) ???
     false, false, false, # lin vel
     true, true, true, # ang vel
-    false, false, false] # lin acc
+    true, false, false] # lin acc
 imu0_queue_size: 10
 
 odom0: /vo
@@ -32,7 +32,7 @@ odom0_relative: true
 odom0_differential: true
 
 odom1: /odometry/gps
-odom1_config: [true,true,true,
+odom1_config: [false,false,false,
     false,false,false,
     false,false,false,
     false,false,false,

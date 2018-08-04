@@ -187,7 +187,7 @@
             <param name="GridGlobal/MinSize"           type="string" value="20"/>
 
             <param name="Reg/Force3DoF"                type="string" value="true"/>
-            <param name="Reg/Strategy"              type="string" value="2"/>    <!-- 1=ICP -->
+            <param name="Reg/Strategy"              type="string" value="0"/>    <!-- 1=ICP -->
 
             <param name="RGBD/OptimizeMaxError"        type="string" value="0.1"/>
 			<param name="RGBD/OptimizeFromGraphEnd" type="string" value="false"/>
@@ -216,6 +216,7 @@
             <remap from="user_data"              to="$(arg user_data_topic)"/>
             <remap from="user_data_async"        to="$(arg user_data_async_topic)"/>
             <remap from="odom"                   to="$(arg odom_topic)"/>
+			<remap from="grid_map" to="/map"/>
 
             <!-- localization mode -->
             <param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>

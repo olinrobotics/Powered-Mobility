@@ -4,7 +4,7 @@ base_link_frame: base_footprint
 
 transform_timeout: 0.2
 two_d_mode: true
-use_control: false
+use_control: true
 publish_tf: true
 
 control_config: [true,false,false,
@@ -17,7 +17,7 @@ imu0_config: [false, false, false,
     true, true, true, # yaw (mag) ???
     false, false, false, # lin vel
     true, true, true, # ang vel
-    false, false, false] # lin acc
+    true, false, false] # lin acc
 imu0_queue_size: 10
 
 odom0: /vo

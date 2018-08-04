@@ -1,15 +1,15 @@
 <launch>
 	<arg name="fusion" default="true"/>
+	<arg name="indoor" default="true"/>
 
 	<include file="$(find pwm_localization)/launch/odom.launch">
 		<arg name="fusion" value="$(arg fusion)"/>
 	</include>
 
-
-	<include file="$(find pwm_localization)/launch/hector_slam.launch" if="true">
+	<include file="$(find pwm_localization)/launch/hector_slam.launch" if="$(arg indoor)">
 	</include>
 
-	<include file="$(find pwm_localization)/launch/rtabmap.launch" if="false">
+	<include file="$(find pwm_localization)/launch/rtabmap.launch" unless="$(arg indoor)">
 		<arg name="rtabmapviz" value="false"/>
 		<arg name="rviz" value="false"/>
 
@@ -24,7 +24,7 @@
 		<arg name="publish_tf" if="$(arg fusion)" value="false"/>
 		<arg name="publish_tf" unless="$(arg fusion)" value="true"/>
 		-->
-		<arg name="publish_tf" value="false"/>
+		<arg name="publish_tf" value="true"/>
 
 		<arg name="frame_id" value="base_footprint"/>
 		<arg name="args" value="--delete_db_on_start"/>
@@ -33,9 +33,11 @@
 		<arg name="depth_topic" value="/camera/aligned_depth_to_color/image_raw"/>
 		<arg name="camera_info_topic" value="/camera/color/camera_info"/>
 
-		<arg name="subscribe_scan" value="true"/>
+		<arg name="subscribe_scan" value="false"/>
 		<arg name="odom_topic" value="/odom"/>
-		<!--<arg name="odom_frame_id" value=""/>-->
+		<arg name="odom_frame_id" value="world"/>
+
+		<remap from="/rtabmap/grid_map" to="/map"/>
 	</include>
 
 	<group if="$(arg fusion)">
