@@ -48,9 +48,9 @@ bool parse(int argc, char* argv[],
 		float& rcv_timeout,
 		float& cmd_rate
 		){
-	char c;
+	int c;
 
-	while ((c = getopt (argc, argv, "c:hp:r:t:")) != -1){
+	while ((c = getopt (argc, argv, "c:hp:r:t:")) != EOF){
 		switch (c)
 		{
 			case 'c': // == --can_port
@@ -83,7 +83,7 @@ bool parse(int argc, char* argv[],
 				}
 				break;
 			case '?':
-				if (optopt == 'c' || optopt == 'r'){
+				if (optopt == 'c' || optopt=='p' || optopt == 'r'||optopt=='t'){
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				} else if (isprint (optopt)){
 					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
@@ -95,7 +95,7 @@ bool parse(int argc, char* argv[],
 				return false;
 				break;
 			default:
-				fprintf(stderr, "? : %s\n", optarg);
+				fprintf(stderr, "? : %d-%s\n", (int)c, optarg);
 				//abort ();
 				break;
 		}
