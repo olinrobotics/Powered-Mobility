@@ -70,13 +70,9 @@ namespace pwm_dev{
 		footprint_clearing_enabled_ = true;
 		combination_method_ = 1; // updateWithMax
 
-        boost::shared_ptr < message_filters::Subscriber<sensor_msgs::PointCloud2>
-            > sub(new message_filters::Subscriber<sensor_msgs::PointCloud2>(g_nh, topic_, 50));
-
-        boost::shared_ptr < tf::MessageFilter<sensor_msgs::PointCloud2>
-            > filter(new tf::MessageFilter<sensor_msgs::PointCloud2>(*sub, *tf_, global_frame_, 50));
-
-        filter->registerCallback(
+        sub_.reset(new message_filters::Subscriber<sensor_msgs::PointCloud2>(g_nh, topic_, 50));
+        filter_.reset(new tf::MessageFilter<sensor_msgs::PointCloud2>(*sub_, *tf_, global_frame_, 50));
+        filter_->registerCallback(
                 boost::bind(&GrassLayer::cloudCallback, this, _1));
         /*
         {
@@ -134,12 +130,10 @@ namespace pwm_dev{
         tf2::doTransform(*message, *pcl_msg_, xform_msg);
         //pcl_ros::transformPointCloud(global_frame_, *message, *pcl_msg_, tfl_);
 
+        // ROS -> PCL
         pcl::fromROSMsg(*pcl_msg_, *pcl_rgb_raw_);
         pcl_msg_->header.frame_id = global_frame_;
         pcl_msg_->header.stamp    = message->header.stamp;
-
-        // ROS -> PCL
-        pcl::fromROSMsg(*pcl_msg_, *pcl_rgb_raw_);
 
         //Voxel (pcl_rgb_raw -> pcl_rgb)
         pcl::VoxelGrid<pcl::PointXYZRGB> vox;
@@ -158,46 +152,50 @@ namespace pwm_dev{
         useExtraBounds(min_x, min_y, max_x, max_y);
 
         bool current = true;
-        if( (pcl_msg_->header.stamp - ros::Time::now() ).toSec() < sensor_timeout_){
-            current = false;
-        }
+		if(pcl_msg_){
+			if( (ros::Time::now() - pcl_msg_->header.stamp).toSec() < sensor_timeout_){
+				current = false;
+			}
+		}
 
         // update the global current status
         current_ = current;
 
         // place the new obstacles into a priority queue... each with a priority of zero to begin with
         // filter by
-        
-        const tf::Vector3& o = pcl_origin_;
-        float ox=o.x(),oy=o.y(),oz=o.z();
 
-        for (unsigned int i = 0; i < pcl_rgb_->points.size(); ++i)
-        {
-            const pcl::PointXYZRGB& p = pcl_rgb_->points[i];
-            double px = p.x, py = p.y, pz = p.z;
-            double ph = rgb2h(p.r, p.g, p.b);
-            if (pz<min_z_ || pz>max_z_) continue;
+		if(pcl_rgb_){	
+			const tf::Vector3& o = pcl_origin_;
+			float ox=o.x(),oy=o.y(),oz=o.z();
 
-            double d = sqrt((px-ox)*(px-ox) + (py-oy)*(py-oy));
-            if (d<min_range_ || d>max_range_) continue;
+			for (unsigned int i = 0; i < pcl_rgb_->points.size(); ++i)
+			{
+				const pcl::PointXYZRGB& p = pcl_rgb_->points[i];
+				double px = p.x, py = p.y, pz = p.z;
+				double ph = rgb2h(p.r, p.g, p.b);
+				if (pz<min_z_ || pz>max_z_) continue;
 
-            // now we need to compute the map coordinates for the observation
-            unsigned int mx, my;
-            if (!worldToMap(px, py, mx, my))
-            {
-                ROS_DEBUG("Computing map coords failed");
-                continue;
-            }
+				double d = sqrt((px-ox)*(px-ox) + (py-oy)*(py-oy));
+				if (d<min_range_ || d>max_range_) continue;
 
-            unsigned int index = getIndex(mx, my);
-            if (ph>min_h_ && ph<max_h_){
-                costmap_[index] = std::max(costmap_[index] + grass_cost_, grass_max_cost_);
-            }else{
-                // todo : separate grass_clear_cost_ ?
-                costmap_[index] = std::min(costmap_[index] - grass_cost_, (double)FREE_SPACE);
-            }
-            touch(px, py, min_x, min_y, max_x, max_y);
-        }
+				// now we need to compute the map coordinates for the observation
+				unsigned int mx, my;
+				if (!worldToMap(px, py, mx, my))
+				{
+					ROS_DEBUG("Computing map coords failed");
+					continue;
+				}
+
+				unsigned int index = getIndex(mx, my);
+				if (ph>min_h_ && ph<max_h_ && marking_){
+					costmap_[index] = std::max(costmap_[index] + grass_cost_, grass_max_cost_);
+				}else if (clearing_){
+					// todo : separate grass_clear_cost_ ?
+					costmap_[index] = std::max(costmap_[index] - grass_cost_, (double)FREE_SPACE);
+				}
+				touch(px, py, min_x, min_y, max_x, max_y);
+			}
+		}
 
         updateFootprint(robot_x, robot_y, robot_yaw, min_x, min_y, max_x, max_y);
     }
@@ -251,10 +249,13 @@ namespace pwm_dev{
         //    if (observation_buffers_[i])
         //        observation_buffers_[i]->resetLastUpdated();
         //}
+		sub_->subscribe();
     }
 
     void GrassLayer::deactivate()
     {
+		if(sub_)
+			sub_->unsubscribe();
         //for (unsigned int i = 0; i < observation_subscribers_.size(); ++i)
         //{
         //    if (observation_subscribers_[i] != NULL)

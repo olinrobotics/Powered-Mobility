@@ -46,6 +46,9 @@ namespace pwm_dev{
           double grass_max_cost_;
 
           // TODO : buffer??
+		  boost::shared_ptr < message_filters::Subscriber<sensor_msgs::PointCloud2> > sub_;
+		  boost::shared_ptr < tf::MessageFilter<sensor_msgs::PointCloud2> > filter_;
+
           
           // ros data
           sensor_msgs::PointCloud2::Ptr pcl_msg_;

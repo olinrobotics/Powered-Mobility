@@ -19,7 +19,6 @@ static_layer:
 obstacle_layer:
   observation_sources: scan
   scan: {sensor_frame: laser, data_type: LaserScan, topic: /scan, marking: true, clearing: true, expected_update_rate: 30.0, obstacle_range: 5.0, raytrace_range: 10.0}
-  #grass: {sensor_frame: base_footprint, data_type: PointCloud2, topic: /grass_points, marking: true, clearing: true, expected_update_rate: 30.0, min_obstacle_height: -0.1, obstacle_range: 5.0, raytrace_range: 5.0}
 
 inflation_layer:
   enabled: True
@@ -33,7 +32,7 @@ grass_layer:
   min_z: -0.1
   max_z: 0.1
   min_h: 60.0
-  max_h: 180.0
+  max_h: 150.0
   min_range: 0.16
   max_range: 5.0
   clearing: true
