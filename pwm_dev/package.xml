@@ -56,7 +56,11 @@
 	<depend>tf</depend>
 	<depend>tf2</depend>
 	<depend>tf2_ros</depend>
+    <depend>tf2_sensor_msgs</depend>
     <depend>costmap_2d</depend>
+    <depend>message_filters</depend>
+    <depend>nav_msgs</depend>
+    <depend>pluginlib</depend>
 
     <buildtool_depend>catkin</buildtool_depend>
     <build_depend>roscpp</build_depend>
@@ -74,7 +78,6 @@
 	<exec_depend>topic_tools</exec_depend>
 	<exec_depend>realsense2_camera</exec_depend>
 	<exec_depend>rosbag</exec_depend>
-
 
     <depend>dynamic_reconfigure</depend>
 
