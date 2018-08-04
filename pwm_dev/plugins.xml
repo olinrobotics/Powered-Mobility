@@ -1,0 +1,5 @@
+<library path="lib/libgrass_layer">
+    <class type="pwm_dev::GrassLayer" base_class_type="costmap_2d::Layer">
+        <description>Simple Color-Threshold based Grass Detection Layer</description>
+    </class>
+</library>

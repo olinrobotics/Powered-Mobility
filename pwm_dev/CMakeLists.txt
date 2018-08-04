@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(pwm_dev)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2
   pcl_ros
   dynamic_reconfigure
+  costmap_2d
 )
 find_package(PCL REQUIRED)
 
@@ -119,10 +120,10 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
-  ${PCL_INCLUDE_DIRS}
-)
+    include
+    ${catkin_INCLUDE_DIRS}
+    ${PCL_INCLUDE_DIRS}
+    )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -139,6 +140,12 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(grass_detector src/grass_detector.cpp)
 target_link_libraries(grass_detector
+    ${catkin_LIBRARIES}
+    ${PCL_LIBRARIES}
+    )
+
+add_library(grass_layer src/grass_layer.cpp)
+target_link_libraries(grass_layer
     ${catkin_LIBRARIES}
     ${PCL_LIBRARIES}
     )
