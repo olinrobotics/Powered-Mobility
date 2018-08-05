@@ -13,4 +13,7 @@
 		<param name="frame_id" value="gps"/>
 	</node>
 
+<!-- Phidgets -->
+<include file="$(find pwm_dev)/launch/phidgets_imu.launch"/>
+
 </launch>
