@@ -3,12 +3,12 @@
 	<model name="olin">
 		<static>true</static>
 		<link name="olin">
-			<pose>0 0 -4.0 0 0 0</pose>
+			<pose>0 0 0.0 0 0 0</pose>
 			<collision name="collision">
 				<geometry>
 					<mesh>
-						<uri>model://olinv2/meshes/olin_rec.dae</uri>
-						<scale>9.3 9.3 9.3</scale>
+						<uri>model://olinv2/meshes/olin_highres.dae</uri>
+						<scale>2.85 2.85 2.85</scale>
 					</mesh>
 				</geometry>
 				<surface>
@@ -24,8 +24,8 @@
 				<cast_shadows>false</cast_shadows>
 				<geometry>
 					<mesh>
-						<uri>model://olinv2/meshes/olin_rec.dae</uri>
-						<scale>9.3 9.3 9.3</scale>
+						<uri>model://olinv2/meshes/olin_highres.dae</uri>
+						<scale>2.85 2.85 2.85</scale>
 					</mesh>
 				</geometry>
 			</visual>

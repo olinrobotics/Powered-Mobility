@@ -123,7 +123,7 @@
                 </image>
                 <clip>
                     <near>0.16</near>
-                    <far>10.0</far>
+                    <far>100.0</far>
                 </clip>
                 <!-- WARNING : no noise in depth -->
                 <noise>

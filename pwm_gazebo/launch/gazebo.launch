@@ -12,7 +12,7 @@
 	<arg name="verbose" default="false"/>
 
 
-	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin.world"/>
+	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin_2.world"/>
     <!--
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin.world"/>
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin_2.world"/>
