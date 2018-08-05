@@ -122,8 +122,8 @@
                     <height>480</height>
                 </image>
                 <clip>
-                    <near>0.05</near>
-                    <far>100.0</far>
+                    <near>0.16</near>
+                    <far>10.0</far>
                 </clip>
                 <!-- WARNING : no noise in depth -->
                 <noise>
@@ -148,7 +148,7 @@
                 <distortion_k3>0.0</distortion_k3>
                 <distortion_t1>0.0</distortion_t1>
                 <distortion_t2>0.0</distortion_t2>
-                <pointCloudCutoff>0.4</pointCloudCutoff>
+                <pointCloudCutoff>0.16</pointCloudCutoff>
             </plugin>
         </sensor>
     </gazebo>
