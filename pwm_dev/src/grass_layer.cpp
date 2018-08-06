@@ -27,16 +27,16 @@ namespace pwm_dev{
         float cmax = std::max({rf, gf, bf});
         float delta = cmax - std::min({rf,gf,bf});
 
-        /* hue */
+        /* hue, 0 - 360*/
         if(delta == 0) h=0;
         if(cmax == rf) h=60.0 * (fmod((gf-bf)/delta, 6.0));
         if(cmax == gf) h=60.0 * ((bf-rf)/delta + 2);
         if(cmax == bf) h=60.0 * ((rf-gf)/delta + 4);
 
-        /* saturation */
-        s = ((cmax==0)? 0 : delta / cmax);
+        /* saturation, 0 - 255 */
+        s = 255.0 * ((cmax==0)? 0 : delta / cmax);
 
-        /* value */
+        /* value, 0 - 255 */
         v = cmax;
     }
 

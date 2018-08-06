@@ -76,15 +76,23 @@ class GrassDetector
 
             // filter by Z/H
             pcl::PointIndices::Ptr idx (new pcl::PointIndices ());
-            const float GREEN_MIN = 60;
-            const float GREEN_MAX = 180;
+            const float H_MIN = 60;
+            const float H_MAX = 150;
+            const float S_MIN = 50 / 255.0;
+            const float S_MAX = 180 / 255.0;
+            const float V_MIN = 0 / 255.0;
+            const float V_MAX = 255 / 255.0;
             const float Z_MIN = -0.1;
             const float Z_MAX = 0.1;
 
             for(size_t i=0; i<_pcl_hsv->points.size(); ++i){
                 if(
-                        _pcl_hsv->points[i].h > GREEN_MIN &&
-                        _pcl_hsv->points[i].h < GREEN_MAX &&
+                        _pcl_hsv->points[i].h >= H_MIN &&
+                        _pcl_hsv->points[i].h < H_MAX &&
+                        _pcl_hsv->points[i].s >= S_MIN &&
+                        _pcl_hsv->points[i].s < S_MAX &&
+                        _pcl_hsv->points[i].v >= V_MIN &&
+                        _pcl_hsv->points[i].v < V_MAX &&
                         _pcl_rgb->points[i].z > Z_MIN &&
                         _pcl_rgb->points[i].z < Z_MAX
                   ){
