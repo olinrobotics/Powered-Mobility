@@ -1,2 +1,2 @@
-- git: {local-name: realsense,  uri: 'https://github.com/intel-ros/realsense.git'}
+- git: {local-name: realsense,  uri: 'https://github.com/yycho0108/realsense.git'}
 - git: {local-name: apriltags_ros, uri: 'https://github.com/RIVeR-Lab/apriltags_ros.git'}
