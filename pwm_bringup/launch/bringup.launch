@@ -1,14 +1,15 @@
 <launch>
     <!-- TODO : add sim-compatible configuration -->
+    <arg name="all"          default="true"/>
 
-    <arg name="arbiter"       default="true"/>
-    <arg name="transform"     default="true"/>
-	<arg name="hardware"      default="true"/>
-    <arg name="arduino"       default="true"/>
-	<arg name="localization"  default="true"/>
-    <arg name="serial_driver" default="true"/>
-	<arg name="navigation"    default="true"/>
-	<arg name="indoor"        default="true"/>
+    <arg name="arbiter"       default="$(arg all)"/>
+    <arg name="transform"     default="$(arg all)"/>
+	<arg name="hardware"      default="$(arg all)"/>
+    <arg name="arduino"       default="$(arg all)"/>
+	<arg name="localization"  default="$(arg all)"/>
+    <arg name="serial_driver" default="$(arg all)"/>
+	<arg name="navigation"    default="$(arg all)"/>
+	<arg name="indoor"        default="$(arg all)"/>
 
     <!-- Arbitration -->
     <group if="$(arg arbiter)">
@@ -24,8 +25,11 @@
     </group>
 
     <!-- Hardware -->
+    <include file="$(find pwm_bringup)/launch/sensors.launch">
+        <arg name="hardware" value="$(arg hardware)"/>
+    </include>
+
 	<group if="$(arg hardware)">
-		<include file="$(find pwm_bringup)/launch/sensors.launch"/>
 		<include file="$(find pwm_bringup)/launch/joy.launch"/>
 		<include file="$(find pwm_arduino)/launch/arduino.launch" if="$(arg arduino)"/>
         <include file="$(find pwm_driver)/launch/serial_server.launch" if="$(arg serial_driver)"/>

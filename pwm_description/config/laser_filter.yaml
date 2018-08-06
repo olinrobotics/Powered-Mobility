@@ -4,3 +4,8 @@ scan_filter_chain:
       params:
           lower_angle: -1.5
           upper_angle: 1.5
+    - name: range
+      type: laser_filters/LaserScanRangeFilter
+      params:
+          lower_threshold: 0.2 # filter out leg / related obstacles
+          upper_threshold: 20.0

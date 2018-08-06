@@ -41,6 +41,7 @@
 		args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" >
 		<remap from="wheelchair/velocity_controller/odom" to="sim_odom"/>
 		<remap from="wheelchair/velocity_controller/cmd_vel" to="cmd_vel"/>
+        <remap from="/scan" to="/scan_raw"/>
 	</node>
 
 	<!-- start gazebo client -->
