@@ -42,6 +42,10 @@ namespace pwm_dev{
 		  double max_z_;
           double min_h_;// hue
           double max_h_; 
+          double min_s_;// hue
+          double max_s_; 
+          double min_v_;// hue
+          double max_v_; 
           double grass_cost_;
           double grass_max_cost_;
 

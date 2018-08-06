@@ -20,14 +20,24 @@ using costmap_2d::Observation;
 
 namespace pwm_dev{
 
-    float rgb2h(int r, int g, int b){
+    float rgb2hsv(int r, int g, int b,
+            float& h, float& s, float& v
+            ){
         float rf=(r/255.), gf=(g/255.), bf=(b/255.);
         float cmax = std::max({rf, gf, bf});
         float delta = cmax - std::min({rf,gf,bf});
-        if(delta == 0) return 0;
-        if(cmax == rf) return 60.0 * (fmod((gf-bf)/delta, 6.0));
-        if(cmax == gf) return 60.0 * ((bf-rf)/delta + 2);
-        if(cmax == bf) return 60.0 * ((rf-gf)/delta + 4);
+
+        /* hue */
+        if(delta == 0) h=0;
+        if(cmax == rf) h=60.0 * (fmod((gf-bf)/delta, 6.0));
+        if(cmax == gf) h=60.0 * ((bf-rf)/delta + 2);
+        if(cmax == bf) h=60.0 * ((rf-gf)/delta + 4);
+
+        /* saturation */
+        s = ((cmax==0)? 0 : delta / cmax);
+
+        /* value */
+        v = cmax;
     }
 
 	void GrassLayer::onInitialize()
@@ -56,7 +66,11 @@ namespace pwm_dev{
         nh.param("min_z", min_z_, -0.1);
         nh.param("max_z", max_z_, 0.1);
         nh.param("min_h", min_h_, 60.0);
-        nh.param("max_h", max_h_, 180.0);
+        nh.param("max_h", max_h_, 150.0);
+        nh.param("min_s", min_s_, 50.0);
+        nh.param("max_s", max_s_, 180.0);
+        nh.param("min_v", min_v_, 0.0);
+        nh.param("max_v", max_v_, 255.0);
         nh.param("min_range", min_range_, 0.16); //D435 default
         nh.param("max_range", max_range_, 10.0); //D435 default
         nh.param("clearing", clearing_, false);
@@ -163,6 +177,8 @@ namespace pwm_dev{
 
         // place the new obstacles into a priority queue... each with a priority of zero to begin with
         // filter by
+        
+        float ph,ps,pv;
 
 		if(pcl_rgb_){	
 			const tf::Vector3& o = pcl_origin_;
@@ -172,7 +188,8 @@ namespace pwm_dev{
 			{
 				const pcl::PointXYZRGB& p = pcl_rgb_->points[i];
 				double px = p.x, py = p.y, pz = p.z;
-				double ph = rgb2h(p.r, p.g, p.b);
+				rgb2hsv(p.r,p.g,p.b, ph,ps,pv);
+
 				if (pz<min_z_ || pz>max_z_) continue;
 
 				double d = sqrt((px-ox)*(px-ox) + (py-oy)*(py-oy));
@@ -187,7 +204,10 @@ namespace pwm_dev{
 				}
 
 				unsigned int index = getIndex(mx, my);
-				if (ph>min_h_ && ph<max_h_ && marking_){
+				if (ph>min_h_ && ph<max_h_
+                        && ps>min_s_ && ps<max_s_
+                        && pv>min_v_ && pv<max_v_
+                        && marking_){
 					costmap_[index] = std::max(costmap_[index] + grass_cost_, grass_max_cost_);
 				}else if (clearing_){
 					// todo : separate grass_clear_cost_ ?
