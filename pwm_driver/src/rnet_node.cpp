@@ -187,10 +187,11 @@ int main(int argc, char* argv[]){
 		nh.spinOnce();
 		std::chrono::high_resolution_clock::time_point now = sysnow();
 
-		FD_ZERO(&rdfs);
-		FD_SET(roscan._s_h, &rdfs);
+		//FD_ZERO(&rdfs);
+		//FD_SET(roscan._s_h, &rdfs);
 
-		int rc = select(roscan._s_h+1, &rdfs, NULL, NULL, &tv);
+		//int rc = select(roscan._s_h+1, &rdfs, NULL, NULL, &tv);
+		int rc = 0;
 
 		if(!rc){
 			//float dt = sysdt(last_send, now);
@@ -218,12 +219,12 @@ int main(int argc, char* argv[]){
 			//}
 		}
 
-		if(FD_ISSET(roscan._s_h, &rdfs)){
-			roscan.read(cf);
-			bat_msg.percentage = cf.data[0];
-			bat_pub.publish(&bat_msg);
-		}
-		usleep(1000);
+		//if(FD_ISSET(roscan._s_h, &rdfs)){
+		//	roscan.read(cf);
+		//	bat_msg.percentage = cf.data[0];
+		//	bat_pub.publish(&bat_msg);
+		//}
+		//usleep(1000);
 	}
 	roscan.shutdown();
 	return 0;
