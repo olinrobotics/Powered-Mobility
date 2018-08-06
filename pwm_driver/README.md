@@ -56,7 +56,9 @@ rosrun rosserial_python serial_node.py tcp
 3. Start Serial Client:
 
 ```bash
+screen -S rnet_node
 rosrun pwm_driver rnet_node -c vcan0 -p localhost -t 0.2 -r 50
+# press <C-A>D to detach from screen
 ```
 
 4. Observe Output:
