@@ -44,6 +44,10 @@ namespace pwm_driver{
 			std::cout << "CAN Open Failed!" << std::endl;
 			return;
 		}
+
+		can_->set_filter(0x02001100, 0x1FFFFFFF); // joy -100 ~ 100
+		//can_->set_filter(0x02000200, 0x1FFFF0FF); // joy -speed ~ speed
+
 		std::cout << "CAN Open Success!" << std::endl;
 		cmd_t = ros::Time::now();
 
@@ -63,8 +67,8 @@ namespace pwm_driver{
 				int8_t cmd_x = (int8_t) cf.data[0];
 				int8_t cmd_y = (int8_t) cf.data[1];
 
-				cmd_v = cmd_y / v_scale_;
-				cmd_w = - cmd_x / w_scale_;
+				cmd_v = cmd_y / 100.0 / v_scale_;
+				cmd_w = - cmd_x / 100.0 / w_scale_;
 				cmd_t = ros::Time::now();
 				//std::cout << cmd_x << std::endl;
 			}
