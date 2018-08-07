@@ -104,10 +104,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-    #  INCLUDE_DIRS include
-    #  LIBRARIES pwm_driver
-    #  CATKIN_DEPENDS roscpp rospy
-    #  DEPENDS system_lib
+    INCLUDE_DIRS include
+    LIBRARIES roscan can_controller
+	#DEPENDS system_lib
+	#CATKIN_DEPENDS roscpp rospy
     )
 
 ###########
@@ -117,10 +117,9 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-    include/pwm_driver
-    #${catkin_INCLUDE_DIRS}
+    include/
+	#${catkin_INCLUDE_DIRS}
     )
-
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/pwm_driver.cpp
@@ -163,20 +162,6 @@ include_directories(
 # install(PROGRAMS
 #   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark executables and/or libraries for installation
-# install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
@@ -226,10 +211,22 @@ include_directories(
 #  set(${PROJECT_NAME}_ROS_LIB_DIR "${PROJECT_BINARY_DIR}/ros_lib" PARENT_SCOPE)
 #endfunction()
 
+# sim control interface
+add_library(can_controller src/can_controller.cpp)
+
+target_include_directories(can_controller PUBLIC
+	include/pwm_driver
+	${catkin_INCLUDE_DIRS}
+	)
+
+target_link_libraries(can_controller
+	${catkin_LIBRARIES}
+	roscan
+	)
+
 add_library(can_lib
   src/lib.c
 )
-
 add_custom_command(
     OUTPUT rm_ros_lib
     COMMAND rm -rf ${PROJECT_BINARY_DIR}/ros_lib
@@ -244,6 +241,12 @@ add_dependencies(pwm_driver_ros_lib
     rm_ros_lib
 )
 
+add_library(roscan
+	src/roscan.cpp
+	)
+target_link_libraries(roscan
+	can_lib)
+
 include_directories(
     ${${PROJECT_NAME}_ROS_LIB_DIR}
     )
@@ -252,10 +255,27 @@ MESSAGE(${${PROJECT_NAME}_ROS_LIB_DIR})
 add_executable(rnet_node src/rnet_node.cpp src/roscan.cpp)
 
 target_link_libraries(rnet_node
-    can_lib
+	roscan
     )
 
 add_dependencies(rnet_node
-    can_lib
+	roscan
     pwm_driver_ros_lib
     )
+
+## Mark executables and/or libraries for installation
+install(FILES pwm_driver_plugins.xml
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(TARGETS rnet_node roscan
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+## Mark cpp header files for installation
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  FILES_MATCHING PATTERN "*.h"
+  PATTERN ".svn" EXCLUDE
+)

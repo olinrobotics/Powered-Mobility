@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-
     <xacro:property name="wm1" value="1.5"/>
     <xacro:property name="wm2" value="1.5"/>
     <xacro:property name="wkp" value="1e6"/>

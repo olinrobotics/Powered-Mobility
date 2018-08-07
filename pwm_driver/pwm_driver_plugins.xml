@@ -1,0 +1,9 @@
+<library path="lib/libcan_controller">
+	<class name="pwm_driver/CanController"
+		type="pwm_driver::CanController"
+		base_class_type="controller_interface::ControllerBase">
+    <description>
+		Simple Differential Drive Control that Subscribes to CAN (Control Area Network) velocity commands.
+    </description>
+  </class>
+</library>

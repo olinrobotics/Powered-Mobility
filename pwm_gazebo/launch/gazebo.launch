@@ -10,6 +10,7 @@
 	<arg name="debug" default="false"/>
 	<arg name="physics" default="ode"/>
 	<arg name="verbose" default="false"/>
+	<arg name="can" default="false"/>
 
 
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin_2.world"/>
@@ -38,7 +39,9 @@
 
 	<!-- start gazebo server-->
 	<node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)" respawn="false" output="screen"
-		args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" >
+		args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)"
+		>
+
 		<remap from="wheelchair/velocity_controller/odom" to="sim_odom"/>
 		<remap from="wheelchair/velocity_controller/cmd_vel" to="cmd_vel"/>
         <remap from="/scan" to="/scan_raw"/>

@@ -53,7 +53,7 @@
 #include <linux/can.h>
 #include <linux/can/error.h>
 
-#include "lib.h"
+#include "pwm_driver/lib.h"
 
 #define CANID_DELIM '#'
 #define DATA_SEPERATOR '.'

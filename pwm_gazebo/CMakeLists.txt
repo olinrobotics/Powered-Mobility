@@ -2,20 +2,22 @@ cmake_minimum_required(VERSION 2.8.3)
 project(pwm_gazebo)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  gazebo_ros
-  geometry_msgs
-  roscpp
-  rospy
-  sensor_msgs
-  std_msgs
-  tf
-)
+	gazebo_ros
+	geometry_msgs
+	roscpp
+	rospy
+	sensor_msgs
+	std_msgs
+	tf
+	#pwm_driver
+	)
+find_package(gazebo REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -107,11 +109,11 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES pwm_gazebo
-#  CATKIN_DEPENDS gazebo_ros geometry_msgs roscpp rospy sensor_msgs std_msgs tf
-#  DEPENDS system_lib
-)
+	#  INCLUDE_DIRS include
+	#  LIBRARIES pwm_gazebo
+	#  CATKIN_DEPENDS gazebo_ros geometry_msgs roscpp rospy sensor_msgs std_msgs tf
+	#  DEPENDS system_lib
+	)
 
 ###########
 ## Build ##
@@ -120,9 +122,11 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
-)
+	# include
+	${catkin_INCLUDE_DIRS}
+	#${pwm_driver_INCLUDE_DIRS}
+	${GAZEBO_INCLUDE_DIRS}
+	)
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -148,6 +152,13 @@ include_directories(
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+#add_library(can_plugin SHARED src/can_plugin.cpp)
+#target_link_libraries(can_plugin
+#	${GAZEBO_LIBRARIES}
+#	${catkin_LIBRARIES}
+#	${roscpp_libraries}
+#	)
+#roscan)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
