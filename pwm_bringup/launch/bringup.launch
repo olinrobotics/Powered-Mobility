@@ -9,6 +9,7 @@
 	<arg name="localization"  default="$(arg all)" doc="Localization / mapping features"/>
 	<arg name="navigation"    default="$(arg all)" doc="Navigational features"/>
 	<arg name="indoor"        default="$(arg all)" doc="Select map-odom loop closure Mode; LIDAR(indoor) / RGB-D(outdoor)"/>
+	<arg name="nav_remap"     default="$(arg all)" doc="Whether or not to remap cmd_vel in navigation"/>
 
     <!-- Arbitration -->
     <group if="$(arg arbiter)">
@@ -44,7 +45,9 @@
     <!-- Navigation -->
     <group if="$(arg navigation)">
 		<node pkg="pwm_dev" type="grass_detector" name="grass_detector"/>
-        <include file="$(find pwm_navigation)/launch/move_base.launch" if="$(arg navigation)"/>
+        <include file="$(find pwm_navigation)/launch/move_base.launch" if="$(arg navigation)">
+			<arg name="nav_remap" value="$(arg nav_remap)"/>
+		</include>
     </group>
 
 </launch>

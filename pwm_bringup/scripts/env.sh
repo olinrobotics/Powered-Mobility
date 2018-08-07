@@ -45,6 +45,10 @@ function pwm-build(){
 	catkin build -w ${HOME}/catkin_ws pwm_robot -DCMAKE_BUILD_TYPE=Release
 }
 
+function pwm-test(){
+	catkin run_tests -w ${HOME}/catkin_ws pwm_tests && catkin_test_results ~/catkin_ws
+}
+
 function pwm-cd(){
 	roscd pwm_robot/..
 }

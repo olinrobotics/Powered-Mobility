@@ -9,17 +9,17 @@ topics:
   - name: /camera/depth/camera_info
     timeout: 60.0
     negative: False
-  - name: /camera/depth/points
+  - name: /camera/depth_registered/points
     timeout: 60.0
     negative: False
   - name: /scan
     timeout: 60.0
     negative: False
-    # loc
+    # loc / map
   - name: /odom
     timeout: 60.0
     negative: False
-  - name: /rtabmap/grid_map
+  - name: /map
     timeout: 60.0
     negative: False
     # nav

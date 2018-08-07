@@ -1,12 +1,16 @@
 <launch>
 	<include file="$(find pwm_gazebo)/launch/gazebo.launch">
 		<arg name="gui" value="false"/>
+		<arg name="can" value="false"/>
+		<arg name="world_name" value="$(find pwm_gazebo)/worlds/garage.world"/>
 	</include>
 
-	<include file="$(find pwm_localization)/launch/localization.launch">
-	</include>
-
-	<include file="$(find pwm_navigation)/launch/move_base.launch">
+	<include file="$(find pwm_bringup)/launch/bringup.launch">
+		<arg name="all" value="true"/>
+		<arg name="arbiter" value="false"/>
+		<arg name="transform" value="false"/>
+		<arg name="hardware" value="false"/>
+		<arg name="nav_remap" value="false"/>
 	</include>
 
 	<include file="$(find pwm_navigation)/launch/explore.launch">

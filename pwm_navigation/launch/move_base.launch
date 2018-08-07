@@ -1,4 +1,5 @@
 <launch>
+	<arg name="nav_remap" default="true"/>
 
 	<!-- Move base -->
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen"
@@ -10,7 +11,7 @@
 		<rosparam file="$(find pwm_navigation)/config/base_local_planner_params.yaml" command="load" />
 		<rosparam file="$(find pwm_navigation)/config/move_base.yaml" command="load" />
 
-		<remap from="cmd_vel" to="auto_cmd_vel"/>
+		<remap from="cmd_vel" to="auto_cmd_vel" if="$(arg nav_remap)"/>
 		<remap from="scan" to="/scan"/>
 		<remap from="odom" to="/odom"/>
 		<!--
