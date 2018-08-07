@@ -4,16 +4,15 @@
 	<!-- these are the arguments you can pass this launch file, for example paused:=true -->
 	<arg name="paused" default="false"/>
 	<arg name="use_sim_time" default="true"/>
-	<arg name="extra_gazebo_args" default=""/>
-	<arg name="gui" default="true"/>
+	<arg name="extra_gazebo_args" default="Gazebo args"/>
+	<arg name="gui" default="true" />
 	<arg name="headless" default="false"/>
 	<arg name="debug" default="false"/>
 	<arg name="physics" default="ode"/>
 	<arg name="verbose" default="false"/>
-	<arg name="can" default="false"/>
 
-
-	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin_2.world"/>
+	<arg name="can" default="false" doc="Launch CAN-based controller"/>
+	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin_2.world" doc="world name for gazebo to run; see pwm_gazebo/worlds for options."/>
     <!--
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin.world"/>
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin_2.world"/>
@@ -42,8 +41,8 @@
 		args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)"
 		>
 
-		<remap from="wheelchair/velocity_controller/odom" to="sim_odom"/>
-		<remap from="wheelchair/velocity_controller/cmd_vel" to="cmd_vel"/>
+		<remap from="wheelchair/cmd_controller/odom" to="sim_odom"/>
+		<remap from="wheelchair/cmd_controller/cmd_vel" to="cmd_vel"/>
         <remap from="/scan" to="/scan_raw"/>
 	</node>
 
@@ -52,10 +51,13 @@
 		<node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>
 	</group>
 
-	<include file="$(find pwm_description)/launch/pwm_control.launch"/>
 	<include file="$(find pwm_description)/launch/urdf.launch">
         <arg name="sim" value="true"/>
     </include>
+
+	<include file="$(find pwm_control)/launch/pwm_control.launch">
+		<arg name="can" value="$(arg can)"/>
+	</include>
 
     <!--
 	<param name="robot_description"

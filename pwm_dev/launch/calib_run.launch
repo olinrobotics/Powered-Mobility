@@ -1,5 +1,5 @@
 <launch>
-	<arg name="speed" default="0"/>
+	<arg name="speed" default="0" doc="configure calibration speed."/>
 
 	<include file="$(find rtabmap_ros)/launch/rtabmap.launch">
 		<arg name="rtabmap_args" value="--delete_db_on_start"/>

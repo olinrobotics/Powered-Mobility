@@ -1,15 +1,14 @@
 <launch>
     <!-- TODO : add sim-compatible configuration -->
-    <arg name="all"          default="true"/>
-
-    <arg name="arbiter"       default="$(arg all)"/>
-    <arg name="transform"     default="$(arg all)"/>
-	<arg name="hardware"      default="$(arg all)"/>
-    <arg name="arduino"       default="$(arg all)"/>
-	<arg name="localization"  default="$(arg all)"/>
-    <arg name="serial_driver" default="$(arg all)"/>
-	<arg name="navigation"    default="$(arg all)"/>
-	<arg name="indoor"        default="$(arg all)"/>
+    <arg name="all"           default="true"       doc="Default value for all arguments"/>
+    <arg name="arbiter"       default="$(arg all)" doc="Operating mode selection"/>
+    <arg name="transform"     default="$(arg all)" doc="TF transformations"/>
+	<arg name="hardware"      default="$(arg all)" doc="Hardware sensing and user interfaces"/>
+    <arg name="arduino"       default="$(arg all)" doc="Arduino (only enabled if hardware:=true)"/>
+    <arg name="serial_driver" default="$(arg all)" doc="Run serial server for RNET client (Only enabled if hardware:=true)"/>
+	<arg name="localization"  default="$(arg all)" doc="Localization / mapping features"/>
+	<arg name="navigation"    default="$(arg all)" doc="Navigational features"/>
+	<arg name="indoor"        default="$(arg all)" doc="Select map-odom loop closure Mode; LIDAR(indoor) / RGB-D(outdoor)"/>
 
     <!-- Arbitration -->
     <group if="$(arg arbiter)">

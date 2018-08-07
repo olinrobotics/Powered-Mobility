@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="can" default="false" doc="Select between CAN network / cmd_vel interface"/>
+
+	<group if="$(arg can)">
+		<rosparam command="load" file="$(find pwm_control)/config/can_control.yaml"/>
+		<node name="controller_spawner" pkg="controller_manager" type="spawner"
+			output="screen" ns="/wheelchair" args="joint_state_controller can_controller"/>
+	</group>
+
+	<group unless="$(arg can)">
+		<rosparam command="load" file="$(find pwm_control)/config/cmd_control.yaml"/>
+		<node name="controller_spawner" pkg="controller_manager" type="spawner"
+			output="screen" ns="/wheelchair" args="joint_state_controller cmd_controller"/>
+	</group>
+</launch>

@@ -1,5 +1,5 @@
 <launch>
-	<arg name="gui" default="False" />
+	<arg name="gui" default="False"/>
 
 	<param name="robot_description"
 		command="$(find xacro)/xacro.py '$(find pwm_description)/urdf/wheelchairdev.urdf.xacro'" />

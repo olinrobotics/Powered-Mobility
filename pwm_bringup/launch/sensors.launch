@@ -1,6 +1,6 @@
 <launch>
-    <arg name="hardware" default="true"/>
-    <arg name="filter"  default="true"/>
+    <arg name="hardware" default="true" doc="launch all sensor hardware interfaces"/>
+    <arg name="filter"  default="true" doc="apply scan filter on distance and angular range"/>
 
     <!-- hardware -->
     <group if="$(arg hardware)">
@@ -10,7 +10,7 @@
         <!-- URG -->
         <node pkg="urg_node" type="urg_node" name="lidar">
             <param name="ip_address" value="192.168.0.10"/>
-            <remap from="scan" to="scan_raw"/>
+            <remap from="scan" to="scan_raw" if="$(arg filter)"/>
         </node>
 
 

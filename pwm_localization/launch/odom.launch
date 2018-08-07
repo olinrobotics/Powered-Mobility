@@ -1,5 +1,6 @@
 <launch>
-    <arg name="fusion" default="false"/>
+	<arg name="fusion" default="true" doc="Perform sensor fusion (IMU/VO) for odometry"/>
+
     <include if="$(arg fusion)" file="$(find pwm_localization)/launch/fuse_odom.launch"/>
 
     <node pkg="rtabmap_ros" type="rgbdicp_odometry" name="icp_odometry" output="screen" >

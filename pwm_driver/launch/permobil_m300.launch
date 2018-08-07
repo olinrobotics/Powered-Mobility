@@ -2,9 +2,9 @@
 	<!-- TODO : joy_frame arg/param are currently Not used -->
 	<!-- TODO : deprecate or modify "speed" param -->
 
-    <arg name="disable_chair_joy" default="false"/>
-    <arg name="joy_frame" default="0x02001100"/>
-    <arg name="speed" default="100"/>
+    <arg name="disable_chair_joy" default="false" doc="disable onboard chair joystick to take over complete control"/>
+    <arg name="joy_frame" default="0x02001100" doc="deprecated; currently, two frames are required for chair communication."/>
+    <arg name="speed" default="100" doc="deprecated; set_speed does not affect chair operation."/>
 
     <node pkg="pwm_driver" type="rnet_teleop_node.py" name="rnet_teleop_node" output="screen">
 		<param name="joy_frame" value="$(arg joy_frame)"/> 

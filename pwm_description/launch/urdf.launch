@@ -1,5 +1,5 @@
 <launch>
-    <arg name="sim" default="false"/>
+    <arg name="sim" default="false" doc="if sim:=true, camera-related tf transforms are also configured. Normally, this transform would be available from the realsense node."/>
     <!--
 	<param name="robot_description"
 		command="$(find xacro)/xacro.py '$(find pwm_description)/urdf/simple.urdf.xacro'" />

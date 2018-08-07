@@ -1,6 +1,6 @@
 <launch>
-	<arg name="fusion" default="true"/>
-	<arg name="indoor" default="true"/>
+	<arg name="fusion" default="true" doc="deprecated; should not be overriden from true"/>
+	<arg name="indoor" default="true" doc="Select between hector_slam (LIDAR) vs. RTABMap (RGB-D)"/>
 
 	<include file="$(find pwm_localization)/launch/odom.launch">
 		<arg name="fusion" value="$(arg fusion)"/>
