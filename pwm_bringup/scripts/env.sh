@@ -29,6 +29,56 @@ function finddev(){
 	done
 }
 
-function rospkg-deps(){
+function pwm-list-rosdeps(){
+	# useful for discovering un-documented exec-dependencies (i.e. not in package.xml)
+	# note that since this only enumerates packages in launch files, it cannot catch build deps.
 	echo "$(grep -r pkg $(rospack find pwm_bringup)/.. --include='*.launch' | perl -pe 's|.*pkg="(.*?)".*|\1|')" | sort | uniq
+}
+
+function pwm-install-deps(){
+	# install from package.xml; assume workspace in ${HOME}/catkin_ws
+	rosdep install --from-path ${HOME}/catkin_ws/src/Powered-Mobility --ignore-src --skip-keys='librealsense2' -y
+}
+
+function pwm-build(){
+	# build catkin workspace; assume workspace in ${HOME}/catkin_ws
+	catkin build -w ${HOME}/catkin_ws pwm_robot -DCMAKE_BUILD_TYPE=Release
+}
+
+function pwm-cd(){
+	roscd pwm_robot/..
+}
+
+function pwm-setup(){
+	read -p 'Setup URG Network Configuration? [y/N]' urg
+	case $urg in
+		[Yy]* ) 
+			rosrun pwm_bringup urg_setup.sh
+			;;
+		* ) ;;
+	esac
+
+	read -p 'Setup Udev Rules? [y/N]' udev
+	case $udev in
+		[Yy]* )
+			rosrun pwm_bringup udev_setup.sh
+			;;
+		* ) ;;
+	esac
+
+	read -p 'Setup UART Configuration? (Only valid for Pi3+UART Configuration)' uart
+	case $uart in
+		[Yy]* )
+			rosrun pwm_bringup uart_setup.sh
+			;;
+		* ) ;;
+	esac
+
+	read -p 'Setup CAN Configuration? (Only valid for Pi3+PiCan2)' can
+	case $can in
+		[Yy]* )
+			rosrun pwm_bringup can_setup.sh
+			;;
+		* ) ;;
+	esac
 }

@@ -1,4 +1,6 @@
-# PWM\_Gazebo
+# Powered Mobility Gazebo Simulation
+
+![title image](figures/title.jpg)
 
 Gazebo simulation for the Powered Mobility project.
 

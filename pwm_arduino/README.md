@@ -13,7 +13,7 @@ Currently, the arduino acts as the interface for the following components:
 
 For Arduino setup, follow the guide [Here](https://www.arduino.cc/en/Guide/Linux).
 
-For `rosserial_arduino setup, follow the tutorial [Here](http://wiki.ros.org/rosserial_arduino/Tutorials)
+For `rosserial_arduino` setup, follow the tutorial [Here](http://wiki.ros.org/rosserial_arduino/Tutorials)
 
 The following setup procedure is necessary in order to use the Arduino Due:
 
@@ -38,9 +38,7 @@ and Line `ArduinoHardware.h#75` should be modified as:
 For persistent port assignments, configure udev rules as follows:
 
 ```
-sudo cp $(rospack find pwm_bringup)/config/10-pwm.rules /etc/udev/rules.d
-sudo udevadm control --reload
-sudo udevadm trigger
+rosrun pwm_bringup udev_setup.sh
 ```
 
 Note that the package uses the arduino CLI interface to update the firmware onboard:

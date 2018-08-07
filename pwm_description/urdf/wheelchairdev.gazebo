@@ -13,7 +13,24 @@
     <xacro:property name="wmd" value="1e-2"/>
     <xacro:property name="cmd" value="1e-3"/>
 
+	<gazebo reference="base_link">
+		<material>Gazebo/Black</material>
+	</gazebo>
+
+	<gazebo reference="seat_link">
+		<material>Gazebo/DarkGrey</material>
+	</gazebo>
+
+	<gazebo reference="footrest_link">
+		<material>Gazebo/Black</material>
+	</gazebo>
+
+	<gazebo reference="back_link">
+		<material>Gazebo/DarkGrey</material>
+	</gazebo>
+
     <gazebo reference="right_wheel_link">
+		<material>Gazebo/DarkGrey</material>
         <mu1 value="${wm1}"/>
         <mu2 value="${wm2}"/>
         <kp value="${wkp}" />
@@ -24,6 +41,7 @@
     </gazebo>
 
     <gazebo reference="left_wheel_link">
+		<material>Gazebo/DarkGrey</material>
         <mu1 value="${wm1}"/>
         <mu2 value="${wm2}"/>
         <kp value="${wkp}" />
@@ -34,6 +52,7 @@
     </gazebo>
 
     <gazebo reference="caster_fl_link">
+		<material>Gazebo/Grey</material>
         <mu1 value="${cm1}"/>
         <mu2 value="${cm2}"/>
         <kp value="${ckp}" />
@@ -42,6 +61,7 @@
         <minDepth value="${cmd}"/>
     </gazebo>
     <gazebo reference="caster_fr_link">
+		<material>Gazebo/Grey</material>
         <mu1 value="${cm1}"/>
         <mu2 value="${cm2}"/>
         <kp value="${ckp}" />
@@ -50,6 +70,7 @@
         <minDepth value="${cmd}"/>
     </gazebo>
     <gazebo reference="caster_bl_link">
+		<material>Gazebo/Grey</material>
         <mu1 value="${cm1}"/>
         <mu2 value="${cm2}"/>
         <kp value="${ckp}" />
@@ -58,6 +79,7 @@
         <minDepth value="${cmd}"/>
     </gazebo>
     <gazebo reference="caster_br_link">
+		<material>Gazebo/Grey</material>
         <mu1 value="${cm1}"/>
         <mu2 value="${cm2}"/>
         <kp value="${ckp}" />
