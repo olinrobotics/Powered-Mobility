@@ -12,6 +12,8 @@ function ros_setup(){
 			;;
 		*)
 			echo "Invalid # of Parameters"
+			echo "Usage : ros_setup <ROS_IP> [<ROS_MASTER_URI>]"
+			echo "When Only 1 IP is given, this computer is considered host"
 			;;
 		esac
 }
