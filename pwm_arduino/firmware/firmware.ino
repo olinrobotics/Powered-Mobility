@@ -13,6 +13,15 @@ IMUHandle imu(12);
 void setup()
 {
   imu.setup();
+
+  float dmx, dmy, dmz;
+  nh.getParam("mag_bias_x", &dmx, 137.101);
+  nh.getParam("mag_bias_y", &dmy, 265.25);
+  nh.getParam("mag_bias_z", &dmz, 513.14);
+  
+  imu.set_mag_bias(dmx, dmy, dmz);
+  imu.set_mag_scale(0.99, 0.58, 3.84); //??
+  
   nh.initNode();
   nh.advertise(imu_pub);
 }
@@ -21,6 +30,7 @@ void loop()
 {
   nh.spinOnce();
   imu.read();
+
 
   imu_msg.header.stamp = nh.now();
   imu_msg.header.seq += 1;

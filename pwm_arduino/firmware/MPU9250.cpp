@@ -173,9 +173,9 @@ void MPU9250::initAK8963(float * destination)
   readBytes(AK8963_ADDRESS, AK8963_ASAX, 3, &rawData[0]);
 
   // Return x-axis sensitivity adjustment values, etc.
-  destination[0] =  (float)(rawData[0] - 128)/256. + 1.;
-  destination[1] =  (float)(rawData[1] - 128)/256. + 1.;
-  destination[2] =  (float)(rawData[2] - 128)/256. + 1.;
+  destination[0] =  (float)(rawData[0] - 128) / 256. + 1.;
+  destination[1] =  (float)(rawData[1] - 128) / 256. + 1.;
+  destination[2] =  (float)(rawData[2] - 128) / 256. + 1.;
   writeByte(AK8963_ADDRESS, AK8963_CNTL, 0x00); // Power down magnetometer
   delay(10);
 
@@ -329,7 +329,7 @@ void MPU9250::calibrateMPU9250(float * gyroBias, float * accelBias)
   readBytes(MPU9250_ADDRESS, FIFO_COUNTH, 2, &data[0]);
   fifo_count = ((uint16_t)data[0] << 8) | data[1];
   // How many sets of full gyro and accelerometer data for averaging
-  packet_count = fifo_count/12;
+  packet_count = fifo_count / 12;
 
   for (ii = 0; ii < packet_count; ii++)
   {
@@ -375,13 +375,13 @@ void MPU9250::calibrateMPU9250(float * gyroBias, float * accelBias)
   // which are reset to zero upon device startup.
   // Divide by 4 to get 32.9 LSB per deg/s to conform to expected bias input
   // format.
-  data[0] = (-gyro_bias[0]/4  >> 8) & 0xFF;
+  data[0] = (-gyro_bias[0] / 4  >> 8) & 0xFF;
   // Biases are additive, so change sign on calculated average gyro biases
-  data[1] = (-gyro_bias[0]/4)       & 0xFF;
-  data[2] = (-gyro_bias[1]/4  >> 8) & 0xFF;
-  data[3] = (-gyro_bias[1]/4)       & 0xFF;
-  data[4] = (-gyro_bias[2]/4  >> 8) & 0xFF;
-  data[5] = (-gyro_bias[2]/4)       & 0xFF;
+  data[1] = (-gyro_bias[0] / 4)       & 0xFF;
+  data[2] = (-gyro_bias[1] / 4  >> 8) & 0xFF;
+  data[3] = (-gyro_bias[1] / 4)       & 0xFF;
+  data[4] = (-gyro_bias[2] / 4  >> 8) & 0xFF;
+  data[5] = (-gyro_bias[2] / 4)       & 0xFF;
 
   // Push gyro biases to hardware registers
   writeByte(MPU9250_ADDRESS, XG_OFFSET_H, data[0]);
@@ -392,9 +392,9 @@ void MPU9250::calibrateMPU9250(float * gyroBias, float * accelBias)
   writeByte(MPU9250_ADDRESS, ZG_OFFSET_L, data[5]);
 
   // Output scaled gyro biases for display in the main program
-  gyroBias[0] = (float) gyro_bias[0]/(float) gyrosensitivity;
-  gyroBias[1] = (float) gyro_bias[1]/(float) gyrosensitivity;
-  gyroBias[2] = (float) gyro_bias[2]/(float) gyrosensitivity;
+  gyroBias[0] = (float) gyro_bias[0] / (float) gyrosensitivity;
+  gyroBias[1] = (float) gyro_bias[1] / (float) gyrosensitivity;
+  gyroBias[2] = (float) gyro_bias[2] / (float) gyrosensitivity;
 
   // Construct the accelerometer biases for push to the hardware accelerometer
   // bias registers. These registers contain factory trim values which must be
@@ -433,9 +433,9 @@ void MPU9250::calibrateMPU9250(float * gyroBias, float * accelBias)
   // accelerometer bias from above
   // Subtract calculated averaged accelerometer bias scaled to 2048 LSB/g
   // (16 g full scale)
-  accel_bias_reg[0] -= (accel_bias[0]/8);
-  accel_bias_reg[1] -= (accel_bias[1]/8);
-  accel_bias_reg[2] -= (accel_bias[2]/8);
+  accel_bias_reg[0] -= (accel_bias[0] / 8);
+  accel_bias_reg[1] -= (accel_bias[1] / 8);
+  accel_bias_reg[2] -= (accel_bias[2] / 8);
 
   data[0] = (accel_bias_reg[0] >> 8) & 0xFF;
   data[1] = (accel_bias_reg[0])      & 0xFF;
@@ -464,9 +464,9 @@ void MPU9250::calibrateMPU9250(float * gyroBias, float * accelBias)
   writeByte(MPU9250_ADDRESS, ZA_OFFSET_L, data[5]);
 
   // Output scaled accelerometer biases for display in the main program
-  accelBias[0] = (float)accel_bias[0]/(float)accelsensitivity;
-  accelBias[1] = (float)accel_bias[1]/(float)accelsensitivity;
-  accelBias[2] = (float)accel_bias[2]/(float)accelsensitivity;
+  accelBias[0] = (float)accel_bias[0] / (float)accelsensitivity;
+  accelBias[1] = (float)accel_bias[1] / (float)accelsensitivity;
+  accelBias[2] = (float)accel_bias[2] / (float)accelsensitivity;
 }
 
 
@@ -486,17 +486,17 @@ void MPU9250::MPU9250SelfTest(float * destination)
   // Set gyro sample rate to 1 kHz and DLPF to 92 Hz
   writeByte(MPU9250_ADDRESS, CONFIG, 0x02);
   // Set full scale range for the gyro to 250 dps
-  writeByte(MPU9250_ADDRESS, GYRO_CONFIG, 1<<FS);
+  writeByte(MPU9250_ADDRESS, GYRO_CONFIG, 1 << FS);
   // Set accelerometer rate to 1 kHz and bandwidth to 92 Hz
   writeByte(MPU9250_ADDRESS, ACCEL_CONFIG2, 0x02);
   // Set full scale range for the accelerometer to 2 g
-  writeByte(MPU9250_ADDRESS, ACCEL_CONFIG, 1<<FS);
+  writeByte(MPU9250_ADDRESS, ACCEL_CONFIG, 1 << FS);
 
   // Get average current values of gyro and acclerometer
   for (int ii = 0; ii < 200; ii++)
   {
-Serial.print("BHW::ii = ");
-Serial.println(ii);
+    Serial.print("BHW::ii = ");
+    Serial.println(ii);
     // Read the six raw data registers into data array
     readBytes(MPU9250_ADDRESS, ACCEL_XOUT_H, 6, &rawData[0]);
     // Turn the MSB and LSB into a signed 16-bit value
@@ -513,7 +513,7 @@ Serial.println(ii);
   }
 
   // Get average of 200 values and store as average current readings
-  for (int ii =0; ii < 3; ii++)
+  for (int ii = 0; ii < 3; ii++)
   {
     aAvg[ii] /= 200;
     gAvg[ii] /= 200;
@@ -545,7 +545,7 @@ Serial.println(ii);
   }
 
   // Get average of 200 values and store as average self-test readings
-  for (int ii =0; ii < 3; ii++)
+  for (int ii = 0; ii < 3; ii++)
   {
     aSTAvg[ii] /= 200;
     gSTAvg[ii] /= 200;
@@ -572,17 +572,17 @@ Serial.println(ii);
 
   // Retrieve factory self-test value from self-test code reads
   // FT[Xa] factory trim calculation
-  factoryTrim[0] = (float)(2620/1<<FS)*(pow(1.01 ,((float)selfTest[0] - 1.0) ));
+  factoryTrim[0] = (float)(2620 / 1 << FS) * (pow(1.01 , ((float)selfTest[0] - 1.0) ));
   // FT[Ya] factory trim calculation
-  factoryTrim[1] = (float)(2620/1<<FS)*(pow(1.01 ,((float)selfTest[1] - 1.0) ));
+  factoryTrim[1] = (float)(2620 / 1 << FS) * (pow(1.01 , ((float)selfTest[1] - 1.0) ));
   // FT[Za] factory trim calculation
-  factoryTrim[2] = (float)(2620/1<<FS)*(pow(1.01 ,((float)selfTest[2] - 1.0) ));
+  factoryTrim[2] = (float)(2620 / 1 << FS) * (pow(1.01 , ((float)selfTest[2] - 1.0) ));
   // FT[Xg] factory trim calculation
-  factoryTrim[3] = (float)(2620/1<<FS)*(pow(1.01 ,((float)selfTest[3] - 1.0) ));
+  factoryTrim[3] = (float)(2620 / 1 << FS) * (pow(1.01 , ((float)selfTest[3] - 1.0) ));
   // FT[Yg] factory trim calculation
-  factoryTrim[4] = (float)(2620/1<<FS)*(pow(1.01 ,((float)selfTest[4] - 1.0) ));
+  factoryTrim[4] = (float)(2620 / 1 << FS) * (pow(1.01 , ((float)selfTest[4] - 1.0) ));
   // FT[Zg] factory trim calculation
-  factoryTrim[5] = (float)(2620/1<<FS)*(pow(1.01 ,((float)selfTest[5] - 1.0) ));
+  factoryTrim[5] = (float)(2620 / 1 << FS) * (pow(1.01 , ((float)selfTest[5] - 1.0) ));
 
   // Report results as a ratio of (STR - FT)/FT; the change from Factory Trim
   // of the Self-Test Response
@@ -591,10 +591,10 @@ Serial.println(ii);
   {
     // Report percent differences
     destination[i] = 100.0 * ((float)(aSTAvg[i] - aAvg[i])) / factoryTrim[i]
-      - 100.;
+                     - 100.;
     // Report percent differences
-    destination[i+3] = 100.0*((float)(gSTAvg[i] - gAvg[i]))/factoryTrim[i+3]
-      - 100.;
+    destination[i + 3] = 100.0 * ((float)(gSTAvg[i] - gAvg[i])) / factoryTrim[i + 3]
+                         - 100.;
   }
 }
 
@@ -604,17 +604,17 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
 {
   uint16_t ii = 0, sample_count = 0;
   int32_t mag_bias[3]  = {0, 0, 0},
-          mag_scale[3] = {0, 0, 0};
+                         mag_scale[3] = {0, 0, 0};
   int16_t mag_max[3]  = {0x8000, 0x8000, 0x8000},
-          mag_min[3]  = {0x7FFF, 0x7FFF, 0x7FFF},
-          mag_temp[3] = {0, 0, 0};
+                        mag_min[3]  = {0x7FFF, 0x7FFF, 0x7FFF},
+                                      mag_temp[3] = {0, 0, 0};
 
   // Make sure resolution has been calculated
   getMres();
 
   Serial.println(F("Mag Calibration!"));
   Serial.println(
-      F("  4 seconds to get ready followed by 15 seconds of sampling)"));
+    F("  4 seconds to get ready followed by 15 seconds of sampling)"));
   delay(4000);
 
   // shoot for ~fifteen seconds of mag data
@@ -686,16 +686,15 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
   scale_dest[0] = avg_rad / ((float)mag_scale[0]);
   scale_dest[1] = avg_rad / ((float)mag_scale[1]);
   scale_dest[2] = avg_rad / ((float)mag_scale[2]);
-  
-  Serial.println("Magnitude bias:"); Serial.println(mag_dest[0]); Serial.println(mag_dest[1]); Serial.println(mag_dest[2]);
-  Serial.println("Scale bias:"); Serial.println(scale_dest[0]); Serial.println(scale_dest[1]); Serial.println(scale_dest[2]);
 
-  Serial.println(F("Mag Calibration done!"));
+  //Serial.println("Magnitude bias:"); Serial.println(bias_dest[0]); Serial.println(bias_dest[1]); Serial.println(bias_dest[2]);
+  //Serial.println("Scale bias:"); Serial.println(scale_dest[0]); Serial.println(scale_dest[1]); Serial.println(scale_dest[2]);
+  //Serial.println(F("Mag Calibration done!"));
 }
 
 // Wire.h read and write protocols
 uint8_t MPU9250::writeByte(uint8_t deviceAddress, uint8_t registerAddress,
-                        uint8_t data)
+                           uint8_t data)
 {
   if (_csPin != NOT_SPI)
   {
@@ -703,7 +702,7 @@ uint8_t MPU9250::writeByte(uint8_t deviceAddress, uint8_t registerAddress,
   }
   else
   {
-    return writeByteWire(deviceAddress,registerAddress, data);
+    return writeByteWire(deviceAddress, registerAddress, data);
   }
 }
 
@@ -727,7 +726,7 @@ uint8_t MPU9250::writeByteSPI(uint8_t registerAddress, uint8_t writeData)
 }
 
 uint8_t MPU9250::writeByteWire(uint8_t deviceAddress, uint8_t registerAddress,
-                            uint8_t data)
+                               uint8_t data)
 {
   Wire.beginTransmission(deviceAddress);  // Initialize the Tx buffer
   Wire.write(registerAddress);      // Put slave register address in Tx buffer
@@ -778,7 +777,7 @@ uint8_t MPU9250::readByteSPI(uint8_t registerAddress)
 
 // Read 1 or more bytes from given register and device using I2C
 uint8_t MPU9250::readBytesWire(uint8_t deviceAddress, uint8_t registerAddress,
-                        uint8_t count, uint8_t * dest)
+                               uint8_t count, uint8_t * dest)
 {
   // Initialize the Tx buffer
   Wire.beginTransmission(deviceAddress);
@@ -812,7 +811,7 @@ void MPU9250::deselect()
 }
 
 uint8_t MPU9250::readBytesSPI(uint8_t registerAddress, uint8_t count,
-                           uint8_t * dest)
+                              uint8_t * dest)
 {
   SPI.beginTransaction(SPISettings(SPI_DATA_RATE, MSBFIRST, SPI_MODE));
   select();
@@ -838,35 +837,35 @@ uint8_t MPU9250::readBytesSPI(uint8_t registerAddress, uint8_t count,
   return i; // Return number of bytes written
 
   /*
-#ifdef SERIAL_DEBUG
-  Serial.print("MPU9250::writeByteSPI slave returned: 0x");
-  Serial.println(returnVal, HEX);
-#endif
-  return returnVal;
+    #ifdef SERIAL_DEBUG
+    Serial.print("MPU9250::writeByteSPI slave returned: 0x");
+    Serial.println(returnVal, HEX);
+    #endif
+    return returnVal;
   */
 
   /*
-  // Set slave address of AK8963 and set AK8963 for read
-  writeByteSPI(I2C_SLV0_ADDR, AK8963_ADDRESS | READ_FLAG);
+    // Set slave address of AK8963 and set AK8963 for read
+    writeByteSPI(I2C_SLV0_ADDR, AK8963_ADDRESS | READ_FLAG);
 
-Serial.print("\nBHW::I2C_SLV0_ADDR set to: 0x");
-Serial.println(readByte(MPU9250_ADDRESS, I2C_SLV0_ADDR), HEX);
+    Serial.print("\nBHW::I2C_SLV0_ADDR set to: 0x");
+    Serial.println(readByte(MPU9250_ADDRESS, I2C_SLV0_ADDR), HEX);
 
-  // Set address to start read from
-  writeByteSPI(I2C_SLV0_REG, registerAddress);
-  // Read bytes from magnetometer
-  //
-Serial.print("\nBHW::I2C_SLV0_CTRL gets 0x");
-Serial.println(READ_FLAG | count, HEX);
+    // Set address to start read from
+    writeByteSPI(I2C_SLV0_REG, registerAddress);
+    // Read bytes from magnetometer
+    //
+    Serial.print("\nBHW::I2C_SLV0_CTRL gets 0x");
+    Serial.println(READ_FLAG | count, HEX);
 
-  // Read count bytes from registerAddress via I2C_SLV0
-  Serial.print("BHW::readBytesSPI: return value test: ");
-  Serial.println(writeByteSPI(I2C_SLV0_CTRL, READ_FLAG | count));
+    // Read count bytes from registerAddress via I2C_SLV0
+    Serial.print("BHW::readBytesSPI: return value test: ");
+    Serial.println(writeByteSPI(I2C_SLV0_CTRL, READ_FLAG | count));
   */
 }
 
 uint8_t MPU9250::readBytes(uint8_t deviceAddress, uint8_t registerAddress,
-                        uint8_t count, uint8_t * dest)
+                           uint8_t count, uint8_t * dest)
 {
   if (_csPin == NOT_SPI)  // Read via I2C
   {
@@ -960,14 +959,14 @@ uint8_t MPU9250::ak8963WhoAmI_SPI()
 #endif
 
   // Set the I2C slave addres of AK8963 and set for read
-  response = writeByteSPI(I2C_SLV0_ADDR, AK8963_ADDRESS|READ_FLAG);
+  response = writeByteSPI(I2C_SLV0_ADDR, AK8963_ADDRESS | READ_FLAG);
   // I2C slave 0 register address from where to begin data transfer
   response = writeByteSPI(I2C_SLV0_REG, 0x00);
   // Enable 1-byte reads on slave 0
   response = writeByteSPI(I2C_SLV0_CTRL, 0x81);
   delayMicroseconds(1);
   // Read WIA register
-  response = writeByteSPI(WHO_AM_I_AK8963|READ_FLAG, 0x00);
+  response = writeByteSPI(WHO_AM_I_AK8963 | READ_FLAG, 0x00);
 
   // Restore state
   writeByteSPI(I2C_SLV0_ADDR, oldSlaveAddress);

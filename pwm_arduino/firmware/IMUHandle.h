@@ -1,8 +1,8 @@
 #include "quaternionFilters.h"
 #include "MPU9250.h"
 
-/* 
- *  Adaptation of MPU9250 Basic Example Code by Kris Winer (04/01/2014)
+/*
+    Adaptation of MPU9250 Basic Example Code by Kris Winer (04/01/2014)
   by: Yoonyoung (Jamie) Cho @ (07/24/2018)
   MIT license
 
@@ -32,8 +32,13 @@ struct IMUHandle {
 
   MPU9250 _device;
 
+  bool _mag_cal;
+  bool _gyro_cal;
+
   IMUHandle(const int intPin):
-    intPin(intPin), calibrate(false), ahrs(false) {
+    intPin(intPin), calibrate(false), ahrs(false),
+    _mag_cal(false), _gyro_cal(false)
+  {
     // todo : handle calibration requests
   }
 
@@ -45,7 +50,7 @@ struct IMUHandle {
     // verification ...
     byte c = _device.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
     if (c == 0x71) {
-      if (calibrate) {
+      if (true) {
         _device.calibrateMPU9250(_device.gyroBias, _device.accelBias);
       }
       _device.initMPU9250();
@@ -65,11 +70,30 @@ struct IMUHandle {
         _device.magCalMPU9250(_device.magBias, _device.magScale);
       }
     } // else fail
+  }
 
+  void set_mag_bias(float x, float y, float z) {
+    _device.magBias[0] = x;
+    _device.magBias[1] = y;
+    _device.magBias[2] = z;
+  }
+  void set_mag_scale(float x, float y, float z) {
+    //_device.magScale[0] = x;
+    //_device.magScale[1] = y;
+    //_device.magScale[2] = z;
+  }
+  void gyro_cal() {
+    _device.calibrateMPU9250(_device.gyroBias, _device.accelBias);
+  }
+
+  void mag_cal() {
 
   }
 
-  void read() {
+  bool read() {
+    if (_mag_cal || _gyro_cal) {
+      return false;
+    }
     // If intPin goes high, all data registers have new data
     // On interrupt, check if data ready interrupt
     if (_device.readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01)
@@ -99,11 +123,11 @@ struct IMUHandle {
       // corrections
       // Get actual magnetometer value, this depends on scale being set
       _device.mx = (float)_device.magCount[0] * _device.mRes
-                 * _device.factoryMagCalibration[0] - _device.magBias[0];
+                   * _device.factoryMagCalibration[0] - _device.magBias[0];
       _device.my = (float)_device.magCount[1] * _device.mRes
-                 * _device.factoryMagCalibration[1] - _device.magBias[1];
+                   * _device.factoryMagCalibration[1] - _device.magBias[1];
       _device.mz = (float)_device.magCount[2] * _device.mRes
-                 * _device.factoryMagCalibration[2] - _device.magBias[2];
+                   * _device.factoryMagCalibration[2] - _device.magBias[2];
     } // if (readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01)
 
     // Must be called before updating quaternions!
@@ -153,5 +177,6 @@ struct IMUHandle {
       }
 
     }
+    return true;
   }
 };
