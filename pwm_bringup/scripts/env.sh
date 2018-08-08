@@ -53,6 +53,11 @@ function pwm-cd(){
 	roscd pwm_robot/..
 }
 
+function pwm-search-ip(){
+	# assume ethernet configured @ 10.42.0.X
+	nmap -sP 10.42.0.0/24
+}
+
 function pwm-setup(){
 	read -p 'Setup URG Network Configuration? [y/N]' urg
 	case $urg in
