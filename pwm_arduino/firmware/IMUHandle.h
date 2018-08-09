@@ -87,7 +87,7 @@ struct IMUHandle {
   }
 
   void mag_cal() {
-
+	  _device.magCalMPU9250(_device.magBias, _device.magScale);
   }
 
   bool read() {

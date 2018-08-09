@@ -1,14 +1,23 @@
 #include <ros.h>
 #include <ros/time.h>
 #include <sensor_msgs/Imu.h>
+#include <std_srvs/Trigger.h>
 #include "IMUHandle.h"
 
 #define G_TO_M 9.81
 
+void gyro_cal_cb(const std_srvs::Trigger::Request& const std_srvs::Trigger::Response& res);
+void mag_cal_start_cb(const std_srvs::Trigger::Request& const std_srvs::Trigger::Response& res);
+void mag_cal_stop_cb(const std_srvs::Trigger::Request& const std_srvs::Trigger::Response& res);
+
+IMUHandle imu(12);
+
 ros::NodeHandle nh;
 sensor_msgs::Imu imu_msg;
 ros::Publisher imu_pub("/imu", &imu_msg);
-IMUHandle imu(12);
+ros::ServiceServer<std_srvs::Trigger::Request, std_srvs::Trigger::Response> server("imu_gyro_cal", &gyro_cal_cb);
+ros::ServiceServer<std_srvs::Trigger::Request, std_srvs::Trigger::Response> server("imu_mag_cal_start", &mag_cal_start_cb);
+ros::ServiceServer<std_srvs::Trigger::Request, std_srvs::Trigger::Response> server("imu_mag_cal_stop", &mag_cal_stop_cb);
 
 void setup()
 {
@@ -65,4 +74,16 @@ void loop()
   imu_msg.linear_acceleration_covariance[8] = 0.01;
 
   imu_pub.publish(&imu_msg);
+}
+
+void gyro_cal_cb(const std_srvs::Trigger::Request& const std_srvs::Trigger::Response& res){
+	res.success = imu.gyro_cal();
+}
+
+void mag_cal_start_cb(const std_srvs::Trigger::Request&, const std_srvs::Trigger::Response& res){
+	res.success = imu.mag_cal_start();
+}
+
+void mag_cal_stop_cb(const std_srvs::Trigger::Request&, const std_srvs::Trigger::Response& res){
+	res.success = imu.mag_cal_stop();
 }
