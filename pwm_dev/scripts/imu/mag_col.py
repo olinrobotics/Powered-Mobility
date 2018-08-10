@@ -6,7 +6,7 @@ from geometry_msgs.msg import Point, PointStamped
 mag_msg = None
 
 class Mag2V3(object):
-    """ Magnetic Field Visualization """
+    """ Magnetic Field Data Collection + RViz Visualization """
     def __init__(self):
         self._sub = rospy.Subscriber('/imu/mag', MagneticField, self.cb)
         self._pub = rospy.Publisher('/imu/magv3', PointStamped, queue_size=10)
