@@ -1,17 +1,16 @@
 /*
- Note: The MPU9250 is an I2C sensor and uses the Arduino Wire library.
- Because the sensor is not 5V tolerant, we are using a 3.3 V 8 MHz Pro Mini or
- a 3.3 V Teensy 3.1. We have disabled the internal pull-ups used by the Wire
- library in the Wire.h/twi.c utility file. We are also using the 400 kHz fast
- I2C mode by setting the TWI_FREQ  to 400000L /twi.h utility file.
- */
+  Note: The MPU9250 is an I2C sensor and uses the Arduino Wire library.
+  Because the sensor is not 5V tolerant, we are using a 3.3 V 8 MHz Pro Mini or
+  a 3.3 V Teensy 3.1. We have disabled the internal pull-ups used by the Wire
+  library in the Wire.h/twi.c utility file. We are also using the 400 kHz fast
+  I2C mode by setting the TWI_FREQ  to 400000L /twi.h utility file.
+*/
 #ifndef _MPU9250_H_
 #define _MPU9250_H_
 
 #include <SPI.h>
 #include <Wire.h>
 
-#define SERIAL_DEBUG false
 
 // See also MPU-9250 Register Map and Descriptions, Revision 4.0,
 // RM-MPU-9250A-00, Rev. 1.4, 9/9/2013 for registers not listed in above
@@ -42,14 +41,14 @@
 #define SELF_TEST_Z_GYRO 0x02
 
 /*#define X_FINE_GAIN      0x03 // [7:0] fine gain
-#define Y_FINE_GAIN      0x04
-#define Z_FINE_GAIN      0x05
-#define XA_OFFSET_H      0x06 // User-defined trim values for accelerometer
-#define XA_OFFSET_L_TC   0x07
-#define YA_OFFSET_H      0x08
-#define YA_OFFSET_L_TC   0x09
-#define ZA_OFFSET_H      0x0A
-#define ZA_OFFSET_L_TC   0x0B */
+  #define Y_FINE_GAIN      0x04
+  #define Z_FINE_GAIN      0x05
+  #define XA_OFFSET_H      0x06 // User-defined trim values for accelerometer
+  #define XA_OFFSET_L_TC   0x07
+  #define YA_OFFSET_H      0x08
+  #define YA_OFFSET_L_TC   0x09
+  #define ZA_OFFSET_H      0x0A
+  #define ZA_OFFSET_L_TC   0x0B */
 
 #define SELF_TEST_X_ACCEL 0x0D
 #define SELF_TEST_Y_ACCEL 0x0E
@@ -176,7 +175,6 @@
 #define MPU9250_ADDRESS 0x69  // Device address when ADO = 1
 #else
 #define MPU9250_ADDRESS 0x68  // Device address when ADO = 0
-#define AK8963_ADDRESS  0x0C   // Address of magnetometer
 #endif // AD0
 
 #define READ_FLAG 0x80
@@ -214,6 +212,8 @@ class MPU9250
       M_100HZ = 0x06 // 100 Hz continuous magnetometer
     };
 
+    uint8_t mpu9250_address;
+    
     // TODO: Add setter methods for this hard coded stuff
     // Specify sensor full scale
     uint8_t Gscale = GFS_250DPS;
@@ -235,12 +235,12 @@ class MPU9250
     void kickHardware();
     void select();
     void deselect();
-// TODO: Remove this next line
-public:
+    // TODO: Remove this next line
+  public:
     uint8_t ak8963WhoAmI_SPI();
 
   public:
-    float pitch, yaw, roll;
+    //float pitch, yaw, roll;
     float temperature;   // Stores the real internal chip temperature in Celsius
     int16_t tempCount;   // Temperature raw count output
     uint32_t delt_t = 0; // Used to control display output rate
@@ -258,17 +258,19 @@ public:
     float ax, ay, az, gx, gy, gz, mx, my, mz;
     // Factory mag calibration and mag bias
     float factoryMagCalibration[3] = {0, 0, 0}, factoryMagBias[3] = {0, 0, 0};
+
     // Bias corrections for gyro, accelerometer, and magnetometer
-    float gyroBias[3]  = {0, 0, 0},
-          accelBias[3] = {0, 0, 0},
-          magBias[3]   = {0, 0, 0},
-          magScale[3]  = {0, 0, 0};
+    float gyroBias[3]  = {0, 0, 0};
+    float accelBias[3] = {0, 0, 0};
+    float magBias[3]   = {0, 0, 0};
+    float magScale[3]  = {0, 0, 0};
+
     float selfTest[6];
     // Stores the 16-bit signed accelerometer sensor output
     int16_t accelCount[3];
 
     // Public method declarations
-    MPU9250(int8_t csPin=NOT_SPI);
+    MPU9250(int8_t csPin=NOT_SPI, int8_t ad0=0);
     void getMres();
     void getGres();
     void getAres();
@@ -281,14 +283,20 @@ public:
     void initMPU9250();
     void calibrateMPU9250(float * gyroBias, float * accelBias);
     void MPU9250SelfTest(float * destination);
-    void magCalMPU9250(float * dest1, float * dest2);
+    
+    void startMagCalMPU9250(int16_t* mag_max, int16_t* mag_min);
+    void stepMagCalMPU9250(int16_t* mag_max, int16_t* mag_min);
+    void stopMagCalMPU9250(int16_t* mag_max, int16_t* mag_min, float* bias_dest, float* scale_dest);
+    
     uint8_t writeByte(uint8_t, uint8_t, uint8_t);
     uint8_t readByte(uint8_t, uint8_t);
     uint8_t readBytes(uint8_t, uint8_t, uint8_t, uint8_t *);
     // TODO: make SPI/Wire private
     uint8_t readBytesSPI(uint8_t, uint8_t, uint8_t *);
     uint8_t readBytesWire(uint8_t, uint8_t, uint8_t, uint8_t *);
-    bool isInI2cMode() { return _csPin == -1; }
+    bool isInI2cMode() {
+      return _csPin == -1;
+    }
     bool begin();
 };  // class MPU9250
 

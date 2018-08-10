@@ -39,10 +39,15 @@ static float zeta = sqrt(3.0f / 4.0f) * GyroMeasDrift;
 
 // Vector to hold integral error for Mahony method
 static float eInt[3] = {0.0f, 0.0f, 0.0f};
-// Vector to hold quaternion
-static float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};
 
-void MadgwickQuaternionUpdate(float ax, float ay, float az, float gx, float gy, float gz, float mx, float my, float mz, float deltat)
+// Vector to hold quaternion
+// static float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};
+
+void MadgwickQuaternionUpdate(
+  float ax, float ay, float az,
+  float gx, float gy, float gz,
+  float mx, float my, float mz,
+  float deltat, float* q)
 {
   // short name local variable for readability
   float q1 = q[0], q2 = q[1], q3 = q[2], q4 = q[3];
@@ -139,7 +144,11 @@ void MadgwickQuaternionUpdate(float ax, float ay, float az, float gx, float gy, 
 
 // Similar to Madgwick scheme but uses proportional and integral filtering on
 // the error between estimated reference vectors and measured ones.
-void MahonyQuaternionUpdate(float ax, float ay, float az, float gx, float gy, float gz, float mx, float my, float mz, float deltat)
+void MahonyQuaternionUpdate(
+  float ax, float ay, float az,
+  float gx, float gy, float gz,
+  float mx, float my, float mz,
+  float deltat, float* q)
 {
   // short name local variable for readability
   float q1 = q[0], q2 = q[1], q3 = q[2], q4 = q[3];
@@ -231,4 +240,4 @@ void MahonyQuaternionUpdate(float ax, float ay, float az, float gx, float gy, fl
   q[3] = q4 * norm;
 }
 
-const float * getQ () { return q; }
+//const float * getQ () { return q; }

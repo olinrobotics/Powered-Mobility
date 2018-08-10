@@ -1,4 +1,4 @@
-#include "quaternionFilters.h"
+#include "quaternionFilters.h"/
 #include "MPU9250.h"
 
 /*
@@ -25,19 +25,25 @@
 */
 struct IMUHandle {
   int intPin;
-  bool calibrate;
-  bool ahrs;
+  int ad0;
+  //bool calibrate;
 
-  float qx, qy, qz, qw;
+  float _q[4] = {1, 0, 0, 0};
 
   MPU9250 _device;
+
+
+  // calibration data
+  int16_t mag_max[3];
+  int16_t mag_min[3];
 
   bool _mag_cal;
   bool _gyro_cal;
 
-  IMUHandle(const int intPin):
-    intPin(intPin), calibrate(false), ahrs(false),
-    _mag_cal(false), _gyro_cal(false)
+  IMUHandle(const int intPin, const int ad0):
+    intPin(intPin), ad0(ad0),
+    _mag_cal(false), _gyro_cal(true),
+    _device(NOT_SPI, ad0)
   {
     // todo : handle calibration requests
   }
@@ -50,8 +56,9 @@ struct IMUHandle {
     // verification ...
     byte c = _device.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
     if (c == 0x71) {
-      if (true) {
+      if (_gyro_cal) {
         _device.calibrateMPU9250(_device.gyroBias, _device.accelBias);
+        _gyro_cal = false;
       }
       _device.initMPU9250();
 
@@ -65,10 +72,6 @@ struct IMUHandle {
       _device.getAres();
       _device.getGres();
       _device.getMres();
-
-      if (calibrate) {
-        _device.magCalMPU9250(_device.magBias, _device.magScale);
-      }
     } // else fail
   }
 
@@ -82,15 +85,37 @@ struct IMUHandle {
     //_device.magScale[1] = y;
     //_device.magScale[2] = z;
   }
-  void gyro_cal() {
+
+  bool gyro_cal() {
     _device.calibrateMPU9250(_device.gyroBias, _device.accelBias);
+    _device.initMPU9250();
+    return true;
   }
 
-  void mag_cal() {
-	  _device.magCalMPU9250(_device.magBias, _device.magScale);
+  bool mag_cal_start() {
+    _mag_cal = true;
+    _device.startMagCalMPU9250(mag_max, mag_min);
+    return true;
   }
 
-  bool read() {
+  bool mag_cal_stop() {
+    _mag_cal = false;
+    _device.stopMagCalMPU9250(mag_max, mag_min,
+                              _device.magBias, _device.magScale);
+    // reset quaternion
+    _q[0] = 1;
+    _q[1] = 0;
+    _q[2] = 0;
+    _q[3] = 0;
+
+    return true;
+  }
+
+  bool step() {
+    if (_mag_cal) {
+      _device.stepMagCalMPU9250(mag_max, mag_min);
+    }
+
     if (_mag_cal || _gyro_cal) {
       return false;
     }
@@ -141,42 +166,19 @@ struct IMUHandle {
     // along the x-axis just like in the LSM9DS0 sensor. This rotation can be
     // modified to allow any convenient orientation convention. This is ok by
     // aircraft orientation standards! Pass gyro rate as rad/s
+
     MahonyQuaternionUpdate(_device.ax, _device.ay, _device.az, _device.gx * DEG_TO_RAD,
                            _device.gy * DEG_TO_RAD, _device.gz * DEG_TO_RAD, _device.my,
-                           _device.mx, _device.mz, _device.deltat);
-    qw = *getQ();
-    qx = *(getQ() + 1);
-    qy = *(getQ() + 2);
-    qz = *(getQ() + 3);
+                           _device.mx, _device.mz, _device.deltat, this->_q);
 
-    if (!ahrs)
+    _device.delt_t = millis() - _device.count;
+    if (_device.delt_t > 500)
     {
-      _device.delt_t = millis() - _device.count;
-      if (_device.delt_t > 500)
-      {
-        // acc (ax-ay-az) in G
-        // gyro (gx-gy-gz) is in deg/sec
-        // mag (mx-my-mz) in mG
-        _device.tempCount = _device.readTempData();  // Read the adc values
-        // Temperature in degrees Centigrade
-        _device.temperature = ((float) _device.tempCount) / 333.87 + 21.0;
-        _device.count = millis();
-      } // if (_device.delt_t > 500)
-    } // if (!ahrs)
-    else
-    {
-      // Serial print and/or display at 0.5 s rate independent of data rates
-      _device.delt_t = millis() - _device.count;
-
-      // update LCD once per half-second independent of read rate
-      if (_device.delt_t > 500)
-      {
-        _device.count = millis();
-        _device.sumCount = 0;
-        _device.sum = 0;
-      }
-
-    }
+      _device.tempCount = _device.readTempData();  // Read the adc values
+      //       Temperature in degrees Centigrade
+      _device.temperature = ((float) _device.tempCount) / 333.87 + 21.0;
+      _device.count = millis();
+    } // if (_device.delt_t > 500)
     return true;
   }
 };
