@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find pwm_dev)/launch/apriltags.launch" />
+    <node pkg="pwm_dev" type="visual_servo.py" name="visual_servo" output="screen"/>
+</launch>
