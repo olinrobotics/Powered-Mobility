@@ -12,6 +12,8 @@
 	<arg name="verbose" default="false"/>
 
 	<arg name="can" default="false" doc="Launch CAN-based controller"/>
+    <arg name="gt_odom" default="false" doc="Publish Ground Truth Odometry Information"/>
+
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin_2.world" doc="world name for gazebo to run; see pwm_gazebo/worlds for options."/>
     <!--
 	<arg name="world_name" default="$(find pwm_gazebo)/worlds/olin.world"/>
@@ -53,6 +55,7 @@
 
 	<include file="$(find pwm_description)/launch/urdf.launch">
         <arg name="sim" value="true"/>
+        <arg name="gt_odom" value="$(arg gt_odom)"/>
     </include>
 
 	<include file="$(find pwm_control)/launch/pwm_control.launch">

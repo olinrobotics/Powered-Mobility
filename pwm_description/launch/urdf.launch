@@ -1,11 +1,14 @@
 <launch>
+        
     <arg name="sim" default="false" doc="if sim:=true, camera-related tf transforms are also configured. Normally, this transform would be available from the realsense node."/>
+    <arg name="gt_odom" default="false" doc="if gt_odom:=true, publish ground truth information"/>
+
     <!--
 	<param name="robot_description"
 		command="$(find xacro)/xacro.py '$(find pwm_description)/urdf/simple.urdf.xacro'" />
     -->
 	<param name="robot_description"
-		command="$(find xacro)/xacro '$(find pwm_description)/urdf/wheelchairdev.urdf.xacro' sim:=$(arg sim) --inorder" />
+		command="$(find xacro)/xacro '$(find pwm_description)/urdf/wheelchairdev.urdf.xacro' sim:=$(arg sim) gt_odom:=$(arg gt_odom) --inorder" />
     <!--
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
 		<remap from="/joint_states" to="/wheelchair/joint_states" />

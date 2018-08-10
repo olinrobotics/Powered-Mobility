@@ -5,7 +5,9 @@
     <arg name="transform"     default="$(arg all)" doc="TF transformations"/>
 	<arg name="hardware"      default="$(arg all)" doc="Hardware sensing and user interfaces"/>
     <arg name="arduino"       default="$(arg all)" doc="Arduino (only enabled if hardware:=true)"/>
+    <!-- disabling serial driver for now, in favor of tcp-based serial/client
     <arg name="serial_driver" default="$(arg all)" doc="Run serial server for RNET client (Only enabled if hardware:=true)"/>
+    -->
 	<arg name="localization"  default="$(arg all)" doc="Localization / mapping features"/>
 	<arg name="navigation"    default="$(arg all)" doc="Navigational features"/>
 	<arg name="indoor"        default="$(arg all)" doc="Select map-odom loop closure Mode; LIDAR(indoor) / RGB-D(outdoor)"/>
@@ -32,7 +34,9 @@
 	<group if="$(arg hardware)">
 		<include file="$(find pwm_bringup)/launch/joy.launch"/>
 		<include file="$(find pwm_arduino)/launch/arduino.launch" if="$(arg arduino)"/>
+        <!--
         <include file="$(find pwm_driver)/launch/serial_server.launch" if="$(arg serial_driver)"/>
+        -->
 	</group>
 
     <!-- Localization -->
