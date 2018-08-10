@@ -176,10 +176,10 @@
         </sensor>
     </gazebo>
 
-    <gazebo reference="imu">
-        <gravity>true</gravity>
-        <!--
-        <sensor name="imu_sensor" type="imu">
+    <xacro:if value="true">
+    <gazebo>
+        <!--<gravity>true</gravity>-->
+        <!--<sensor name="imu_sensor" type="imu">-->
             <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
             <robotNamespace>/</robotNamespace>
             <updateRate>50.0</updateRate>
@@ -192,30 +192,31 @@
             <headingDrift>0.005</headingDrift>
             <headingGaussianNoise>0.005</headingGaussianNoise>
             </plugin>
-        </sensor>
-        -->
-        <sensor name="imu_sensor" type="imu">
-            <always_on>true</always_on>
-            <update_rate>30.0</update_rate>
-            <visualize>true</visualize>
-            <topic>__default_topic__</topic>
-            <localization>ENU</localization>
-            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-                <topicName>imu</topicName>
-                <bodyName>imu</bodyName>
-                <updateRateHZ>30.0</updateRateHZ>
-                <gaussianNoise>1e-3</gaussianNoise>
-
-                <xyzOffset>0 0 0</xyzOffset>
-                <rpyOffset>0 0 0.22</rpyOffset>
-                <frameName>imu</frameName>
-            </plugin>
-            <pose>0 0 0 0 0 0</pose> <!-- ?? -->
-        </sensor>
+            <!--</sensor>-->
     </gazebo>
+    </xacro:if>
+
+    <xacro:if value="true">
+    <gazebo>
+        <!--<sensor name="imu_mag" type="magnetometer">-->
+            <plugin filename="libhector_gazebo_ros_magnetic.so" name="mag_plugin">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>60.0</updateRate>
+                <robotNamespace>/</robotNamespace>
+                <bodyName>imu</bodyName>
+                <topicName>imu/mag</topicName>
+                <frameId>imu</frameId>
+                <magnitude>518.86</magnitude>
+                <referenceHeading>27.3</referenceHeading>
+                <drift>0.0 0.0 0.0</drift>
+                <gaussianNoise>10.0 10.0 10.0</gaussianNoise>
+            </plugin>
+        <!--</sensor>-->
+    </gazebo>
+    </xacro:if>
+
     <!-- compatible with nmea_serial_driver -->
     <!-- Olin Campus -->
-    <!-- random number -->
     <!-- random number -->
 
     <gazebo>
