@@ -8,9 +8,9 @@
 
 #define G_TO_M 9.81
 
-void gyro_cal_cb( std_srvs::Trigger::Request &,  std_srvs::Trigger::Response& res);
-void mag_cal_start_cb( std_srvs::Trigger::Request &,  std_srvs::Trigger::Response& res);
-void mag_cal_stop_cb( std_srvs::Trigger::Request &,  std_srvs::Trigger::Response& res);
+void gyro_cal_cb(const std_srvs::Trigger::Request &,  std_srvs::Trigger::Response& res);
+void mag_cal_start_cb(const std_srvs::Trigger::Request &,  std_srvs::Trigger::Response& res);
+void mag_cal_stop_cb(const std_srvs::Trigger::Request &,  std_srvs::Trigger::Response& res);
 
 IMUHandle imu(18, 0);
 
@@ -97,14 +97,14 @@ void loop()
   mag_pub.publish(&mag_msg);
 }
 
-void gyro_cal_cb( std_srvs::Trigger::Request &,  std_srvs::Trigger::Response& res) {
+void gyro_cal_cb(const std_srvs::Trigger::Request &, std_srvs::Trigger::Response& res) {
   res.success = imu.gyro_cal();
 }
 
-void mag_cal_start_cb( std_srvs::Trigger::Request&,  std_srvs::Trigger::Response& res) {
+void mag_cal_start_cb(const std_srvs::Trigger::Request&, std_srvs::Trigger::Response& res) {
   res.success = imu.mag_cal_start();
 }
 
-void mag_cal_stop_cb( std_srvs::Trigger::Request&,  std_srvs::Trigger::Response& res) {
+void mag_cal_stop_cb(const std_srvs::Trigger::Request&, std_srvs::Trigger::Response& res) {
   res.success = imu.mag_cal_stop();
 }

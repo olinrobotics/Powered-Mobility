@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="rosbag" type="record" name="rosbag"
+        args="record /cmd_vel /tf /tf_static -o /tmp/pwm -x '.*image_raw$' "></node>
+</launch>
