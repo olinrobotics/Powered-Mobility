@@ -2,7 +2,7 @@
 	<!-- TODO : joy_frame arg/param are currently Not used -->
 	<!-- TODO : deprecate or modify "speed" param -->
 
-    <arg name="disable_chair_joy" default="false" doc="disable onboard chair joystick to take over complete control"/>
+    <arg name="disable_chair_joy" default="true" doc="disable onboard chair joystick to take over complete control"/>
     <arg name="joy_frame" default="0x02001100" doc="deprecated; currently, two frames are required for chair communication."/>
     <arg name="speed" default="100" doc="deprecated; set_speed does not affect chair operation."/>
 
