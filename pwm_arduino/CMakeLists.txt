@@ -212,7 +212,7 @@ rosserial_configure_client(
 
 add_custom_target(pwm_arduino_upload
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/firmware
-    COMMAND arduino --board arduino:sam:arduino_due_x_dbg --port /dev/ttyACM0 --upload firmware.ino
+    COMMAND bash -c 'arduino --board arduino:sam:arduino_due_x_dbg --port /dev/ttyACM0 --upload firmware.ino'
 )
 
 add_custom_target(pwm_arduino_verify

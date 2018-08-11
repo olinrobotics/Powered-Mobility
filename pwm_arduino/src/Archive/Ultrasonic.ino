@@ -5,7 +5,7 @@
 
 //Digital pin 7 for reading in the pulse width from the MaxSonar device.
 //This variable is a constant because the pin will not change throughout execution of this code.
-const int pwPinBack = 7;
+const int pwPinBack = 2;
 const int pwPinFront = 4;
 
 //variables needed to store values

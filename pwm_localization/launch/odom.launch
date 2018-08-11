@@ -24,7 +24,7 @@
         <param name="Icp/PMOutlierRatio" type="string" value="0.95"/>
 
         <param name="Odom/Strategy"        type="string" value="1"/>
-        <param name="Odom/ResetCountdown"  type="string" value="3"/>
+        <param name="Odom/ResetCountdown"  type="string" value="10"/>
         <param name="Odom/ScanKeyFrameThr"  type="string" value="0.9"/>
         <param name="Odom/FilteringStrategy" type="string" value="0"/> <!-- PF -->
         <param name="Odom/GuessMotion"     type="string" value="false"/>
