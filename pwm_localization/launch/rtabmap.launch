@@ -104,6 +104,7 @@
 
     <arg name="subscribe_odom_info" default="true"/>
     <arg name="publish_tf" default="true"/>
+	<arg name="indoor" default="false"/>
 
     <!-- These arguments should not be modified directly, see referred topics without "_relay" suffix above -->
     <arg if="$(arg compressed)"     name="rgb_topic_relay"           default="$(arg rgb_topic)_relay"/>
@@ -216,6 +217,8 @@
             <remap from="user_data"              to="$(arg user_data_topic)"/>
             <remap from="user_data_async"        to="$(arg user_data_async_topic)"/>
             <remap from="odom"                   to="$(arg odom_topic)"/>
+
+			<remap from="/rtabmap/grid_map" to="/map" unless="$(arg indoor)"/>
 
             <!-- localization mode -->
             <param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>

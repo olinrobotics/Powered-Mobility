@@ -34,7 +34,7 @@
 		<arg name="subscribe_scan" value="false"/>
 		<arg name="odom_topic" value="/odom"/>
 		<arg name="odom_frame_id" value="world"/>
-		<remap from="/rtabmap/grid_map" to="/map" unless="$(arg indoor)"/>
+		<arg name="indoor" value="$(arg indoor)"/>
 	</include>
 
 	<group if="$(arg fusion)">
