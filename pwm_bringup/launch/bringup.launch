@@ -11,6 +11,7 @@
 	<arg name="localization"  default="$(arg all)" doc="Localization / mapping features"/>
 	<arg name="navigation"    default="$(arg all)" doc="Navigational features"/>
 	<arg name="indoor"        default="$(arg all)" doc="Select map-odom loop closure Mode; LIDAR(indoor) / RGB-D(outdoor)"/>
+	<arg name="map3d"         default="$(arg all)" doc="Generate 3D Map with RTABMAP Without TF(only used if indoor:=false)"/>
 	<arg name="nav_remap"     default="$(arg all)" doc="Whether or not to remap cmd_vel in navigation"/>
 
     <!-- Arbitration -->
@@ -43,6 +44,7 @@
     <group if="$(arg localization)">
         <include file="$(find pwm_localization)/launch/localization.launch" if="$(arg localization)">
 			<arg name="indoor" value="$(arg indoor)"/>
+			<arg name="map3d" value="$(arg map3d)"/>
 		</include>
     </group>
 

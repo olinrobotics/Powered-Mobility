@@ -249,6 +249,16 @@
         <axis xyz="1 0 0"/>
     </joint>
 
+	<!-- add phidgets -->
+	<link name="pimu">
+	</link>
+	<joint name="pimu_joint" type="fixed">
+		<origin xyz="-0.2 0.0 0.72" rpy="0 0.04 0"/>
+		<parent link="base_footprint"/>
+		<child link="pimu"/>
+		<axis xyz="1 0 0"/>
+	</joint>
+
     <link
         name="camera_link">
         <inertial>

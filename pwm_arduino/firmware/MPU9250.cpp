@@ -172,6 +172,7 @@ void MPU9250::initAK8963(float * destination)
   // TODO: Test this!! Likely doesn't work
   writeByte(AK8963_ADDRESS, AK8963_CNTL, 0x00); // Power down magnetometer
   delay(10);
+  //writeByte(AK8963_ADDRESS, AK8963_CNTL_2, 0x80); // reset ??
   writeByte(AK8963_ADDRESS, AK8963_CNTL, 0x0F); // Enter Fuse ROM access mode
   delay(10);
 
@@ -199,6 +200,8 @@ void MPU9250::initMPU9250()
 {
   // wake up device
   // Clear sleep mode bit (6), enable all sensors
+  writeByte(mpu9250_address, PWR_MGMT_1, 0x80); //reset?
+
   writeByte(mpu9250_address, PWR_MGMT_1, 0x00);
   delay(100); // Wait for all registers to reset
 

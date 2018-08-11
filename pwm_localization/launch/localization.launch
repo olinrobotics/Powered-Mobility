@@ -1,6 +1,7 @@
 <launch>
-	<arg name="fusion" default="true" doc="deprecated; should not be overriden from true"/>
-	<arg name="indoor" default="true" doc="Select between hector_slam (LIDAR) vs. RTABMap (RGB-D)"/>
+	<arg name="fusion" default="true"  doc="deprecated; should not be overriden from true"/>
+	<arg name="indoor" default="true"  doc="Select between hector_slam (LIDAR) vs. RTABMap (RGB-D)"/>
+	<arg name="map3d"  default="false" doc="Enable 3D Cloud Mapping (Only used if indoor:=true; enabled by default when indoor:=false)"/>
 
 	<include file="$(find pwm_localization)/launch/odom.launch">
 		<arg name="fusion" value="$(arg fusion)"/>
@@ -9,7 +10,7 @@
 	<include file="$(find pwm_localization)/launch/hector_slam.launch" if="$(arg indoor)">
 	</include>
 
-	<include file="$(find pwm_localization)/launch/rtabmap.launch" unless="$(arg indoor)">
+	<include file="$(find pwm_localization)/launch/rtabmap.launch" if="$(eval (not indoor) or map3d)">
 		<arg name="rtabmapviz" value="false"/>
 		<arg name="rviz" value="false"/>
 
@@ -20,11 +21,8 @@
 
 		<arg name="subscribe_odom_info" value="false"/>
 
-		<!--
-		<arg name="publish_tf" if="$(arg fusion)" value="false"/>
-		<arg name="publish_tf" unless="$(arg fusion)" value="true"/>
-		-->
-		<arg name="publish_tf" value="true"/>
+		<arg name="publish_tf" value="true" unless="$(arg indoor)"/>
+		<arg name="publish_tf" value="false" if="$(arg indoor)"/>
 
 		<arg name="frame_id" value="base_footprint"/>
 		<arg name="args" value="--delete_db_on_start"/>
@@ -36,8 +34,7 @@
 		<arg name="subscribe_scan" value="false"/>
 		<arg name="odom_topic" value="/odom"/>
 		<arg name="odom_frame_id" value="world"/>
-
-		<remap from="/rtabmap/grid_map" to="/map"/>
+		<remap from="/rtabmap/grid_map" to="/map" unless="$(arg indoor)"/>
 	</include>
 
 	<group if="$(arg fusion)">

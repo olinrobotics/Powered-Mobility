@@ -19,6 +19,7 @@ class OriVar(object):
         pose = Pose(orientation=msg.orientation)
         _, q = tf_conversions.toTf(tf_conversions.fromMsg(pose))
         rpy = tf.transformations.euler_from_quaternion(q)
+        print rpy
         self._data.append(rpy)
     def show(self):
         rx, ry, rz = np.transpose(self._data)

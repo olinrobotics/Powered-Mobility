@@ -216,7 +216,6 @@
             <remap from="user_data"              to="$(arg user_data_topic)"/>
             <remap from="user_data_async"        to="$(arg user_data_async_topic)"/>
             <remap from="odom"                   to="$(arg odom_topic)"/>
-			<remap from="grid_map" to="/map"/>
 
             <!-- localization mode -->
             <param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>

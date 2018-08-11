@@ -21,7 +21,7 @@
         </node>
 
         <!-- Phidgets -->
-        <include file="$(find pwm_dev)/launch/phidgets_imu.launch" if="false"/>
+        <include file="$(find pwm_dev)/launch/phidgets_imu.launch"/>
     </group>
 
     <!-- filter -->
