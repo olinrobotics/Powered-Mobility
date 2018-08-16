@@ -37,5 +37,5 @@ roslaunch pwm_gazebo gazebo.launch can:=false
 
 ```bash
 roslaunch pwm_bringup bringup.launch all:=true arbiter:=false transform:=false hardware:=false
-roslaunch pwm_navigation rviz.launch
+roslaunch pwm_gui rviz.launch
 ```

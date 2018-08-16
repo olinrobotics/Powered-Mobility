@@ -185,6 +185,7 @@
             <updateRate>50.0</updateRate>
             <bodyName>imu</bodyName>
             <topicName>imu</topicName>
+            <referenceHeading>90.0</referenceHeading>
             <accelDrift>0.005 0.005 0.005</accelDrift>
             <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
             <rateDrift>0.005 0.005 0.005 </rateDrift>
@@ -230,7 +231,7 @@
             <referenceLatitude>42.2934664</referenceLatitude>
             <referenceLongitude>-71.263922</referenceLongitude>
             <referenceHeading>90.0</referenceHeading>
-            <referenceAltitude>38.2</referenceAltitude>
+            <referenceAltitude>70.0</referenceAltitude>
 
             <drift>0.0 0.0 0.0</drift>
             <gaussianNoise>1.0 1.0 1.0</gaussianNoise>

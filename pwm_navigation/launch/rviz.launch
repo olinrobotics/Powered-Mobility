@@ -1,3 +1,0 @@
-<launch>
-	<node pkg="rviz" type="rviz" name="nav_rviz" output="screen" args="-d $(find pwm_navigation)/rviz/nav.rviz"/>
-</launch>

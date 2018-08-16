@@ -1,0 +1,22 @@
+<launch>
+  <env name="ROSCONSOLE_FORMAT" value="[${thread}] [${node}/${function}:${line}]: ${message}"/>
+
+  <arg name="print_profile_data" default="false"/>
+  <arg name="config" default="$(find pwm_gui)/config/gps.mvc"/>
+
+  <node pkg="mapviz" type="mapviz" name="$(anon mapviz)" required="true" output="screen">
+    <param name="print_profile_data" value="$(arg print_profile_data)"/>
+    <param name="config" value="$(arg config)"/>
+  </node>
+
+  <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" >
+    <param name="local_xy_frame" value="map"/>
+    <param name="local_xy_origin" value="auto"/>
+  </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="swri_transform" args="0 0 0 0 0 0 /map /origin 100"  />
+
+  <!-- Needed only for searching for services -->
+  <node pkg="rosapi" type="rosapi_node" name="rosapi"/>
+
+</launch>
