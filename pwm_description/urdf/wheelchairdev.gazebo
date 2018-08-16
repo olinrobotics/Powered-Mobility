@@ -226,9 +226,10 @@
             <frameId>gps</frameId>
             <topicName>/fix</topicName>
             <velocityTopicName>/vel</velocityTopicName>
-            <referenceLatitude>42.293943</referenceLatitude>
-            <referenceLongitude>-71.26396</referenceLongitude>
-            <referenceHeading>27.3</referenceHeading>
+
+            <referenceLatitude>42.2934664</referenceLatitude>
+            <referenceLongitude>-71.263922</referenceLongitude>
+            <referenceHeading>90.0</referenceHeading>
             <referenceAltitude>38.2</referenceAltitude>
 
             <drift>0.0 0.0 0.0</drift>
