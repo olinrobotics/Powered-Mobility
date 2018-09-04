@@ -11,6 +11,12 @@
     <arg name="depth_registered_filtered"       default="$(arg depth_registered)" />
     <arg name="projector"                       default="projector" />
 
+    <!-- decompress -->
+    <node pkg="image_transport" type="republish" name="rgb_repub"
+        args="compressed in:=/camera/color/image_rect_color out:=/camera/color/image_rect_color"/>
+    <node pkg="image_transport" type="republish" name="depth_repub"
+        args="compressedDepth in:=/camera/aligned_depth_to_color/image_raw raw out:=/camera/aligned_depth_to_color/image_raw"/>
+
     <group ns="camera">
         <node pkg="nodelet" type="nodelet" name="$(arg manager)" args="manager" output="screen"/>
         <!-- Publish registered XYZRGB point cloud with hardware registered input (ROS Realsense depth alignment) -->
