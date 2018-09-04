@@ -52,7 +52,7 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <!-- only for Map Proxy -->
-  <exec_depend>docker-ce</exec_depend>
+  <!--<exec_depend>docker-ce</exec_depend>-->
 
   <!-- GPS Viz -->
   <exec_depend>mapviz</exec_depend>

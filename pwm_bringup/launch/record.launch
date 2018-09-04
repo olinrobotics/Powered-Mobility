@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="rosbag" type="record" args="/camera/color/image_rect_color/compressed /camera/aligned_depth_to_color/image_raw/compressedDepth /camera/color/camera_info /camera/aligned_depth_to_color/camera_info /tf /tf_static -o /tmp/pwm">
+    </node>
+</launch>

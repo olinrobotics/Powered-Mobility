@@ -1,0 +1,27 @@
+<launch>
+    <!-- intended to be used with rosbag collected via $(find pwm_dev)/launch/record.launch -->
+    <arg name="manager" default="realsense2_camera_manager"/>
+    <arg name="bond" default="false"/> <!-- ?? -->
+    <arg name="respawn" default="$(arg bond)"/>
+
+    <arg name="rgb"                             default="color" />
+    <arg name="depth"                           default="depth" />
+    <arg name="depth_registered"                default="aligned_depth_to_color"/>
+    <arg name="depth_registered_pub"            default="depth_registered" />
+    <arg name="depth_registered_filtered"       default="$(arg depth_registered)" />
+    <arg name="projector"                       default="projector" />
+
+    <group ns="camera">
+        <node pkg="nodelet" type="nodelet" name="$(arg manager)" args="manager" output="screen"/>
+        <!-- Publish registered XYZRGB point cloud with hardware registered input (ROS Realsense depth alignment) -->
+
+        <node pkg="nodelet" type="nodelet" name="points_xyzrgb_hw_registered"
+            args="load depth_image_proc/point_cloud_xyzrgb $(arg manager) $(arg bond)" respawn="$(arg respawn)">
+            <remap from="rgb/image_rect_color"        to="$(arg rgb)/image_rect_color" />
+            <remap from="rgb/camera_info"             to="$(arg rgb)/camera_info" />
+            <remap from="depth_registered/image_rect" to="$(arg depth_registered)/image_raw" />
+            <remap from="depth_registered/points"     to="$(arg depth_registered_pub)/points" />
+        </node>
+    </group>
+
+</launch>
