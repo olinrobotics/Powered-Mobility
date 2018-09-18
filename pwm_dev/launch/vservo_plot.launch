@@ -1,21 +1,25 @@
 <launch>
-    <param name="/use_sim_time" value="true"/>
-    <node pkg="rosbag" type="play" args="/home/jamie/2018-09-11-16-06-36.bag -r 4.0 -u 110.0 --clock" name="bag_play"
-        output="screen"
-        />
-    <include file="$(find pwm_description)/launch/urdf.launch"/>
-    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+    <arg name="bag_file" default=""/>
 
-    <node pkg="warmup_project" type="plot_trajectory.py" name="plot_robot">
-        <param name="source" value="map"/>
-        <param name="target" value="base_link"/>
-        <remap from="path" to="path_robot"/>
-    </node>
+    <group if="$(eval bag_file != '')">
+        <param name="/use_sim_time" value="true"/>
+        <node pkg="rosbag" type="play" args="$(arg bag_file) -r 4.0 -u 110.0 --clock" name="bag_play"
+            output="screen"
+            />
+        <include file="$(find pwm_description)/launch/urdf.launch"/>
+        <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
 
-    <node pkg="warmup_project" type="plot_trajectory.py" name="plot_tag">
-        <param name="source" value="map"/>
-        <param name="target" value="tag_2"/>
-        <remap from="path" to="path_tag"/>
-    </node>
+        <node pkg="warmup_project" type="plot_trajectory.py" name="plot_robot">
+            <param name="source" value="map"/>
+            <param name="target" value="base_link"/>
+            <remap from="path" to="path_robot"/>
+        </node>
+
+        <node pkg="warmup_project" type="plot_trajectory.py" name="plot_tag">
+            <param name="source" value="map"/>
+            <param name="target" value="tag_2"/>
+            <remap from="path" to="path_tag"/>
+        </node>
+    </group>
 
 </launch>
